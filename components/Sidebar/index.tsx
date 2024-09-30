@@ -45,7 +45,7 @@ export default function Sidebar() {
           </div>
         </div>
         <div className="">
-          <Link href={'/profile'} className="flex flex-row gap-2 hover:bg-slate-700 px-4 py-2 rounded-xl">
+          <Link href={'/profile'} className="flex flex-row gap-2 hover:bg-white/10 px-4 py-2 rounded-xl">
             <CircleUserRound size={20} color="white" />
             <p className="text-white text-sm font-semibold">Profile</p>
           </Link>

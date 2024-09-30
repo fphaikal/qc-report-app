@@ -1,23 +1,15 @@
+"use client"
+
 import * as React from "react";
 
-interface DataType {
-  id: number;
-  name_part: string;
-  process: string;
-  operator: string;
-  target: number;
-  start: number | Date;
-  end: number | Date;
-  total: number;
-  persen: number;
-  ok: number;
-  ng: number;
-  type_ng: string;
-  inspection_date: string;
+interface ApiResponse {
+  code: number;
+  message: string;
+  data: []
 }
 
 export default function useFetchData(url: string) {
-  const [data, setData] = React.useState<DataType | null>(null);
+  const [data, setData] = React.useState<Report[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -28,8 +20,11 @@ export default function useFetchData(url: string) {
         if (!res.ok) {
           throw new Error("Failed to fetch");
         }
-        const result = await res.json();
-        setData(result);
+        const result: ApiResponse = await res.json();
+
+        const allReport: Report[] =  Object.values(result.data)
+        setData(allReport);
+        console.log(allReport)
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);
