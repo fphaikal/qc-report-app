@@ -8,23 +8,29 @@ interface ApiResponse {
   data: []
 }
 
-export default function useFetchData(url: string) {
-  const [data, setData] = React.useState<Report[]>([]);
+export default function useFetchData(urls: string[]) {
+  const [data, setData] = React.useState<Report[][]>([]); // Menyimpan array data untuk masing-masing endpoint
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(url);
-        if (!res.ok) {
-          throw new Error("Failed to fetch");
-        }
-        const result: ApiResponse = await res.json();
+        const allData: Report[][] = [];
 
-        const allReport: Report[] =  Object.values(result.data)
-        setData(allReport);
-        console.log(allReport)
+        for (const url of urls) {
+          const res = await fetch(url);
+          if (!res.ok) {
+            throw new Error(`Failed to fetch from ${url}`);
+          }
+
+          const result: ApiResponse = await res.json();
+          const allReport: Report[] = Object.values(result.data);
+          allData.push(allReport);
+        }
+
+        setData(allData); // Menyimpan data dari kedua endpoint ke dalam array
+        console.log(allData);
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);
@@ -37,7 +43,7 @@ export default function useFetchData(url: string) {
     };
 
     fetchData();
-  }, [url]);
+  }, [urls]);
 
   return { data, loading, error };
 }

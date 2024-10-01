@@ -22,13 +22,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 
 import { TrendingUp } from "lucide-react"
@@ -97,22 +90,25 @@ const TableHeadName = [
 export default function FinalInspectionDashboard() {
   const [date, setDate] = React.useState<Date>()
   const formatDate = date ? format(date, "y-MM-dd") : "all"
-  const { data, loading, error } = useFetchData(`http://localhost:2025/api/report/final-inspection?date=${formatDate}`);
+
+  const urls = [
+    `http://localhost:2025/api/report/final-inspection?date=${formatDate}`,
+    `http://localhost:2025/api/report/final-inspection/chartData`,
+  ];
+  const { data, loading, error } = useFetchData(urls);
 
   const handleReset = () => {
     setDate(undefined)
   }
 
-  const chartData = data.map((report) => ({
-    name_part: report.name_part,
+  const chartData = data[1] && data[1].map((report) => ({
+    date: report.inspection_date,
     total: report.total,
-    target: report.target,
-    persen: report.persen,
   }))
 
   const chartConfig = {
-    persen: {
-      label: "Persen",
+    total: {
+      label: "Total",
       color: "hsl(133.78, 52.86%, 72.55%)",
     },
     target: {
@@ -151,11 +147,12 @@ export default function FinalInspectionDashboard() {
         </PopoverContent>
       </Popover>
       <div className="w-2/6">
+      {/* Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Area Chart - Linear</CardTitle>
+            <CardTitle>Inspection Overview</CardTitle>
             <CardDescription>
-              Showing total visitors for the last 6 months
+              Showing total inspection per day
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -170,38 +167,26 @@ export default function FinalInspectionDashboard() {
               >
                 <CartesianGrid vertical={false} />
                 <XAxis
-                  dataKey="name_part"
+                  dataKey="date"
                   tickLine={false}
                   axisLine={false}
                   tickMargin={8}
-                  tickFormatter={(value) => value.slice(0, 3)}
+                  tickFormatter={(value) => format(new Date(value), "d")}
                 />
                 <ChartTooltip
                   cursor={false}
                   content={<ChartTooltipContent indicator="dot" hideLabel />}
                 />
                 <Area
-                  dataKey="persen"
+                  dataKey="total"
                   type="linear"
-                  fill="var(--color-persen)"
+                  fill="var(--color-total)"
                   fillOpacity={0.4}
-                  stroke="var(--color-persen)"
+                  stroke="var(--color-total)"
                 />
               </AreaChart>
             </ChartContainer>
           </CardContent>
-          <CardFooter>
-            <div className="flex w-full items-start gap-2 text-sm">
-              <div className="grid gap-2">
-                <div className="flex items-center gap-2 font-medium leading-none">
-                  Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                </div>
-                <div className="flex items-center gap-2 leading-none text-muted-foreground">
-                  January - June 2024
-                </div>
-              </div>
-            </div>
-          </CardFooter>
         </Card>
       </div>
       {
@@ -218,7 +203,7 @@ export default function FinalInspectionDashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.map((report) => (
+                {data[0].map((report) => (
                   <TableRow key={report.id}>
                     <TableCell>{report.operator}</TableCell>
                     <TableCell>{report.name_part}</TableCell>
