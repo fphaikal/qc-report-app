@@ -2,11 +2,6 @@
 
 import * as React from "react";
 
-interface ApiResponse {
-  code: number;
-  message: string;
-  data: []
-}
 
 export default function useFetchData(urls: string[]) {
   const [data, setData] = React.useState<Report[][]>([]); // Menyimpan array data untuk masing-masing endpoint

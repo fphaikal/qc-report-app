@@ -1,6 +1,7 @@
 "use client"
 
 import useFetchData from "@/hooks/useFetchData"
+import * as React from "react"
 import {
   Table,
   TableBody,
@@ -11,9 +12,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import * as React from "react"
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
 import { addDays, format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar as CalendarIcon, CircleAlert } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -23,8 +34,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Checkbox } from "@/components/ui/checkbox"
-
-import { TrendingUp } from "lucide-react"
+import { Input } from "@/components/ui/input"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import {
   Card,
@@ -40,6 +50,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 
 const TableHeadName = [
@@ -85,15 +96,13 @@ const TableHeadName = [
   },
 ]
 
-
-
 export default function FinalInspectionDashboard() {
   const [date, setDate] = React.useState<Date>()
   const formatDate = date ? format(date, "y-MM-dd") : "all"
 
   const urls = [
     `http://localhost:2025/api/report/final-inspection?date=${formatDate}`,
-    `http://localhost:2025/api/report/final-inspection/chartData`,
+    `http://localhost:2025/api/report/final-inspection/chartData?type=daily`,
   ];
   const { data, loading, error } = useFetchData(urls);
 
@@ -117,6 +126,19 @@ export default function FinalInspectionDashboard() {
     },
   } satisfies ChartConfig;
 
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
+
+  // const table = useReactTable({
+  //   data,
+  //   onColumnFiltersChange: setColumnFilters,
+  //   getFilteredRowModel: getFilteredRowModel(),
+  //   state: {
+  //     columnFilters,
+  //   },
+  // })
+
   if (loading) return (
     <div className="p-10">Loading...</div>
   )
@@ -125,29 +147,16 @@ export default function FinalInspectionDashboard() {
     <div className="p-10">Error: {error}</div>
   )
   return (
-    <div className="flex flex-col gap-5 w-full p-10">
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant={"outline"}
-            className={cn(
-              "w-[280px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
-            )}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, "PPP") : <span>Pick a date</span>}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
-          <div className="rounded-md border">
-            <Calendar mode="single" selected={date} onSelect={setDate} />
-          </div>
-          {date && <Button onClick={handleReset}>Reset</Button>}
-        </PopoverContent>
-      </Popover>
-      <div className="w-2/6">
-      {/* Chart */}
+    <div className="flex flex-col gap-5 w-full p-5 md:p-10">
+      <Alert className="bg-red-500 text-white">
+        <CircleAlert className="w-4 h-4" color="white" />
+        <AlertTitle>PENGUMUMAN</AlertTitle>
+        <AlertDescription>
+          Permintaan terbaru dari PT. TTEC
+        </AlertDescription>
+      </Alert>
+      <div className="w-full md:w-2/6">
+        {/* Chart */}
         <Card>
           <CardHeader>
             <CardTitle>Inspection Overview</CardTitle>
@@ -189,8 +198,40 @@ export default function FinalInspectionDashboard() {
           </CardContent>
         </Card>
       </div>
+      <div className="flex gap-2">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[280px] justify-start text-left font-normal",
+                !date && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(date, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
+            <div className="rounded-md border">
+              <Calendar mode="single" selected={date} onSelect={setDate} />
+            </div>
+            {date && <Button onClick={handleReset}>Reset</Button>}
+          </PopoverContent>
+        </Popover>
+        <div className="flex items-center py-4">
+        {/* <Input
+          placeholder="Filter emails..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("email")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        /> */}
+      </div>
+      </div>
       {
-        data && data.length >> 0 ? (
+        data[0] && data[0].length >> 0 ? (
           <div className="rounded-md border">
             <Table>
               <TableHeader>

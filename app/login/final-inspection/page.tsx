@@ -1,3 +1,6 @@
+import { useState } from "react";
+
+
 export default function FinalInspectionLogin() {
   return (
     <div className="flex justify-center items-center h-screen p-20 bg-primary">

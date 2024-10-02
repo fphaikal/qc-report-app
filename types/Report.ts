@@ -11,5 +11,6 @@ interface Report {
     ok: number;
     ng: number;
     type_ng: string;
+    keterangan: string;
     inspection_date: string;
 }
