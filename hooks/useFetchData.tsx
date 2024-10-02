@@ -2,15 +2,17 @@
 
 import * as React from "react";
 
-
 export default function useFetchData(urls: string[]) {
-  const [data, setData] = React.useState<Report[][]>([]); // Menyimpan array data untuk masing-masing endpoint
+  const [data, setData] = React.useState<Report[][]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
+    if (!urls.length) return;
+
     const fetchData = async () => {
       try {
+        setLoading(true); // Pastikan loading diset true saat mulai fetch
         const allData: Report[][] = [];
 
         for (const url of urls) {
@@ -24,21 +26,16 @@ export default function useFetchData(urls: string[]) {
           allData.push(allReport);
         }
 
-        setData(allData); // Menyimpan data dari kedua endpoint ke dalam array
-        console.log(allData);
+        setData(allData);
       } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError("An unknown error occurred");
-        }
+        setError(error instanceof Error ? error.message : "An unknown error occurred");
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [urls]);
+  }, [urls]); // urls sebagai dependensi untuk memicu fetch ulang jika berubah
 
   return { data, loading, error };
 }

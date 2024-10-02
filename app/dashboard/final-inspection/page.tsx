@@ -5,25 +5,12 @@ import * as React from "react"
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table"
-import { addDays, format } from "date-fns"
+import { format } from "date-fns"
 import { Calendar as CalendarIcon, CircleAlert } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -33,14 +20,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Input } from "@/components/ui/input"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -97,16 +81,22 @@ const TableHeadName = [
 ]
 
 export default function FinalInspectionDashboard() {
-  const [date, setDate] = React.useState<Date>()
-  const formatDate = date ? format(date, "y-MM-dd") : "all"
+  const [date, setDate] = React.useState<Date>(); // Pastikan initial state sesuai
+  const [urls, setUrls] = React.useState<string[]>([]); // Inisialisasi urls sebagai state
 
-  const urls = [
-    `http://localhost:2025/api/report/final-inspection?date=${formatDate}`,
-    `http://localhost:2025/api/report/final-inspection/chartData?type=daily`,
-  ];
+  // Update URLs hanya ketika `date` berubah
+  React.useEffect(() => {
+    const formatDate = date ? format(date, "y-MM-dd") : "all";
+    const newUrls = [
+      `http://localhost:2025/api/report/final-inspection?date=${formatDate}`,
+      `http://localhost:2025/api/report/final-inspection/chartData?type=daily`,
+    ];
+    setUrls(newUrls); // Update URLs berdasarkan date yang dipilih
+  }, [date]);
+
   const { data, loading, error } = useFetchData(urls);
 
-  const handleReset = () => {
+  const handleReset =  () => {
     setDate(undefined)
   }
 
@@ -126,9 +116,6 @@ export default function FinalInspectionDashboard() {
     },
   } satisfies ChartConfig;
 
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
 
   // const table = useReactTable({
   //   data,

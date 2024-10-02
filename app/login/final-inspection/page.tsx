@@ -1,18 +1,61 @@
-import { useState } from "react";
+'use client'
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { AlertCircle } from "lucide-react"
+import Cookies from "js-cookie";
 
 export default function FinalInspectionLogin() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        Cookies.set("token", data.token, {
+          expires: 60 * 60 * 24 * 7, // 1 week
+        });
+        localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("data", JSON.stringify(data.data))
+        router.push("/dashboard/final-inspection");
+      } else {
+        const data = await res.json();
+        setError(data.message);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  }
+
   return (
     <div className="flex justify-center items-center h-screen p-20 bg-primary">
       <div className="rounded-xl border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-5">
         <div className="w-full xl:w-[450px]">
           <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-            <h2 className="mb-9 text-2xl font-bold text-center text-black dark:text-white sm:text-title-xl2">
+            <h2 className="mb-4 text-2xl font-bold text-center text-black dark:text-white sm:text-title-xl2">
               Sign In to Final Inspection Denapella
             </h2>
+            {error && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-red-500 border border-red-500">
+              <AlertCircle/>
+              <p>{error}</p>
+            </div> }
 
-            <form>
-              <div className="mb-4">
+            <form onSubmit={handleLogin}>
+              <div className="mb-4 mt-4">
                 <label className="mb-2.5 block font-medium text-black dark:text-white">
                   Employee ID
                 </label>
@@ -20,6 +63,7 @@ export default function FinalInspectionLogin() {
                   <input
                     type="id"
                     placeholder="Enter your ID"
+                    onChange={(e) => setUsername(e.target.value)}
                     className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
 
@@ -51,6 +95,7 @@ export default function FinalInspectionLogin() {
                   <input
                     type="password"
                     placeholder="6+ Characters, 1 Capital letter"
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
 
