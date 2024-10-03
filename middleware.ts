@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
 
-  const loginPages = ['/login', '/login/final-inspection'];
+  const loginPages = ['/login'];
 
   if (!token && loginPages.includes(req.nextUrl.pathname)) {
     // Jika tidak ada token dan mencoba mengakses halaman login, izinkan akses
@@ -12,17 +12,17 @@ export function middleware(req: NextRequest) {
 
   if (token && loginPages.includes(req.nextUrl.pathname)) {
     // Jika sudah login dan mencoba mengakses halaman login, redirect ke halaman dashboard
-    return NextResponse.redirect(new URL('/dashboard/final-inspection', req.url));
+    return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 
-  if (!token && req.nextUrl.pathname.startsWith('/dashboard/final-inspection')) {
+  if (!token && req.nextUrl.pathname.startsWith('/dashboard')) {
     // Jika tidak ada token dan mencoba mengakses halaman yang dilindungi, redirect ke login
-    return NextResponse.redirect(new URL('/login/final-inspection', req.url));
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/dashboard/final-inspection', '/dashboard/final-inspection/myreport', '/login', '/login/final-inspection'],
+  matcher: ['/dashboard', '/dashboard/myreport', '/login'],
 };

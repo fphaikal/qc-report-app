@@ -20,12 +20,12 @@ const menuGroups = [
       {
         label: "Home",
         icon: House,
-        route: "/dashboard/final-inspection"
+        route: "/dashboard"
       },
       {
         label: "My Report",
         icon: File,
-        route: "/dashboard/final-inspection/myreport"
+        route: "/dashboard/myreport"
       }
     ]
   }
@@ -54,7 +54,7 @@ export default function Sidebar() {
 
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("username");
-      router.push("/login/final-inspection");
+      router.push("/login");
     } catch (error) {
       return error;
     }

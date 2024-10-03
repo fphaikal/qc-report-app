@@ -31,7 +31,7 @@ export default function FinalInspectionLogin() {
         });
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("username", data.data.username)
-        router.push("/dashboard/final-inspection");
+        router.push("/dashboard");
       } else {
         const data = await res.json();
         setError(data.message);

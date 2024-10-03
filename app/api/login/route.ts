@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-
 export async function POST(request: Request) {
   if (request.method === "POST") {
     try {
