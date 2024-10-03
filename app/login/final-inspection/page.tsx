@@ -30,7 +30,7 @@ export default function FinalInspectionLogin() {
           expires: 60 * 60 * 24 * 7, // 1 week
         });
         localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("data", JSON.stringify(data.data))
+        localStorage.setItem("username", data.data.username)
         router.push("/dashboard/final-inspection");
       } else {
         const data = await res.json();

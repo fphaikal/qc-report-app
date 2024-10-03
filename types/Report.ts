@@ -13,4 +13,5 @@ interface Report {
     type_ng: string;
     keterangan: string;
     inspection_date: string;
+    username: string;
 }

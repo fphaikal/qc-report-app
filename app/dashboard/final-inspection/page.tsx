@@ -203,7 +203,7 @@ export default function FinalInspectionDashboard() {
             <div className="rounded-md border">
               <Calendar mode="single" selected={date} onSelect={setDate} />
             </div>
-            {date && <Button onClick={handleReset}>Reset</Button>}
+            {date && <Button onClick={handleReset} className="bg-primary">Reset</Button>}
           </PopoverContent>
         </Popover>
         <div className="flex items-center py-4">
