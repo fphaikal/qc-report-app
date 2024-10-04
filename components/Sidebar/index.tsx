@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import  Cookies from "js-cookie"
-import { House, File, CircleUserRound, LogOut } from "lucide-react"
+import { House, File, FileSpreadsheet, CircleUserRound, LogOut, LayoutDashboard } from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
@@ -15,7 +15,8 @@ import { Button } from "@/components/ui/button"
 
 const menuGroups = [
   {
-    name: "Menu",
+    name: "Final Inspection",
+    shortName: "FI",
     menuItems: [
       {
         label: "Home",
@@ -28,7 +29,23 @@ const menuGroups = [
         route: "/dashboard/myreport"
       }
     ]
-  }
+  },
+  {
+    name: "Summary Non Conformity Report",
+    shortName: "NCR",
+    menuItems: [
+      {
+        label: "Dashboard",
+        icon: LayoutDashboard,
+        route: "/dashboard/ncr"
+      },
+      {
+        label: "Report",
+        icon: FileSpreadsheet,
+        route: "/dashboard/ncr/report"
+      }
+    ]
+  },
 ]
 
 export default function Sidebar() {
@@ -69,10 +86,10 @@ export default function Sidebar() {
           <h1 className="text-white text-center text-xl font-semibold hidden xl:block">Quality Pintar</h1>
         </Link>
 
-        <div className="mt-5 lg:mt-9 ">
+        <div className="mt-5 lg:mt- ">
           {menuGroups.map((group, index) => (
             <div key={index} className="flex flex-col gap-2">
-              <h2 className="text-white/40 text-sm font-semibold text-center xl:text-left">{group.name}</h2>
+              <h2 className="text-white/40 text-sm font-semibold text-center xl:text-left mt-5">{group.name}</h2>
               {group.menuItems.map((item, index) => (
                 <Link href={item.route} key={index} className={item.route === pathname ? "flex flex-row gap-2 bg-white/10 px-4 py-2 rounded-xl" : "flex flex-row gap-2 hover:bg-white/10 duration-200 px-4 py-2 rounded-xl"}>
                   <item.icon size={20} color="white" />

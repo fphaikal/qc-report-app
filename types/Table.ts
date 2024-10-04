@@ -3,3 +3,7 @@ interface ReportTableProps {
     handleEdit: (id: number) => void;
     handleDelete: (id: number) => void;
 }
+
+interface NCRTableProps {
+    data: [];
+}

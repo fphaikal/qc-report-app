@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Sidebar from "@/components/Sidebar";
+import { Suspense } from "react";
+import Loading from "@/components/Loading";
 
 export const metadata: Metadata = {
   title: "Dashboard Final Inspection", 
@@ -14,7 +16,9 @@ export default function RootLayout({
   return (
     <div className="flex">
       <Sidebar />
-      <main className="w-full">{children}</main>
+      <Suspense fallback={<Loading/>}>
+        <main className="w-full">{children}</main>
+      </Suspense>
     </div>
   );
 }
