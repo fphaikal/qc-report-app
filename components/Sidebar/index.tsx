@@ -79,7 +79,7 @@ export default function Sidebar() {
 
   
   return (
-    <div className="md:flex flex-none flex-col justify-between min-h-screen gap-2 p-5 hidden w-fit 2xl:w-[300px] bg-primary top-0 shrink-0 overflow-hidden">
+    <div className="sticky md:flex flex-none flex-col justify-between h-screen gap-2 p-5 hidden w-fit 2xl:w-[300px] bg-primary top-0 shrink-0 overflow-hidden">
       <div className="flex flex-col">
         <Link href={'/'} className="flex flex-col items-center gap-2">
           <Image className="w-12 xl:w-28" src='/logo.png' alt="" width={100} height={100} priority />

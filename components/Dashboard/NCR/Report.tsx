@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import AddReportDialog from "@/components/Dialog/AddReport";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 import NCRTable from "@/components/Table/NCR";
+import AddDataNCRDialog from "@/components/Dialog/AddDataNCR";
 
 export default function Report() {
-  const [data, setData] = useState<Report[]>([]);
+  const [data, setData] = useState<NCR[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [resErr, setResErr] = useState('')
@@ -44,7 +44,7 @@ export default function Report() {
     try {
       
     } catch (err) {
-      setError(err)
+      setError('Error: ' + err)
     }
   }
 
@@ -70,7 +70,7 @@ export default function Report() {
 
   return (
     <div className="flex flex-col gap-5 w-full p-10 min-h-screen">
-      <AddReportDialog handleSubmitData={handleSubmitData} resErr={resErr}/>
+      <AddDataNCRDialog handleSubmitData={handleSubmitData} resErr={resErr}/>
       <div className="rounded-md border">
         <NCRTable data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
       </div>

@@ -47,7 +47,7 @@ export default function NCRTable({ data }: NCRTableProps) {
         {data.length > 0 ? (
           data.map((report: NCR) => (
             <TableRow key={report.id}>
-              <TableCell>{report.info_date}</TableCell>
+              <TableCell className="w-24">{format(report.info_date, "y-MM-dd")}</TableCell>
               <TableCell>{report.department_section}</TableCell>
               <TableCell>{report.problem}</TableCell>
               <TableCell>{report.source}</TableCell>
