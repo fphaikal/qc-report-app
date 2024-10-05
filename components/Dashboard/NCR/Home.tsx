@@ -4,9 +4,9 @@ import useFetchData from "@/hooks/useFetchData"
 import * as React from "react"
 import { format } from "date-fns"
 import { CircleAlert } from "lucide-react"
-import { ChartConfig } from "@/components/ui/chart"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import ReportChart from "@/components/Chart/ReportChart"
+// import { ChartConfig } from "@/components/ui/chart"
+// import ReportChart from "@/components/Chart/ReportChart"
 import DatePicker from "@/components/Popover/DatePicker"
 import NCRTable from "@/components/Table/NCR"
 
@@ -29,21 +29,21 @@ export default function NCRDashboard() {
     setDate(undefined)
   }
 
-  const chartData = data[1] && data[1].map((report) => ({
-    date: report.inspection_date,
-    total: report.total,
-  }))
+  // const chartData = data[1] && data[1].map((report) => ({
+  //   date: report.inspection_date,
+  //   total: report.total,
+  // }))
 
-  const chartConfig = {
-    total: {
-      label: "Total",
-      color: "hsl(133.78, 52.86%, 72.55%)",
-    },
-    target: {
-      label: "Target",
-      color: "hsl(211.78, 52.86%, 72.55%)",
-    },
-  } satisfies ChartConfig;
+  // const chartConfig = {
+  //   total: {
+  //     label: "Total",
+  //     color: "hsl(133.78, 52.86%, 72.55%)",
+  //   },
+  //   target: {
+  //     label: "Target",
+  //     color: "hsl(211.78, 52.86%, 72.55%)",
+  //   },
+  // } satisfies ChartConfig;
 
 
   if (loading) return (
@@ -62,15 +62,15 @@ export default function NCRDashboard() {
           Permintaan terbaru dari PT. TTEC
         </AlertDescription>
       </Alert>
-      <div className="w-full md:w-2/6">
-        {/* Chart */}
+      {/* Chart */}
+      {/* <div className="w-full md:w-2/6">
         <ReportChart chartData={chartData} chartConfig={chartConfig} />
-      </div>
+      </div> */}
       <div className="flex gap-2">
-        <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset}/>
+        <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset} />
       </div>
       <div className="rounded-md border">
-        <NCRTable data={data[0]}/>
+        <NCRTable data={data[0]} />
       </div>
     </div >
   )

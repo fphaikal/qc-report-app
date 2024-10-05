@@ -1,0 +1,39 @@
+//import Cookies from "js-cookie";
+
+export async function PUT(request: Request) {
+  if (request.method === "PUT") {
+    try {
+      const { info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish, id } = await request.json(); // Mengambil data dari request body
+
+      const apiRes = await fetch(`http://localhost:2025/api/report/ncr`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish, id }),
+      });
+
+      const data = await apiRes.json();
+
+      if (data.code === 200) {
+        return new Response(JSON.stringify(data), { status: 200 });
+      } else {
+        return new Response(
+          JSON.stringify({ message: data.message || "Update data failed" }),
+          { status: 400 }
+        );
+      }
+    } catch (error) {
+      console.error("Update data error:", error);
+      return new Response(
+        JSON.stringify({ message: "Internal Server Error" }),
+        { status: 500 }
+      );
+    }
+  } else {
+    return new Response(
+      JSON.stringify({ message: `Method ${request.method} Not Allowed` }),
+      { status: 405 }
+    );
+  }
+}

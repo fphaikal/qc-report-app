@@ -4,13 +4,12 @@ import { useEffect, useState } from "react"
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 import NCRTable from "@/components/Table/NCR";
-import AddDataNCRDialog from "@/components/Dialog/AddDataNCR";
+import AddDataNCRDialog from "@/components/Dialog/AddNCR";
 
 export default function Report() {
-  const [data, setData] = useState<NCR[]>([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [resErr, setResErr] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,8 +23,8 @@ export default function Report() {
         if (!res.ok) return 'Network response was not ok';
         const result = await res.json();
         setData(result.data);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (error) {
+        setError('Error: ' + error);
       } finally {
         setLoading(false);
       }
@@ -37,16 +36,7 @@ export default function Report() {
   if (loading) return <Loading/>;
   if (error) return <Error error={error}/>;
   
-  const handleSubmitData = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const operator = localStorage.getItem('username')
-
-    try {
-      
-    } catch (err) {
-      setError('Error: ' + err)
-    }
-  }
+  
 
   const handleEdit = async () => {
 
@@ -54,7 +44,7 @@ export default function Report() {
 
   const handleDelete = async (id: number) => {
     try {
-      const res = await fetch(`http://localhost:2025/api/report/final-inspection/${id}`, {
+      const res = await fetch(`http://localhost:2025/api/report/ncr/${id}`, {
         method: "DELETE"
       })
 
@@ -70,7 +60,7 @@ export default function Report() {
 
   return (
     <div className="flex flex-col gap-5 w-full p-10 min-h-screen">
-      <AddDataNCRDialog handleSubmitData={handleSubmitData} resErr={resErr}/>
+      <AddDataNCRDialog/>
       <div className="rounded-md border">
         <NCRTable data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
       </div>

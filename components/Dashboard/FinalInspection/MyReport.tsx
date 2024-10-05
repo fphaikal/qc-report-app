@@ -1,16 +1,15 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import AddReportDialog from "@/components/Dialog/AddReport";
+import AddReportDialog from "@/components/Dialog/AddFI";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
-import ReportTable from "@/components/Table/Report";
+import ReportTable from "@/components/Table/FI";
 
 export default function MyReport() {
   const [data, setData] = useState<Report[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [resErr, setResErr] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,8 +23,8 @@ export default function MyReport() {
         if (!res.ok) return 'Network response was not ok';
         const result = await res.json();
         setData(result.data);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (error) {
+        setError('Error:' + (error as Error).message);
       } finally {
         setLoading(false);
       }
@@ -37,31 +36,7 @@ export default function MyReport() {
   if (loading) return <Loading/>;
   if (error) return <Error error={error}/>;
   
-  const handleSubmitData = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const operator = localStorage.getItem('username')
-    const name_part = namePart
-    const type_ng = typeNg 
-    try {
-      const res = await fetch('/api/addData', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan })
-      })
-
-      if (!res.ok) {
-        const data = await res.json()
-        setResErr(data.message)
-      } else {
-        window.location.reload()
-        return "Success Add Data"
-      }
-    } catch (err) {
-      setError(err)
-    }
-  }
+  
 
   const handleEdit = async () => {
 
@@ -85,7 +60,7 @@ export default function MyReport() {
 
   return (
     <div className="flex flex-col gap-5 w-full p-10 min-h-screen">
-      <AddReportDialog handleSubmitData={handleSubmitData} resErr={resErr}/>
+      <AddReportDialog />
       <div className="rounded-md border">
         <ReportTable data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
       </div>

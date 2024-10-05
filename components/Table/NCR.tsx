@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button"
 import { format } from 'date-fns'
 import { Trash2, Pencil } from "lucide-react"
 import { usePathname } from "next/navigation"
+import UpdateNCR from "../Dialog/UpdateNCR"
 
 const TableHeadName = [
   { accessorKey: "info_date", header: "Info Date" },
@@ -32,8 +33,10 @@ const TableHeadName = [
 ];
 
 
-export default function NCRTable({ data }: NCRTableProps) {
+export default function NCRTable({ data, handleEdit, handleDelete }: NCRTableProps) {
   const pathname = usePathname()
+
+  
   return (
     <Table>
       <TableHeader>
@@ -41,12 +44,15 @@ export default function NCRTable({ data }: NCRTableProps) {
           {TableHeadName.map((name) => (
             <TableHead key={name.accessorKey} className={name.accessorKey === 'keterangan' ? 'w-52' : ''}>{name.header}</TableHead>
           ))}
+          {pathname === '/dashboard/ncr/report' && (
+            <TableHead key="action" >Action</TableHead>
+          )}
         </TableRow>
       </TableHeader>
       <TableBody>
         {data.length > 0 ? (
           data.map((report: NCR) => (
-            <TableRow key={report.id}>
+            <TableRow key={report.id} >
               <TableCell className="w-24">{format(report.info_date, "y-MM-dd")}</TableCell>
               <TableCell>{report.department_section}</TableCell>
               <TableCell>{report.problem}</TableCell>
@@ -62,6 +68,16 @@ export default function NCRTable({ data }: NCRTableProps) {
               <TableCell>{report.progress}</TableCell>
               <TableCell>{format(new Date(report.target_due), "y-MM-dd")}</TableCell>
               <TableCell>{format(new Date(report.actual_finish), "y-MM-dd")}</TableCell>
+              {pathname === '/dashboard/ncr/report' &&
+                <TableCell>
+                  <div className="flex gap-2">
+                    <UpdateNCR data={report} />
+                    <Button onClick={() => handleDelete(report.id)} className="bg-red-500 text-white rounded-md w-fit p-2">
+                      <Trash2 className="" size={18} />
+                    </Button>
+                  </div>
+                </TableCell>
+              }
             </TableRow>
           ))
         ) : (

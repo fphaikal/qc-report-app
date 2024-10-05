@@ -1,9 +1,12 @@
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
 
-export async function POST(request: Request) {
-  if (request.method === "POST") {
+export async function PUT(request: Request) {
+  if (request.method === "PUT") {
     try {
-      const { operator, name_part,
+      const { 
+        id,
+        operator, 
+        name_part,
         process,
         target,
         start,
@@ -15,11 +18,11 @@ export async function POST(request: Request) {
         keterangan } = await request.json(); // Mengambil data dari request body
 
       const apiRes = await fetch(`http://localhost:2025/api/report/final-inspection`, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ operator, name_part,
+        body: JSON.stringify({ id, operator, name_part,
           process,
           target,
           start,
@@ -33,16 +36,16 @@ export async function POST(request: Request) {
 
       const data = await apiRes.json();
 
-      if (data.code === 201) {
-        return new Response(JSON.stringify(data), { status: 201 });
+      if (apiRes.ok && data.code === 200) {
+        return new Response(JSON.stringify(data), { status: 200 });
       } else {
         return new Response(
-          JSON.stringify({ message: data.message || "Create data failed" }),
+          JSON.stringify({ message: data.message || "Update data failed" }),
           { status: 400 }
         );
       }
     } catch (error) {
-      console.error("Create data error:", error);
+      console.error("Update data error:", error);
       return new Response(
         JSON.stringify({ message: "Internal Server Error" }),
         { status: 500 }

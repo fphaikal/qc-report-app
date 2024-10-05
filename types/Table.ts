@@ -5,5 +5,7 @@ interface ReportTableProps {
 }
 
 interface NCRTableProps {
-    data: [];
+    data: NCR[];
+    handleEdit: (id: number) => void;
+    handleDelete: (id: number) => void;
 }

@@ -15,7 +15,7 @@ export default function FinalInspectionLogin() {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export default function FinalInspectionLogin() {
         setError(data.message);
       }
     } catch (error) {
-      setError(error.message);
+      setError('Error:' + (error as Error).message);
     }
   }
 

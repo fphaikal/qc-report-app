@@ -6,7 +6,7 @@ import { format } from "date-fns"
 import { CircleAlert } from "lucide-react"
 import { ChartConfig } from "@/components/ui/chart"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import ReportTable from "@/components/Table/Report"
+import ReportTable from "@/components/Table/FI"
 import ReportChart from "@/components/Chart/ReportChart"
 import DatePicker from "@/components/Popover/DatePicker"
 

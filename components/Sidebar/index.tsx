@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
 
 const menuGroups = [
   {
@@ -46,16 +47,47 @@ const menuGroups = [
       }
     ]
   },
+  {
+    name: "Internal Problem Report",
+    shortName: "IPR",
+    menuItems: [
+      {
+        label: "Dashboard",
+        icon: LayoutDashboard,
+        route: "/dashboard/ipr"
+      },
+      {
+        label: "Report",
+        icon: FileSpreadsheet,
+        route: "/dashboard/ipr/report"
+      }
+    ]
+  },
 ]
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const [isXlOrAbove, setIsXlOrAbove] = useState(false);
+
+  // Check screen size to determine if it's xl or larger
+  useEffect(() => {
+    const handleResize = () => {
+      setIsXlOrAbove(window.innerWidth >= 1280); // 1280px is the threshold for xl in Tailwind
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handleLogout = async () => {
     try {
       const token = Cookies.get("token");
-      const res = await fetch("/api/logout", {
+      const res = await fetch("/api/auth/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -89,11 +121,15 @@ export default function Sidebar() {
         <div className="mt-5 lg:mt- ">
           {menuGroups.map((group, index) => (
             <div key={index} className="flex flex-col gap-2">
-              <h2 className="text-white/40 text-sm font-semibold text-center xl:text-left mt-5">{group.name}</h2>
+              <h2 className="text-white/40 text-sm font-semibold text-center xl:text-left mt-5">
+                {isXlOrAbove ? group.name : group.shortName}
+              </h2>
               {group.menuItems.map((item, index) => (
                 <Link href={item.route} key={index} className={item.route === pathname ? "flex flex-row gap-2 bg-white/10 px-4 py-2 rounded-xl" : "flex flex-row gap-2 hover:bg-white/10 duration-200 px-4 py-2 rounded-xl"}>
                   <item.icon size={20} color="white" />
-                  <p className="text-white text-sm font-semibold hidden xl:block">{item.label}</p>
+                  <p className="text-white text-sm font-semibold hidden xl:block">
+                    {isXlOrAbove ? item.label : group.shortName}
+                  </p>
                 </Link>
               ))}
             </div>

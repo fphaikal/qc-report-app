@@ -1,4 +1,4 @@
-interface NCR {
+export interface NCR {
     id: number;
     info_date: string; 
     department_section: string;

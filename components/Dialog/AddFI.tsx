@@ -7,17 +7,46 @@ import { DateInput } from "@nextui-org/react";
 import { now, getLocalTimeZone } from "@internationalized/date";
 import { AlertCircle } from "lucide-react"
 
-export default function AddReportDialog({ handleSubmitData, resErr }: AddReportDialogProps) {
+export default function AddReportDialog() {
   const [namePart, setNamePart] = useState('');
   const [process, setProcess] = useState('');
   const [target, setTarget] = useState('');
   const [start, setStart] = useState<string>('');
   const [end, setEnd] = useState<string>('');
   const [total, setTotal] = useState('');
-  //const [ok, setOk] = useState('');
+  const [ok, ] = useState('');
   const [ng, setNg] = useState('');
   const [typeNg, setTypeNg] = useState('');
   const [keterangan, setKeterangan] = useState('');
+  const [, setError] = useState<string>('');
+  const [resErr, setResErr] = useState('')
+
+  const handleSubmitData = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const operator = localStorage.getItem('username')
+    const name_part = namePart
+    const type_ng = typeNg 
+
+    try {
+      const res = await fetch('/api/addData/final-inspection', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan })
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        setResErr(data.message)
+      } else {
+        window.location.reload()
+        return "Success Add Data"
+      }
+    } catch (err) {
+      setError('Error: ' + err)
+    }
+  }
 
   return (
     <Dialog>
