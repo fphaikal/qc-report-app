@@ -12,7 +12,7 @@ interface UpdateFIProps {
   data: NCR;
 }
 
-export default function UpdateNCR({ data }: UpdateFIProps) {
+export default function UpdateIPR({ data }: UpdateFIProps) {
   const [selectedReport, setSelectedReport] = useState<NCR | null>(null); // State untuk menyimpan data yang ingin diedit
   const [editMode, setEditMode] = useState(false); // State untuk mengontrol dialog edit
   const [resErr, setResErr] = useState(''); // State untuk menampilkan error
@@ -29,7 +29,7 @@ export default function UpdateNCR({ data }: UpdateFIProps) {
     const { id, info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish } = selectedReport!;
 
     try {
-      const res = await fetch(`/api/updateData/ncr`, {
+      const res = await fetch(`/api/updateData/ipr`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export default function UpdateNCR({ data }: UpdateFIProps) {
         <DialogContent className="min-w-fit overflow-scroll h-[500px]">
           <DialogHeader>
             <DialogTitle>Edit Data</DialogTitle>
-            <DialogDescription>Edit datab NCR yang ingin diubah, dan tekan simpan jika sudah selesai</DialogDescription>
+            <DialogDescription>Edit datab IPR yang ingin diubah, dan tekan simpan jika sudah selesai</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleUpdateData}>
             {resErr && <div className="alert alert-danger">{resErr}</div>}

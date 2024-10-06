@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
-import NCRTable from "@/components/Table/NCR";
+import IPRTable from "@/components/Table/IPR";
 import AddDataIPRDialog from "@/components/Dialog/AddIPR";
 
 export default function Report() {
@@ -15,7 +15,7 @@ export default function Report() {
     const fetchData = async () => {
       const username = localStorage.getItem('username')
       try {
-        const res = await fetch(`http://localhost:2025/api/report/ncr/pic`, {
+        const res = await fetch(`http://localhost:2025/api/report/ipr/pic`, {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ "name": username }),
@@ -44,7 +44,7 @@ export default function Report() {
 
   const handleDelete = async (id: number) => {
     try {
-      const res = await fetch(`http://localhost:2025/api/report/ncr/${id}`, {
+      const res = await fetch(`http://localhost:2025/api/report/ipr/${id}`, {
         method: "DELETE"
       })
 
@@ -62,7 +62,7 @@ export default function Report() {
     <div className="flex flex-col gap-5 w-full p-10 min-h-screen">
       <AddDataIPRDialog/>
       <div className="rounded-md border">
-        <NCRTable data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
+        <IPRTable data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
       </div>
     </div>
   );
