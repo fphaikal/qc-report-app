@@ -59,10 +59,10 @@ export default function Report() {
   }
 
   return (
-    <div className="flex flex-col gap-5 w-full p-10 min-h-screen">
+    <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
       <AddDataIPRDialog/>
       <div className="rounded-md border">
-        <IPRTable data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
+        <IPRTable data={data} handleDelete={handleDelete}/>
       </div>
     </div>
   );

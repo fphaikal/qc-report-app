@@ -1,11 +1,12 @@
-interface ReportTableProps {
+import { NCR } from './NCR';
+
+export interface ReportTableProps {
     data: Report[];
     handleEdit: (id: number) => void;
     handleDelete: (id: number) => void;
 }
 
-interface NCRTableProps {
+export interface NCRTableProps {
     data: NCR[];
-    handleEdit: (id: number) => void;
     handleDelete: (id: number) => void;
 }

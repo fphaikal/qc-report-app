@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import ReportTable from "@/components/Table/FI"
 import ReportChart from "@/components/Chart/ReportChart"
 import DatePicker from "@/components/Popover/DatePicker"
+import AverageChart from "@/components/Chart/AverageChart"
 
 export default function FinalInspectionDashboard() {
   const [date, setDate] = React.useState<Date>(); // Pastikan initial state sesuai
@@ -20,6 +21,7 @@ export default function FinalInspectionDashboard() {
     const newUrls = [
       `http://localhost:2025/api/report/final-inspection?date=${formatDate}`,
       `http://localhost:2025/api/report/final-inspection/chartData?type=daily`,
+      `http://localhost:2025/api/report/final-inspection/chartData?type=operator`,
     ];
     setUrls(newUrls); // Update URLs berdasarkan date yang dipilih
   }, [date]);
@@ -30,12 +32,12 @@ export default function FinalInspectionDashboard() {
     setDate(undefined)
   }
 
-  const chartData = data[1] && data[1].map((report) => ({
+  const reportChart = data[1] && data[1].map((report) => ({
     date: report.inspection_date,
     total: report.total,
   }))
 
-  const chartConfig = {
+  const reportChartConfig = {
     total: {
       label: "Total",
       color: "hsl(133.78, 52.86%, 72.55%)",
@@ -43,6 +45,18 @@ export default function FinalInspectionDashboard() {
     target: {
       label: "Target",
       color: "hsl(211.78, 52.86%, 72.55%)",
+    },
+  } satisfies ChartConfig;
+
+  const averageChart = data[2] && data[2].map((report) => ({
+    name: report.operator,
+    value: report.value,
+  }))
+
+  const averageChartConfig = {
+    value: {
+      label: "Value",
+      color: "hsl(133.78, 52.86%, 72.55%)",
     },
   } satisfies ChartConfig;
 
@@ -63,9 +77,14 @@ export default function FinalInspectionDashboard() {
           Permintaan terbaru dari PT. TTEC
         </AlertDescription>
       </Alert>
-      <div className="w-full md:w-2/6">
+      <div className="flex flex-col md:flex-row gap-4">
         {/* Chart */}
-        <ReportChart chartData={chartData} chartConfig={chartConfig} />
+        <div className="w-full md:w-1/3">
+          <ReportChart chartData={reportChart} chartConfig={reportChartConfig} />
+        </div>
+        <div className="w-full md:w-1/3">
+          <AverageChart chartData={averageChart} chartConfig={averageChartConfig} />
+        </div>
       </div>
       <div className="flex gap-2">
         <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset} />
@@ -73,9 +92,9 @@ export default function FinalInspectionDashboard() {
       <div className="rounded-md border">
         <ReportTable data={data[0]} handleEdit={function (id: number): void {
           throw new Error("Function not implemented.")
-        } } handleDelete={function (id: number): void {
+        }} handleDelete={function (id: number): void {
           throw new Error("Function not implemented.")
-        } } />
+        }} />
       </div>
     </div >
   )

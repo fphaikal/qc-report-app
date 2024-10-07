@@ -1,6 +1,6 @@
 'use client'
 
-import {  useState } from "react"
+import { useState } from "react"
 import {
   Table,
   TableBody,
@@ -13,12 +13,12 @@ import { Button } from "@/components/ui/button"
 import { format } from 'date-fns'
 import { Trash2, Pencil } from "lucide-react"
 import { usePathname } from "next/navigation"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@nextui-org/react";
 import { DateInput } from "@nextui-org/react";
 import { now, getLocalTimeZone } from "@internationalized/date";
 import UpdateFI from "../Dialog/UpdateFI"
-
+import { ReportTableProps } from "@/types/Table"
 
 const TableHeadName = [
   { accessorKey: "operator", header: "Operator" },
@@ -69,7 +69,7 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
         setResErr(data.message); // Set error jika ada
       }
     } catch (err) {
-      setError((err as Error ).message);
+      setError((err as Error).message);
     }
   };
 
@@ -84,78 +84,78 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
           <form onSubmit={handleUpdateData}>
             {resErr && <div className="alert alert-danger">{resErr}</div>}
             <div className="grid gap-4 py-4">
-                <Input
-                  label="Nama Part"
-                  labelPlacement="outside"
-                  placeholder="Masukkan nama part"
-                  value={selectedReport?.name_part || ''}
-                  onChange={(e) => setSelectedReport({ ...selectedReport!, name_part: e.target.value })}
-                />
-                <Input
-                  label="Proses"
-                  labelPlacement="outside"
-                  placeholder="Masukkan proses yang dilakukan"
-                  value={selectedReport?.process || ''}
-                  onChange={(e) => setSelectedReport({ ...selectedReport!, process: e.target.value })}
-                />
-                <Input
-                  label="Target"
-                  labelPlacement="outside"
-                  placeholder="Masukkan target yang telah ditentukan"
-                  value={selectedReport?.target?.toString() || ''}
-                  onChange={(e) => setSelectedReport({ ...selectedReport!, target: Number(e.target.value) })}
-                />
-                <DateInput
-                  label={"Start"}
-                  labelPlacement="outside"
-                  hideTimeZone
-                  hourCycle={24}
-                  defaultValue={now(getLocalTimeZone())}
-                  onChange={(date) => setSelectedReport({ ...selectedReport!, start: date.toString() })} // Mengonversi tanggal ke format ISO
-                />
-                <DateInput
-                  label={"End"}
-                  labelPlacement="outside"
-                  hideTimeZone
-                  hourCycle={24}
-                  defaultValue={now(getLocalTimeZone())}
-                  onChange={(date) => setSelectedReport({ ...selectedReport!, end: date.toString() })} // Mengonversi tanggal ke format ISO
-                />
-                <Input
-                  label="Total"
-                  labelPlacement="outside"
-                  placeholder="Masukkan total"
-                  value={selectedReport?.total?.toString() || ''}
-                  onChange={(e) => setSelectedReport({ ...selectedReport!, total: Number(e.target.value) })}
-                />
-                <Input
-                  label="Ok"
-                  labelPlacement="outside"
-                  placeholder="Masukkan Ok"
-                  value={selectedReport?.ok?.toString() || ''}
-                  onChange={(e) => setSelectedReport({ ...selectedReport!, ok: Number(e.target.value) })}
-                />
-                <Input
-                  label="NG"
-                  labelPlacement="outside"
-                  placeholder="Masukkan NG"
-                  value={selectedReport?.ng?.toString() || ''}
-                  onChange={(e) => setSelectedReport({ ...selectedReport!, ng: Number(e.target.value) })}
-                />
-                <Input
-                  label="Jenis NG"
-                  labelPlacement="outside"
-                  placeholder="Masukkan jenis NG"
-                  value={selectedReport?.type_ng || ''}
-                  onChange={(e) => setSelectedReport({ ...selectedReport!, type_ng: e.target.value })}
-                />
-                <Input
-                  label="Keterangan"
-                  labelPlacement="outside"
-                  placeholder="Masukkan keterangan"
-                  value={selectedReport?.keterangan || ''}
-                  onChange={(e) => setSelectedReport({ ...selectedReport!, keterangan: e.target.value })}
-                />
+              <Input
+                label="Nama Part"
+                labelPlacement="outside"
+                placeholder="Masukkan nama part"
+                value={selectedReport?.name_part || ''}
+                onChange={(e) => setSelectedReport({ ...selectedReport!, name_part: e.target.value })}
+              />
+              <Input
+                label="Proses"
+                labelPlacement="outside"
+                placeholder="Masukkan proses yang dilakukan"
+                value={selectedReport?.process || ''}
+                onChange={(e) => setSelectedReport({ ...selectedReport!, process: e.target.value })}
+              />
+              <Input
+                label="Target"
+                labelPlacement="outside"
+                placeholder="Masukkan target yang telah ditentukan"
+                value={selectedReport?.target?.toString() || ''}
+                onChange={(e) => setSelectedReport({ ...selectedReport!, target: Number(e.target.value) })}
+              />
+              <DateInput
+                label={"Start"}
+                labelPlacement="outside"
+                hideTimeZone
+                hourCycle={24}
+                defaultValue={now(getLocalTimeZone())}
+                onChange={(date) => setSelectedReport({ ...selectedReport!, start: date.toString() })} // Mengonversi tanggal ke format ISO
+              />
+              <DateInput
+                label={"End"}
+                labelPlacement="outside"
+                hideTimeZone
+                hourCycle={24}
+                defaultValue={now(getLocalTimeZone())}
+                onChange={(date) => setSelectedReport({ ...selectedReport!, end: date.toString() })} // Mengonversi tanggal ke format ISO
+              />
+              <Input
+                label="Total"
+                labelPlacement="outside"
+                placeholder="Masukkan total"
+                value={selectedReport?.total?.toString() || ''}
+                onChange={(e) => setSelectedReport({ ...selectedReport!, total: Number(e.target.value) })}
+              />
+              <Input
+                label="Ok"
+                labelPlacement="outside"
+                placeholder="Masukkan Ok"
+                value={selectedReport?.ok?.toString() || ''}
+                onChange={(e) => setSelectedReport({ ...selectedReport!, ok: Number(e.target.value) })}
+              />
+              <Input
+                label="NG"
+                labelPlacement="outside"
+                placeholder="Masukkan NG"
+                value={selectedReport?.ng?.toString() || ''}
+                onChange={(e) => setSelectedReport({ ...selectedReport!, ng: Number(e.target.value) })}
+              />
+              <Input
+                label="Jenis NG"
+                labelPlacement="outside"
+                placeholder="Masukkan jenis NG"
+                value={selectedReport?.type_ng || ''}
+                onChange={(e) => setSelectedReport({ ...selectedReport!, type_ng: e.target.value })}
+              />
+              <Input
+                label="Keterangan"
+                labelPlacement="outside"
+                placeholder="Masukkan keterangan"
+                value={selectedReport?.keterangan || ''}
+                onChange={(e) => setSelectedReport({ ...selectedReport!, keterangan: e.target.value })}
+              />
 
             </div>
             <Button type="submit">Simpan</Button>
@@ -192,9 +192,31 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
                   <TableCell>
                     <div className="flex gap-2">
                       <UpdateFI data={report} />
-                      <Button onClick={() => handleDelete(report.id)} className="bg-red-500 text-white rounded-md w-fit p-2">
-                        <Trash2 className="" size={18} />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" className="bg-red-500 text-white rounded-md w-fit p-2">
+                            <Trash2 className="" size={18} />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>Hapus Data</DialogTitle>
+                            <DialogDescription>
+                              Apakah anda yakin ingin menghapus data ini?
+                            </DialogDescription>
+                          </DialogHeader>
+                          <DialogFooter className="sm:justify-start" >
+                            <Button onClick={() => handleDelete(report.id)} className="bg-red-500 text-white rounded-md w-fit p-2">
+                              <p>Iya, Hapus</p>
+                            </Button>
+                            <DialogClose asChild>
+                              <Button type="button" variant="secondary">
+                                Tidak, Tetap Simpan
+                              </Button>
+                            </DialogClose>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </TableCell>
                 }

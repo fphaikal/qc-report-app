@@ -59,7 +59,7 @@ export default function MyReport() {
   }
 
   return (
-    <div className="flex flex-col gap-5 w-full p-10 min-h-screen">
+    <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
       <AddReportDialog />
       <div className="rounded-md border">
         <ReportTable data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>

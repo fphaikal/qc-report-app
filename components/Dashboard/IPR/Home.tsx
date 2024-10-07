@@ -55,13 +55,6 @@ export default function IPRDashboard() {
   )
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10">
-      <Alert className="bg-red-500 text-white">
-        <CircleAlert className="w-4 h-4" color="white" />
-        <AlertTitle>PENGUMUMAN</AlertTitle>
-        <AlertDescription>
-          Permintaan terbaru dari PT. TTEC
-        </AlertDescription>
-      </Alert>
       {/* Chart */}
       {/* <div className="w-full md:w-2/6">
         <ReportChart chartData={chartData} chartConfig={chartConfig} />
@@ -70,7 +63,7 @@ export default function IPRDashboard() {
         <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset} />
       </div>
       <div className="rounded-md border">
-        <IPRTable data={data[0]} />
+        <IPRTable data={data[0]}  />
       </div>
     </div >
   )

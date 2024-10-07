@@ -13,6 +13,9 @@ import { format } from 'date-fns'
 import { Trash2, Pencil } from "lucide-react"
 import { usePathname } from "next/navigation"
 import UpdateNCR from "../Dialog/UpdateNCR"
+import { NCR } from "@/types/NCR"
+import { NCRTableProps } from "@/types/Table"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 
 const TableHeadName = [
   { accessorKey: "info_date", header: "Info Date" },
@@ -33,7 +36,7 @@ const TableHeadName = [
 ];
 
 
-export default function NCRTable({ data, handleEdit, handleDelete }: NCRTableProps) {
+export default function NCRTable({ data,  handleDelete }: NCRTableProps) {
   const pathname = usePathname()
 
   
@@ -72,9 +75,31 @@ export default function NCRTable({ data, handleEdit, handleDelete }: NCRTablePro
                 <TableCell>
                   <div className="flex gap-2">
                     <UpdateNCR data={report} />
-                    <Button onClick={() => handleDelete(report.id)} className="bg-red-500 text-white rounded-md w-fit p-2">
-                      <Trash2 className="" size={18} />
-                    </Button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" className="bg-red-500 text-white rounded-md w-fit p-2">
+                            <Trash2 className="" size={18} />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>Hapus Data</DialogTitle>
+                            <DialogDescription>
+                              Apakah anda yakin ingin menghapus data ini?
+                            </DialogDescription>
+                          </DialogHeader>
+                          <DialogFooter className="sm:justify-start" >
+                            <Button onClick={() => handleDelete(report.id)} className="bg-red-500 text-white rounded-md w-fit p-2">
+                              <p>Iya, Hapus</p>
+                            </Button>
+                            <DialogClose asChild>
+                              <Button type="button" variant="secondary">
+                                Tidak, Tetap Simpan
+                              </Button>
+                            </DialogClose>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
                   </div>
                 </TableCell>
               }

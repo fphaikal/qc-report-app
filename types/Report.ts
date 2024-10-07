@@ -14,4 +14,5 @@ interface Report {
     keterangan: string;
     inspection_date: string;
     username: string;
+    value: number;  
 }
