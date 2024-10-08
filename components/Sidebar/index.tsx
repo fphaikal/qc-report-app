@@ -69,6 +69,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isXlOrAbove, setIsXlOrAbove] = useState(false);
+  const username = localStorage.getItem("username");
 
   // Check screen size to determine if it's xl or larger
   useEffect(() => {
@@ -139,7 +140,7 @@ export default function Sidebar() {
       <div className="flex flex-col xl:flex-row items-center justify-between w-full gap-2">
         <Link href={'/profile'} className="flex flex-row gap-2 hover:bg-white/10 px-4 py-2 rounded-xl w-full">
           <CircleUserRound size={20} color="white" />
-          <p className="text-white text-sm font-semibold hidden xl:block">Profile</p>
+          <p className="text-white text-sm font-semibold hidden xl:block">{username} </p>
         </Link>
         <TooltipProvider>
           <Tooltip>
