@@ -25,7 +25,7 @@ export default function FinalInspectionDashboard() {
     ];
     setUrls(newUrls); // Update URLs berdasarkan date yang dipilih
   }, [date]);
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
   const { data, loading, error } = useFetchData(urls);
 
   const handleReset = () => {
@@ -64,7 +64,7 @@ export default function FinalInspectionDashboard() {
   if (loading) return (
     <div className="p-10">Loading...</div>
   )
-
+ 0.
   if (error) return (
     <div className="p-10">Error: {error}</div>
   )

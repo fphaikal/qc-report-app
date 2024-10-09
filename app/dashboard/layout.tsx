@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <div className="flex flex-col md:flex-row">
       <Sidebar />
-      <div className="w-fit px-5 py-3">
+      <div className="flex justify-between px-5 py-3">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon" className="flex md:hidden">
@@ -40,7 +40,7 @@ export default function RootLayout({
             <DropdownMenuLabel>Final Inspection</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem><Link href={'/dashboard'}>Home</Link></DropdownMenuItem>
-            <DropdownMenuItem><Link href={'/myreport'}>My Report</Link></DropdownMenuItem>
+            <DropdownMenuItem><Link href={'/dashboard/myreport'}>My Report</Link></DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuLabel>Non Conformity Report</DropdownMenuLabel>
             <DropdownMenuSeparator />
