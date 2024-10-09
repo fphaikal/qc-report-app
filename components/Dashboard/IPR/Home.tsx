@@ -3,10 +3,6 @@
 import useFetchData from "@/hooks/useFetchData"
 import * as React from "react"
 import { format } from "date-fns"
-import { CircleAlert } from "lucide-react"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-// import { ChartConfig } from "@/components/ui/chart"
-// import ReportChart from "@/components/Chart/ReportChart"
 import DatePicker from "@/components/Popover/DatePicker"
 import IPRTable from "@/components/Table/IPR"
 
@@ -63,7 +59,9 @@ export default function IPRDashboard() {
         <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset} />
       </div>
       <div className="rounded-md border">
-        <IPRTable data={data[0]}  />
+        <IPRTable data={data[0]} handleDelete={function (id: number): void {
+          throw new Error("Function not implemented.")
+        } }  />
       </div>
     </div >
   )

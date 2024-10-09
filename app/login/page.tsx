@@ -4,11 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AlertCircle } from "lucide-react"
 import Cookies from "js-cookie";
+import { Loader2 } from "lucide-react"
 
 export default function FinalInspectionLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -32,6 +34,8 @@ export default function FinalInspectionLogin() {
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("username", data.data.username)
         router.push("/dashboard");
+
+        setLoading(true);
       } else {
         const data = await res.json();
         setError(data.message);
@@ -47,12 +51,12 @@ export default function FinalInspectionLogin() {
         <div className="w-full xl:w-[450px]">
           <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
             <h2 className="mb-4 text-2xl font-bold text-center text-black dark:text-white sm:text-title-xl2">
-              Sign In to Final Inspection Denapella
+              Sign In to Quality Pintar Denapella
             </h2>
             {error && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-red-500 border border-red-500">
-              <AlertCircle/>
+              <AlertCircle />
               <p>{error}</p>
-            </div> }
+            </div>}
 
             <form onSubmit={handleLogin}>
               <div className="mb-4 mt-4">
@@ -123,12 +127,18 @@ export default function FinalInspectionLogin() {
                 </div>
               </div>
 
-              <div className="mb-5">
-                <input
+              <div className={loading ? 'hidden' : 'mb-5'}>
+                <button
                   type="submit"
                   value="Sign In"
                   className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                />
+                >Sign In</button>
+              </div>
+              <div className={loading ? 'mb-5' : 'hidden'}>
+                <button disabled className="flex justify-center items-center w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </button>
               </div>
             </form>
           </div>

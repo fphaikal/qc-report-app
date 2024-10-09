@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { format } from 'date-fns'
-import { Trash2, Pencil } from "lucide-react"
+import { Trash2 } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@nextui-org/react";

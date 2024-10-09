@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import  Cookies from "js-cookie"
+import Cookies from "js-cookie"
 import { House, File, FileSpreadsheet, CircleUserRound, LogOut, LayoutDashboard } from "lucide-react"
 import {
   Tooltip,
@@ -69,7 +69,6 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isXlOrAbove, setIsXlOrAbove] = useState(false);
-  const username = localStorage.getItem("username");
 
   // Check screen size to determine if it's xl or larger
   useEffect(() => {
@@ -110,7 +109,7 @@ export default function Sidebar() {
     }
   }
 
-  
+
   return (
     <div className="sticky md:flex flex-none flex-col justify-between h-screen hidden gap-2 p-5 w-fit 2xl:w-[300px] bg-primary top-0 shrink-0 overflow-hidden">
       <div className="flex flex-col">
@@ -126,21 +125,30 @@ export default function Sidebar() {
                 {isXlOrAbove ? group.name : group.shortName}
               </h2>
               {group.menuItems.map((item, index) => (
-                <Link href={item.route} key={index} className={item.route === pathname ? "flex flex-row gap-2 bg-white/10 px-4 py-2 rounded-xl" : "flex flex-row gap-2 hover:bg-white/10 duration-200 px-4 py-2 rounded-xl"}>
-                  <item.icon size={20} color="white" />
-                  <p className="text-white text-sm font-semibold hidden xl:block">
-                    {isXlOrAbove ? item.label : group.shortName}
-                  </p>
-                </Link>
+                <TooltipProvider key={index}>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Link href={item.route} key={index} className={item.route === pathname ? "flex flex-row gap-2 bg-white/10 px-4 py-2 rounded-xl" : "flex flex-row gap-2 hover:bg-white/10 duration-200 px-4 py-2 rounded-xl"}>
+                        <item.icon size={20} color="white" />
+                        <p className="text-white text-sm font-semibold hidden xl:block">
+                          {isXlOrAbove ? item.label : group.shortName}
+                        </p>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent align="start" key={item.label}>
+                      <p>{item.label} </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               ))}
             </div>
           ))}
-        </div>
+        </div>  
       </div>
       <div className="flex flex-col xl:flex-row items-center justify-between w-full gap-2">
         <Link href={'/profile'} className="flex flex-row gap-2 hover:bg-white/10 px-4 py-2 rounded-xl w-full">
           <CircleUserRound size={20} color="white" />
-          <p className="text-white text-sm font-semibold hidden xl:block">{username} </p>
+          <p className="text-white text-sm font-semibold hidden xl:block"></p>
         </Link>
         <TooltipProvider>
           <Tooltip>

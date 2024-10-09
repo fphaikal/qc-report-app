@@ -4,6 +4,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@nextui-org/react";
 import { DateInput } from "@nextui-org/react";
 import { AlertCircle } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 export default function AddDataIPRDialog() {
   const [infoDate, setInfoDate] = useState<string>('');
@@ -22,7 +29,7 @@ export default function AddDataIPRDialog() {
   const [actualFinish, setActualFinish] = useState<string>('');
   const [, setError] = useState<string>('');
   const [resErr, setResErr] = useState('')
-  
+
   const handleSubmitDataIPR = async (e: React.FormEvent) => {
     e.preventDefault();
     const pic = localStorage.getItem('username')
@@ -64,7 +71,7 @@ export default function AddDataIPRDialog() {
         <DialogHeader>
           <DialogTitle>Tambah Data</DialogTitle>
           <DialogDescription>
-            Tambahkan data kegiatan anda hari ini, dan tekan simpan jika sudah selesai
+            Tambahkan data IPR, dan tekan simpan jika sudah selesai
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmitDataIPR}>
@@ -76,20 +83,21 @@ export default function AddDataIPRDialog() {
             <div className="flex flex-col gap-4">
               <DateInput
                 label={"Info Date"}
-                labelPlacement="outside"                
+                labelPlacement="outside"
                 onChange={(date) => setInfoDate(date?.toString())}
               />
             </div>
             <div className="flex flex-col gap-4">
-              <Input
-                label="Dept/Section"
-                labelPlacement="outside"
-                isRequired
-                id="dept-section"
-                placeholder="Masukkan Departemen/Section"
-                value={deptSection}
-                onChange={(e) => setDeptSection(e.target.value)}
-              />
+              <Select onValueChange={(value) => setDeptSection(value)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Department/Section" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Machining">Machining</SelectItem>
+                  <SelectItem value="Stamping">Stamping</SelectItem>
+                  <SelectItem value="Machining (Welding)">Machining (Welding)</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex flex-col gap-4">
               <Input

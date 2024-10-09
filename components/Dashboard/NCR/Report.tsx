@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 import NCRTable from "@/components/Table/NCR";
-import AddDataIPRDialog from "@/components/Dialog/AddIPR";
+import AddDataNCRDialog from "@/components/Dialog/AddDataNCR";
 
 export default function Report() {
   const [data, setData] = useState([]);
@@ -36,11 +36,6 @@ export default function Report() {
   if (loading) return <Loading/>;
   if (error) return <Error error={error}/>;
   
-  
-
-  const handleEdit = async () => {
-
-  }
 
   const handleDelete = async (id: number) => {
     try {
@@ -60,9 +55,9 @@ export default function Report() {
 
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
-      <AddDataIPRDialog/>
+      <AddDataNCRDialog/>
       <div className="rounded-md border">
-        <NCRTable data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
+        <NCRTable data={data} handleDelete={handleDelete}/>
       </div>
     </div>
   );

@@ -35,12 +35,6 @@ export default function Report() {
 
   if (loading) return <Loading/>;
   if (error) return <Error error={error}/>;
-  
-  
-
-  const handleEdit = async () => {
-
-  }
 
   const handleDelete = async (id: number) => {
     try {
