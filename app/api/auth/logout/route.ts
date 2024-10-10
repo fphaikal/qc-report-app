@@ -5,7 +5,7 @@ export async function POST(request: Request) {
       try {
         const { token } = await request.json(); // Mengambil data dari request body
   
-        const apiRes = await fetch(`http://localhost:2025/api/auth/logout`, {
+        const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

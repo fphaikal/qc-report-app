@@ -15,7 +15,7 @@ export default function Report() {
     const fetchData = async () => {
       const username = localStorage.getItem('username')
       try {
-        const res = await fetch(`http://localhost:2025/api/report/ipr/pic`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ipr/pic`, {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ "name": username }),
@@ -38,7 +38,7 @@ export default function Report() {
 
   const handleDelete = async (id: number) => {
     try {
-      const res = await fetch(`http://localhost:2025/api/report/ipr/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ipr/${id}`, {
         method: "DELETE"
       })
 

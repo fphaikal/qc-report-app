@@ -14,7 +14,7 @@ export default function IPRDashboard() {
   React.useEffect(() => {
     const formatDate = date ? format(date, "y-MM-dd") : "all";
     const newUrls = [
-      `http://localhost:2025/api/report/ipr?date=${formatDate}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/report/ipr?date=${formatDate}`,
     ];
     setUrls(newUrls); // Update URLs berdasarkan date yang dipilih
   }, [date]);
@@ -55,13 +55,14 @@ export default function IPRDashboard() {
       {/* <div className="w-full md:w-2/6">
         <ReportChart chartData={chartData} chartConfig={chartConfig} />
       </div> */}
-      <div className="flex gap-2">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Internal Problem Report</h1>
         <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset} />
       </div>
       <div className="rounded-md border">
         <IPRTable data={data[0]} handleDelete={function (id: number): void {
           throw new Error("Function not implemented.")
-        } }  />
+        }} />
       </div>
     </div >
   )

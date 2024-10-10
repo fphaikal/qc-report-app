@@ -186,6 +186,7 @@ export default function AddDataNCRDialog() {
                 isRequired
                 placeholder="Masukkan nilai progress"
                 value={progress}
+                type="number"
                 onChange={(e) => setProgress(e.target.value)}
               />
             </div>

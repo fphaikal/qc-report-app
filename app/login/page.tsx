@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { AlertCircle } from "lucide-react"
+import { AlertCircle, Loader2 } from "lucide-react"
 import Cookies from "js-cookie";
-import { Loader2 } from "lucide-react"
 
 export default function FinalInspectionLogin() {
   const [username, setUsername] = useState("");
@@ -31,8 +30,12 @@ export default function FinalInspectionLogin() {
         Cookies.set("token", data.token, {
           expires: 60 * 60 * 24 * 7, // 1 week
         });
+        Cookies.set("auth", data.data.role, {
+          expires: 60 * 60 * 24 * 7, // 1 week
+        });
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("username", data.data.username)
+        localStorage.setItem("role", data.data.role)
         router.push("/dashboard");
 
         setLoading(true);

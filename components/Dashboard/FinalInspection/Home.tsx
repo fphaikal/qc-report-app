@@ -19,9 +19,9 @@ export default function FinalInspectionDashboard() {
   React.useEffect(() => {
     const formatDate = date ? format(date, "y-MM-dd") : "all";
     const newUrls = [
-      `http://localhost:2025/api/report/final-inspection?date=${formatDate}`,
-      `http://localhost:2025/api/report/final-inspection/chartData?type=daily`,
-      `http://localhost:2025/api/report/final-inspection/chartData?type=operator`,
+      `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection?date=${formatDate}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/chartData?type=daily`,
+      `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/chartData?type=operator`,
     ];
     setUrls(newUrls); // Update URLs berdasarkan date yang dipilih
   }, [date]);

@@ -2,18 +2,7 @@ import type { Metadata } from "next";
 import Sidebar from "@/components/Sidebar";
 import { Suspense } from "react";
 import Loading from "@/components/Loading";
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import Link from "next/link";
-
+import MenuBar from "@/components/Dropdown/Menu";
 
 export const metadata: Metadata = {
   title: "Dashboard Quality Pintar",
@@ -30,39 +19,10 @@ export default function RootLayout({
     <div className="flex flex-col md:flex-row">
       <Sidebar />
       <div className="flex justify-between px-5 py-3">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="flex md:hidden">
-              <Menu className="h-4 w-4 text-center" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            <DropdownMenuLabel>Final Inspection</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem><Link href={'/dashboard'}>Home</Link></DropdownMenuItem>
-            <DropdownMenuItem><Link href={'/dashboard/myreport'}>My Report</Link></DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Non Conformity Report</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem><Link href={'/dashboard/ncr'}>Dashboard</Link></DropdownMenuItem>
-            <DropdownMenuItem><Link href={'/dashboard/ncr/report'}>Report</Link></DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Internal Problem Report</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem><Link href={'/dashboard/ipr'}>Dashboard</Link></DropdownMenuItem>
-            <DropdownMenuItem><Link href={'/dashboard/ipr/report'}>Report</Link></DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <MenuBar />
       </div>
-
-      {/* <div className="px-5 py-5">
-        <Button variant="outline" size="icon" className="flex md:hidden">
-          <Menu className="h-4 w-4 text-center" />
-        </Button>
-      </div> */}
-      <Suspense fallback={<Loading />}>
-
-        <main className="w-full">{children}</main>
+      <Suspense fallback={<Loading />} >
+        <main className="min-w-0 flex flex-1 mb-5 justify-center">{children}</main>
       </Suspense>
     </div>
   );

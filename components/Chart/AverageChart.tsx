@@ -1,4 +1,4 @@
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 import {
   Card,
   CardContent,
@@ -23,7 +23,7 @@ export default function AverageChart({ chartData, chartConfig }: ReportChartProp
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <AreaChart
+          <BarChart
             accessibilityLayer
             data={chartData}
             margin={{
@@ -37,21 +37,20 @@ export default function AverageChart({ chartData, chartConfig }: ReportChartProp
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
               
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dot" hideLabel />}
             />
-            <Area
+            <Bar
               dataKey="value"
               type="linear"
               fill="var(--color-value)"
               fillOpacity={0.4}
               stroke="var(--color-value)"
             />
-          </AreaChart>
+          </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>

@@ -11,15 +11,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { format } from "date-fns"
 
-export default function ReportChart({ chartData, chartConfig }: ReportChartProps) {
+export default function CustomerReport({ chartData, chartConfig }: ReportChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Inspection Overview</CardTitle>
+        <CardTitle>Customer Report</CardTitle>
         <CardDescription>
-          Showing total inspection per day
+          Showing customer report
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -34,23 +33,22 @@ export default function ReportChart({ chartData, chartConfig }: ReportChartProps
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="date"
+              dataKey="customer"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => format(new Date(value), "d")}
-              
+
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dot" hideLabel />}
             />
             <Bar
-              dataKey="total"
+              dataKey="value"
               type="linear"
-              fill="var(--color-total)"
+              fill="var(--color-report)"
               fillOpacity={0.4}
-              stroke="var(--color-total)"
+              stroke="var(--color-report)"
             />
           </BarChart>
         </ChartContainer>

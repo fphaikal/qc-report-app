@@ -14,7 +14,7 @@ export async function POST(request: Request) {
         type_ng,
         keterangan } = await request.json(); // Mengambil data dari request body
 
-      const apiRes = await fetch(`http://localhost:2025/api/report/final-inspection`, {
+      const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

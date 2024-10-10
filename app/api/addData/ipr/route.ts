@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     try {
       const { info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish } = await request.json(); // Mengambil data dari request body
 
-      const apiRes = await fetch(`http://localhost:2025/api/report/ipr`, {
+      const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ipr`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

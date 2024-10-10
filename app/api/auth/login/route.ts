@@ -3,7 +3,7 @@ export async function POST(request: Request) {
     try {
       const { username, password } = await request.json(); // Mengambil data dari request body
 
-      const apiRes = await fetch(`http://localhost:2025/api/auth/login`, {
+      const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
