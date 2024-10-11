@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
-import { House, File, FileSpreadsheet, CircleUserRound, LogOut, LayoutDashboard } from "lucide-react"
+import { House, File, FileSpreadsheet, CircleUserRound, LogOut, LayoutDashboard, FileMinus, Grid2x2Plus } from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
@@ -29,6 +29,32 @@ const menuGroups = [
         icon: File,
         route: "/dashboard/myreport"
       }
+    ]
+  },
+  {
+    name: "Data NG",
+    shortName: "NG",
+    menuItems: [
+      {
+        label: "Dashboard",
+        icon: LayoutDashboard,
+        route: "/dashboard/ngData"
+      },
+      {
+        label: "Input NG",
+        icon: FileSpreadsheet,
+        route: "/dashboard/ngData/report"
+      },
+      {
+        label: "Data Jenis NG",
+        icon: FileMinus,
+        route: "/dashboard/ngData/report/type-ng"
+      },
+      {
+        label: "Total QTY NG",
+        icon: Grid2x2Plus,
+        route: "/dashboard/ngData/report/total-qty-ng"
+      },
     ]
   },
   {

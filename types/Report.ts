@@ -14,9 +14,9 @@ interface Report {
     keterangan: string;
     inspection_date: string;
     username: string;
-    value: number;  
+    value: number;
 
-    info_date: string; 
+    info_date: string;
     department_section: string;
     problem: string;
     source: string;
@@ -27,8 +27,19 @@ interface Report {
     countermeasure: string;
     form_type: string;
     pic: string;
-    start_date: string; 
+    start_date: string;
     progress: string;
-    target_due: string; 
-    actual_finish: string; 
+    target_due: string;
+    actual_finish: string;
+
+    ncr_date: string; // Should be in 'YYYY-MM-DD' format
+    section: string;
+    product_name: string;
+    last_process: string;
+    ng_type: string;
+    ng_quantity: number;
+    detection: string;
+    status: 'repair' | 'reject'; // Restricted to these two values
+    month: number;
+    year: number;
 }

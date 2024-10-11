@@ -4,8 +4,15 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@nextui-org/react";
 import { DateInput } from "@nextui-org/react";
 import { AlertCircle } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-export default function AddDataNCRDialog() {
+export default function AddDataIPRDialog() {
   const [infoDate, setInfoDate] = useState<string>('');
   const [deptSection, setDeptSection] = useState('');
   const [problem, setProblem] = useState('');
@@ -22,8 +29,8 @@ export default function AddDataNCRDialog() {
   const [actualFinish, setActualFinish] = useState<string>('');
   const [, setError] = useState<string>('');
   const [resErr, setResErr] = useState('')
-  
-  const handleSubmitDataNCR = async (e: React.FormEvent) => {
+
+  const handleSubmitDataIPR = async (e: React.FormEvent) => {
     e.preventDefault();
     const pic = localStorage.getItem('username')
 
@@ -64,10 +71,10 @@ export default function AddDataNCRDialog() {
         <DialogHeader>
           <DialogTitle>Tambah Data</DialogTitle>
           <DialogDescription>
-            Tambahkan data kegiatan anda hari ini, dan tekan simpan jika sudah selesai
+            Tambahkan data NCR, dan tekan simpan jika sudah selesai
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmitDataNCR}>
+        <form onSubmit={handleSubmitDataIPR}>
           {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-red-500 border border-red-500">
             <AlertCircle />
             <p>{resErr}</p>
@@ -76,20 +83,21 @@ export default function AddDataNCRDialog() {
             <div className="flex flex-col gap-4">
               <DateInput
                 label={"Info Date"}
-                labelPlacement="outside"                
+                labelPlacement="outside"
                 onChange={(date) => setInfoDate(date?.toString())}
               />
             </div>
             <div className="flex flex-col gap-4">
-              <Input
-                label="Dept/Section"
-                labelPlacement="outside"
-                isRequired
-                id="dept-section"
-                placeholder="Masukkan Departemen/Section"
-                value={deptSection}
-                onChange={(e) => setDeptSection(e.target.value)}
-              />
+              <Select onValueChange={(value) => setDeptSection(value)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Department/Section" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Machining">Machining</SelectItem>
+                  <SelectItem value="Stamping">Stamping</SelectItem>
+                  <SelectItem value="Machining (Welding)">Machining (Welding)</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex flex-col gap-4">
               <Input
@@ -186,7 +194,6 @@ export default function AddDataNCRDialog() {
                 isRequired
                 placeholder="Masukkan nilai progress"
                 value={progress}
-                type="number"
                 onChange={(e) => setProgress(e.target.value)}
               />
             </div>

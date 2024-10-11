@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react"
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
-import NCRTable from "@/components/Table/NCR";
-import AddDataNCRDialog from "@/components/Dialog/AddNCR";
+import NGTable from "@/components/Table/NG";
+import AddDataNGDialog from "@/components/Dialog/AddNG";
 
-export default function Report() {
+export default function NGReport() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +15,7 @@ export default function Report() {
     const fetchData = async () => {
       const username = localStorage.getItem('username')
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ncr/pic`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/operator`, {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ "name": username }),
@@ -39,7 +39,7 @@ export default function Report() {
 
   const handleDelete = async (id: number) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ncr/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/${id}`, {
         method: "DELETE"
       })
 
@@ -55,9 +55,9 @@ export default function Report() {
 
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
-      <AddDataNCRDialog/>
+      <AddDataNGDialog/>
       <div className="rounded-md border">
-        <NCRTable data={data} handleDelete={handleDelete}/>
+        <NGTable data={data} handleDelete={handleDelete}/>
       </div>
     </div>
   );
