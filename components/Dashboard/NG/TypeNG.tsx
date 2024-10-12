@@ -26,7 +26,7 @@ export default function NGReport() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/chartData?type=ng`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/tableData?type=ng`);
         if (!res.ok) return 'Network response was not ok';
         const result = await res.json();
         setData(result.data);
@@ -45,6 +45,7 @@ export default function NGReport() {
 
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
+      <h1 className="text-3xl font-bold">Data Jenis NG</h1>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

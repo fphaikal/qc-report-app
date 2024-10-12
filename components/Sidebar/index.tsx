@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
-import { House, File, FileSpreadsheet, CircleUserRound, LogOut, LayoutDashboard, FileMinus, Grid2x2Plus } from "lucide-react"
+import { House, File, FileSpreadsheet, CircleUserRound, LogOut, LayoutDashboard, FileMinus, Grid2x2Plus, ChartNoAxesCombined } from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
@@ -54,6 +54,11 @@ const menuGroups = [
         label: "Total QTY NG",
         icon: Grid2x2Plus,
         route: "/dashboard/ngData/report/total-qty-ng"
+      },
+      {
+        label: "Chart NG",
+        icon: ChartNoAxesCombined,
+        route: "/dashboard/ngData/report/chart"
       },
     ]
   },

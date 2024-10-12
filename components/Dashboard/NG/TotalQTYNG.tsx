@@ -15,8 +15,7 @@ import React from "react";
 
 interface TypeNG {
   part_name: string;
-  type_ng: string;
-  month: {
+  months: {
     month: string; value: [
       { prod: number, ng: number, percent: number }
     ]
@@ -42,7 +41,7 @@ const datas = [
           { prod: 100, ng: 10, percent: 10 },
         ]
       },
-      
+
     ],
   }
 ]
@@ -55,7 +54,7 @@ export default function NGReport() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/chartData?type=ng`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/tableData?type=totalQtyNg`);
         if (!res.ok) return 'Network response was not ok';
         const result = await res.json();
         setData(result.data);
@@ -74,7 +73,8 @@ export default function NGReport() {
 
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
-      <div className="rounded-md border overflow-auto">
+      <h1 className="text-3xl font-bold">Resume Total QTY NG</h1>
+      <div className="rounded-md border overflow-x-visible ">
         <Table className="min-w-[2500px]"> {/* Setting min width untuk memastikan tabel tidak berdempetan */}
           <TableHeader>
             <TableRow>
@@ -95,7 +95,7 @@ export default function NGReport() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {datas.map((result) => (
+            {data.map((result) => (
               <TableRow key={result.part_name}>
                 <TableCell className="font-medium">{result.part_name}</TableCell>
                 <TableCell>{result.customer}</TableCell>
@@ -106,12 +106,12 @@ export default function NGReport() {
                       <TableCell className="text-center">{value.ng}</TableCell>
                       <TableCell className="text-center">{value.percent}</TableCell>
                     </>
-                    
+
                   ))
                 ))}
               </TableRow>
             ))}
-            
+
           </TableBody>
         </Table>
       </div>

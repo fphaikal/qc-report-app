@@ -40,11 +40,9 @@ export default function FinalInspectionLogin() {
 
         setLoading(true);
       } else {
-        const data = await res.json();
         setError(data.message);
       }
     } catch (error) {
-      setError('Error:' + (error as Error).message);
     }
   }
 
