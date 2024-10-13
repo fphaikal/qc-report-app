@@ -16,7 +16,6 @@ export default function NGDashboard() {
     const formatDate = date ? format(date, "y-MM-dd") : "all";
     const newUrls = [
       `${process.env.NEXT_PUBLIC_API_URL}/report/ngData?date=${formatDate}`,
-      `${process.env.NEXT_PUBLIC_API_URL}/report/ncr/chartData?type=customer`
     ];
     setUrls(newUrls); // Update URLs berdasarkan date yang dipilih
   }, [date]);

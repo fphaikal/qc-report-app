@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import Cookies from "js-cookie";
 
 export default function AddDataNGDialog() {
   const [ncrDate, setNcrDate] = useState<string>('');  // Mengganti infoDate dengan ncrDate
@@ -43,10 +44,12 @@ export default function AddDataNGDialog() {
     const ng_quantity = ngQuantity
 
     try {
+      const token = Cookies.get('token')
       const res = await fetch('/api/addData/ng', {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          ...(token && { authorization: token })
         },
         body: JSON.stringify({ ncr_date, section, product_name, last_process, customer, value, ng_type, ng_quantity, operator, detection, status, month, year })
       })

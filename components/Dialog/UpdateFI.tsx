@@ -8,6 +8,7 @@ import { DateInput } from "@nextui-org/react";
 import { parseDateTime } from "@internationalized/date";
 import { Pencil } from "lucide-react"
 import {Textarea} from "@nextui-org/input";
+import Cookies from "js-cookie";
 
 interface UpdateFIProps {
   data: Report;
@@ -39,10 +40,12 @@ export default function UpdateFI({ data }: UpdateFIProps) {
     const { id, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, inspection_date } = selectedReport!;
 
     try {
+      const token = Cookies.get('token')
       const res = await fetch(`/api/updateData/final-inspection`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          ...(token && { authorization: token })
         },
         body: JSON.stringify({ id, operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, inspection_date }),
       });

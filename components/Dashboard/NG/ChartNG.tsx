@@ -23,11 +23,6 @@ import Error from "@/components/Error"
 
 export const description = "A multiple bar chart"
 
-const chartData = [
-  { customer: "ASI", Jan: 10, Feb: 80, Mar: 100, Apr: 50, May: 100, Jun: 50, Jul: 100, Aug: 50, Sep: 100, Oct: 50, Nov: 100, Dec: 50 },
-  { customer: "IMM", Jan: 305, Feb: 200, Mar: 100, Apr: 50, May: 100, Jun: 50, Jul: 100, Aug: 50, Sep: 100, Oct: 50, Nov: 100, Dec: 50 },
-  { customer: "Inoac", Jan: 237, Feb: 120, Mar: 100, Apr: 50, May: 100, Jun: 50, Jul: 100, Aug: 50, Sep: 100, Oct: 50, Nov: 100, Dec: 50 },
-]
 
 const chartConfig = {
   Jan: {
@@ -135,14 +130,6 @@ export default function Component() {
               </BarChart>
             </ChartContainer>
           </CardContent>
-          <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="flex gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="leading-none text-muted-foreground">
-              Showing total visitors for the last 6 months
-            </div>
-          </CardFooter>
         </Card>
       </div>
       <div className="w-full h-fit">
@@ -179,15 +166,7 @@ export default function Component() {
                 <Bar dataKey="Dec" fill="var(--color-Dec)" radius={4} />
               </BarChart>
             </ChartContainer>
-          </CardContent>
-          <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="flex gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="leading-none text-muted-foreground">
-              Showing total visitors for the last 6 months
-            </div>
-          </CardFooter>
+          </CardContent> 
         </Card>
       </div>
     </div>

@@ -1,14 +1,16 @@
-//import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 export async function PUT(request: Request) {
   if (request.method === "PUT") {
     try {
       const { info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish, id } = await request.json(); // Mengambil data dari request body
+      const token = Cookies.get("token");
 
       const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ncr`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          ...(token && { authorization: token })
         },
         body: JSON.stringify({ info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish, id }),
       });

@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react";
+import Cookies from "js-cookie"
 
 export default function useFetchData(urls: string[]) {
   const [data, setData] = React.useState<Report[][]>([]);
@@ -14,12 +15,15 @@ export default function useFetchData(urls: string[]) {
       try {
         setLoading(true); // Pastikan loading diset true saat mulai fetch
         const allData: Report[][] = [];
+        const token = Cookies.get("token");
 
         for (const url of urls) {
-          const res = await fetch(url);
+          const res = await fetch(url, {
+            headers: token ? { authorization: token } : {}
+          });
           if (!res.ok) {
             throw new Error(`Failed to fetch from ${url}`);
-          }
+          } 
 
           const result: ApiResponse = await res.json();
           const allReport: Report[] = Object.values(result.data);

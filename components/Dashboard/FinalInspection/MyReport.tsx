@@ -5,6 +5,7 @@ import AddReportDialog from "@/components/Dialog/AddFI";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 import ReportTable from "@/components/Table/FI";
+import Cookies from "js-cookie"
 
 export default function MyReport() {
   const [data, setData] = useState<Report[]>([]);
@@ -14,10 +15,13 @@ export default function MyReport() {
   useEffect(() => {
     const fetchData = async () => {
       const username = localStorage.getItem('username')
+      const token = Cookies.get('token')
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/operator`, {
           method: "POST",
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json',
+            ...(token && { authorization: token })
+           },
           body: JSON.stringify({ "name": username }),
         });
         if (!res.ok) return 'Network response was not ok';

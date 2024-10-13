@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import Cookies from "js-cookie";
 
 interface UpdateNgDataProps {
   data: NG;
@@ -40,10 +41,12 @@ export default function UpdateNG({ data }: UpdateNgDataProps) {
     const { id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year } = selectedReport!;
 
     try {
+      const token = Cookies.get('token')
       const res = await fetch(`/api/updateData/ng`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          ...(token && { authorization: token })
         },
         body: JSON.stringify({ id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year }),
       });

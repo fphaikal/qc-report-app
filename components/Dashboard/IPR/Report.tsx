@@ -5,6 +5,10 @@ import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 import IPRTable from "@/components/Table/IPR";
 import AddDataIPRDialog from "@/components/Dialog/AddIPR";
+import Cookies from "js-cookie"
+
+const token = Cookies.get('token')
+
 
 export default function Report() {
   const [data, setData] = useState([]);
@@ -17,7 +21,9 @@ export default function Report() {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ipr/pic`, {
           method: "POST",
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json',
+            ...(token && { authorization: token })
+           },
           body: JSON.stringify({ "name": username }),
         });
         if (!res.ok) return 'Network response was not ok';

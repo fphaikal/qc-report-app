@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label"
 import { DateInput } from "@nextui-org/react";
 import { now, getLocalTimeZone } from "@internationalized/date";
 import { AlertCircle } from "lucide-react"
+import Cookies from "js-cookie";
 
 export default function AddReportDialog() {
   const [namePart, setNamePart] = useState('');
@@ -28,10 +29,12 @@ export default function AddReportDialog() {
     const type_ng = typeNg 
 
     try {
+      const token = Cookies.get('token')
       const res = await fetch('/api/addData/final-inspection', {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          ...(token && { authorization: token })
         },
         body: JSON.stringify({ operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan })
       })

@@ -1,14 +1,16 @@
-//import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 export async function POST(request: Request) {
   if (request.method === "POST") {
     try {
       const { ncr_date, section, product_name, last_process, customer, value, ng_type, ng_quantity, operator, detection, status, month, year } = await request.json(); // Mengambil data dari request body
+      const token = Cookies.get("token");
 
       const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(token && { authorization: token })
         },
         body: JSON.stringify({ ncr_date, section, product_name, last_process, customer, value, ng_type, ng_quantity, operator, detection, status, month, year }),
       });

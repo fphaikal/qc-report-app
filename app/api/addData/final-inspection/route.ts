@@ -1,9 +1,11 @@
-//import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 export async function POST(request: Request) {
   if (request.method === "POST") {
     try {
-      const { operator, name_part,
+      const {
+        operator,
+        name_part,
         process,
         target,
         start,
@@ -12,24 +14,33 @@ export async function POST(request: Request) {
         ok,
         ng,
         type_ng,
-        keterangan } = await request.json(); // Mengambil data dari request body
+        keterangan,
+      } = await request.json(); // Mengambil data dari request body
+      const token = Cookies.get("token");
 
-      const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ operator, name_part,
-          process,
-          target,
-          start,
-          end,
-          total,
-          ok,
-          ng,
-          type_ng,
-          keterangan }),
-      });
+      const apiRes = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && { authorization: token })
+          },
+          body: JSON.stringify({
+            operator,
+            name_part,
+            process,
+            target,
+            start,
+            end,
+            total,
+            ok,
+            ng,
+            type_ng,
+            keterangan,
+          }),
+        }
+      );
 
       const data = await apiRes.json();
 

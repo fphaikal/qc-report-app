@@ -14,9 +14,6 @@ import { format } from 'date-fns'
 import { Trash2 } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@nextui-org/react";
-import { DateInput } from "@nextui-org/react";
-import { now, getLocalTimeZone } from "@internationalized/date";
 import UpdateFI from "../Dialog/UpdateFI"
 import { ReportTableProps } from "@/types/Table"
 
@@ -75,93 +72,6 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
 
   return (
     <div>
-      <Dialog open={editMode} onOpenChange={setEditMode}>
-        <DialogContent className="min-w-fit overflow-scroll h-[500px]">
-          <DialogHeader>
-            <DialogTitle>Edit Data</DialogTitle>
-            <DialogDescription>Edit data yang ingin diubah, dan tekan simpan jika sudah selesai</DialogDescription>
-          </DialogHeader>
-          <form onSubmit={handleUpdateData}>
-            {resErr && <div className="alert alert-danger">{resErr}</div>}
-            <div className="grid gap-4 py-4">
-              <Input
-                label="Nama Part"
-                labelPlacement="outside"
-                placeholder="Masukkan nama part"
-                value={selectedReport?.name_part || ''}
-                onChange={(e) => setSelectedReport({ ...selectedReport!, name_part: e.target.value })}
-              />
-              <Input
-                label="Proses"
-                labelPlacement="outside"
-                placeholder="Masukkan proses yang dilakukan"
-                value={selectedReport?.process || ''}
-                onChange={(e) => setSelectedReport({ ...selectedReport!, process: e.target.value })}
-              />
-              <Input
-                label="Target"
-                labelPlacement="outside"
-                placeholder="Masukkan target yang telah ditentukan"
-                value={selectedReport?.target?.toString() || ''}
-                onChange={(e) => setSelectedReport({ ...selectedReport!, target: Number(e.target.value) })}
-              />
-              <DateInput
-                label={"Start"}
-                labelPlacement="outside"
-                hideTimeZone
-                hourCycle={24}
-                defaultValue={now(getLocalTimeZone())}
-                onChange={(date) => setSelectedReport({ ...selectedReport!, start: date.toString() })} // Mengonversi tanggal ke format ISO
-              />
-              <DateInput
-                label={"End"}
-                labelPlacement="outside"
-                hideTimeZone
-                hourCycle={24}
-                defaultValue={now(getLocalTimeZone())}
-                onChange={(date) => setSelectedReport({ ...selectedReport!, end: date.toString() })} // Mengonversi tanggal ke format ISO
-              />
-              <Input
-                label="Total"
-                labelPlacement="outside"
-                placeholder="Masukkan total"
-                value={selectedReport?.total?.toString() || ''}
-                onChange={(e) => setSelectedReport({ ...selectedReport!, total: Number(e.target.value) })}
-              />
-              <Input
-                label="Ok"
-                labelPlacement="outside"
-                placeholder="Masukkan Ok"
-                value={selectedReport?.ok?.toString() || ''}
-                onChange={(e) => setSelectedReport({ ...selectedReport!, ok: Number(e.target.value) })}
-              />
-              <Input
-                label="NG"
-                labelPlacement="outside"
-                placeholder="Masukkan NG"
-                value={selectedReport?.ng?.toString() || ''}
-                onChange={(e) => setSelectedReport({ ...selectedReport!, ng: Number(e.target.value) })}
-              />
-              <Input
-                label="Jenis NG"
-                labelPlacement="outside"
-                placeholder="Masukkan jenis NG"
-                value={selectedReport?.type_ng || ''}
-                onChange={(e) => setSelectedReport({ ...selectedReport!, type_ng: e.target.value })}
-              />
-              <Input
-                label="Keterangan"
-                labelPlacement="outside"
-                placeholder="Masukkan keterangan"
-                value={selectedReport?.keterangan || ''}
-                onChange={(e) => setSelectedReport({ ...selectedReport!, keterangan: e.target.value })}
-              />
-
-            </div>
-            <Button type="submit">Simpan</Button>
-          </form>
-        </DialogContent>
-      </Dialog>
       <Table>
         <TableHeader>
           <TableRow>

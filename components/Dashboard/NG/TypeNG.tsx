@@ -11,6 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import Cookies from "js-cookie";
+
+const token = Cookies.get('token')
 
 interface TypeNG {
   part_name: string;
@@ -26,7 +29,9 @@ export default function NGReport() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/tableData?type=ng`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/tableData?type=ng`, {
+          headers: token ? { authorization: token } : {}
+        });
         if (!res.ok) return 'Network response was not ok';
         const result = await res.json();
         setData(result.data);

@@ -7,6 +7,7 @@ import { Input } from "@nextui-org/react";
 import { DateInput } from "@nextui-org/react";
 import { Pencil } from "lucide-react"
 import { NCR } from "@/types/NCR";
+import Cookies from "js-cookie";
 
 interface UpdateFIProps {
   data: NCR;
@@ -29,10 +30,12 @@ export default function UpdateNCR({ data }: UpdateFIProps) {
     const { id, info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish } = selectedReport!;
 
     try {
+      const token = Cookies.get('token')
       const res = await fetch(`/api/updateData/ncr`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          ...(token && { authorization: token })
         },
         body: JSON.stringify({ id, info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish }),
       });

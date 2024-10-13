@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import Cookies from "js-cookie";
 
 export default function AddDataIPRDialog() {
   const [infoDate, setInfoDate] = useState<string>('');
@@ -43,10 +44,12 @@ export default function AddDataIPRDialog() {
     const start_date = start
 
     try {
+      const token = Cookies.get('token')
       const res = await fetch('/api/addData/ncr', {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          ...(token && { authorization: token })
         },
         body: JSON.stringify({ info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish })
       })
