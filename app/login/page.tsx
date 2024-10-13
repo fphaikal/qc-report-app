@@ -38,6 +38,7 @@ export default function FinalInspectionLogin() {
         localStorage.setItem("role", data.data.role)
         router.push("/dashboard");
 
+        window.location.reload()
         setLoading(true);
       } else {
         setError(data.message);
