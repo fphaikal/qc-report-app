@@ -36,6 +36,14 @@ export default function MenuBar() {
           <DropdownMenuSeparator />
           <DropdownMenuItem><Link href={'/dashboard'}>Home</Link></DropdownMenuItem>
           <DropdownMenuItem><Link href={'/dashboard/myreport'}>My Report</Link></DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel>Data NG</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem><Link href={'/dashboard/ngData'}>Dashboard</Link></DropdownMenuItem>
+          <DropdownMenuItem><Link href={'/dashboard/ngData/report'}>Input NG</Link></DropdownMenuItem>
+          <DropdownMenuItem><Link href={'/dashboard/ngData/report/type-ng'}>Data Jenis NG</Link></DropdownMenuItem>
+          <DropdownMenuItem><Link href={'/dashboard/ngData/report/total-qty-ng'}>Total QTY NG</Link></DropdownMenuItem>
+          <DropdownMenuItem><Link href={'/dashboard/ngData/report/chart'}>Chart NG</Link></DropdownMenuItem>
           {role === 'admin' && (
             <>
               <DropdownMenuSeparator />

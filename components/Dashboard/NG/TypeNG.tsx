@@ -52,7 +52,7 @@ export default function NGReport() {
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
       <h1 className="text-3xl font-bold">Data Jenis NG</h1>
       <div className="rounded-md border">
-        <Table>
+        <Table className="min-w-[1000px]">
           <TableHeader>
             <TableRow>
               <TableHead rowSpan={2} className="w-[200px]">Part Name</TableHead>
