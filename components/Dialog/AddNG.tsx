@@ -27,7 +27,7 @@ export default function AddDataNGDialog() {
   const [ngType, setNgType] = useState('');            // Mengganti desc dengan ngType
   const [ngQuantity, setNgQuantity] = useState('');    // Mengganti cause dengan ngQuantity
   const [detection, setDetection] = useState('');      // Mengganti form dengan detection
-  const [status, setStatus] = useState<string>('');    // Tambahkan status
+  const [status, setStatus] = useState<string>('reject'); // Pastikan ada default value untuk status
   const [month, setMonth] = useState<string>('');      // Tambahkan month
   const [year, setYear] = useState<string>('');        // Tambahkan year
   const [, setError] = useState<string>('');
@@ -47,27 +47,28 @@ export default function AddDataNGDialog() {
       const token = Cookies.get('token')
       const res = await fetch('/api/addData/ng', {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token && { authorization: token })
-        },
-        body: JSON.stringify({ ncr_date, section, product_name, last_process, customer, value, ng_type, ng_quantity, operator, detection, status, month, year })
+        headers: token ? { authorization: token } : {},
+        body: JSON.stringify({
+          ncr_date, section, product_name, last_process, customer, value,
+          ng_type, ng_quantity, operator, detection, status, month, year  // Pastikan status terkirim
+        })
       })
 
       if (!res.ok) {
         const data = await res.json()
         setResErr(data.message)
-      } if (res.status === 401) {
+      } else {
+        window.location.reload()
+        return "Success Add Data"
+      }
+      if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("username");
         localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }
-      else {
-        window.location.reload()
-        return "Success Add Data"
-      }
+
     } catch (err) {
       setError('Error: ' + err)
     }
@@ -91,14 +92,14 @@ export default function AddDataNGDialog() {
             <p>{resErr}</p>
           </div>}
           <div className="grid gap-4 py-4">
-            <RadioGroup defaultValue="reject" className="flex">
+            <RadioGroup defaultValue={status} onValueChange={(value) => setStatus(value)} className="flex"> {/* Pastikan setStatus berjalan */}
               <Label>Status: </Label>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="reject" id="r1" onChange={(e: React.ChangeEvent<HTMLInputElement & HTMLButtonElement>) => setStatus(e.target.value)} />
+                <RadioGroupItem value="reject" id="r1" />
                 <Label htmlFor="r1">Reject</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="repair" id="r2" onChange={(e: React.ChangeEvent<HTMLInputElement & HTMLButtonElement>) => setStatus(e.target.value)} />
+                <RadioGroupItem value="repair" id="r2" />
                 <Label htmlFor="r2">Repair</Label>
               </div>
             </RadioGroup>
@@ -188,7 +189,7 @@ export default function AddDataNGDialog() {
             </div>
             <div className="flex flex-col gap-2">
               <Label>Detection</Label>
-              <Select onValueChange={(value) => setSection(value)}>
+              <Select onValueChange={(value) => setDetection(value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select a detection" />
                 </SelectTrigger>
@@ -213,7 +214,7 @@ export default function AddDataNGDialog() {
                 onChange={(e) => setMonth(e.target.value)}
                 min={1}
                 max={12}
-                />
+              />
             </div>
             <div className="flex flex-col gap-4">
               <Input
