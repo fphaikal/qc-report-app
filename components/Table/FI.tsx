@@ -72,7 +72,7 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
 
   return (
     <div>
-      <Table>
+      <Table className="min-w-[2000px]">
         <TableHeader>
           <TableRow>
             {TableHeadName.map((name) => (
@@ -87,17 +87,17 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
           {data.length > 0 ? (
             data.map((report: Report) => (
               <TableRow key={report.id}>
-                <TableCell>{report.operator}</TableCell>
-                <TableCell>{report.name_part}</TableCell>
-                <TableCell>{report.process}</TableCell>
-                <TableCell>{report.target}</TableCell>
+                <TableCell className="w-fit">{report.operator}</TableCell>
+                <TableCell className="w-fit">{report.name_part}</TableCell>
+                <TableCell className="w-fit">{report.process}</TableCell>
+                <TableCell className="w-fit">{report.target}</TableCell>
                 <TableCell className="w-44">{format(report.start, "y-MM-dd kk:mm")}</TableCell>
                 <TableCell className="w-44">{format(report.end, "y-MM-dd kk:mm")}</TableCell>
                 <TableCell>{report.total}</TableCell>
                 <TableCell>{report.persen}%</TableCell>
                 <TableCell>{report.ng}</TableCell>
                 <TableCell>{report.type_ng}</TableCell>
-                <TableCell>{report.keterangan}</TableCell>
+                <TableCell className="w-[800px]">{report.keterangan}</TableCell>
                 {pathname === '/dashboard/myreport' &&
                   <TableCell>
                     <div className="flex gap-2">
