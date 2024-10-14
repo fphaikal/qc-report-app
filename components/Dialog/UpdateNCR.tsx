@@ -42,17 +42,18 @@ export default function UpdateNCR({ data }: UpdateFIProps) {
 
       if (res.ok) {
         window.location.reload(); // Refresh halaman setelah sukses
-      }  if (res.status === 401) {
+      } else {
+        const data = await res.json();
+        setResErr(data.message); // Set error jika ada
+      }
+       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("username");
         localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }
-      else {
-        const data = await res.json();
-        setResErr(data.message); // Set error jika ada
-      }
+      
     } catch (err) {
       setError((err as Error).message);
     }

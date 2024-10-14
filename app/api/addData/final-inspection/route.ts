@@ -6,7 +6,7 @@ export async function POST(request: Request) {
       const {
         operator,
         name_part,
-        process,
+        process: processName,
         target,
         start,
         end,
@@ -18,18 +18,16 @@ export async function POST(request: Request) {
       } = await request.json(); // Mengambil data dari request body
       const token = Cookies.get("token");
 
-      const apiRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection`,
+      const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            ...(token && { authorization: token })
           },
           body: JSON.stringify({
             operator,
             name_part,
-            process,
+            process: processName,
             target,
             start,
             end,

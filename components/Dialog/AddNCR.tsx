@@ -57,17 +57,18 @@ export default function AddDataIPRDialog() {
       if (!res.ok) {
         const data = await res.json()
         setResErr(data.message)
-      } if (res.status === 401) {
+      } else {
+        window.location.reload()
+        return "Success Add Data"
+      }
+      if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("username");
         localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }
-       else {
-        window.location.reload()
-        return "Success Add Data"
-      }
+       
     } catch (err) {
       setError('Error: ' + err)
     }
