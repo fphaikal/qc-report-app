@@ -53,7 +53,14 @@ export default function UpdateFI({ data }: UpdateFIProps) {
       if (res.ok) {
         window.location.reload(); // Refresh halaman setelah sukses
         setEditMode(false); // Tutup dialog edit
-      } else {
+      } if (res.status === 401) {
+        localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
+        Cookies.remove("token");
+        window.location.reload();
+      }
+      else {
         const data = await res.json();
         setResErr(data.message); // Set error jika ada
       }

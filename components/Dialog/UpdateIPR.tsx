@@ -42,7 +42,14 @@ export default function UpdateIPR({ data }: UpdateFIProps) {
 
       if (res.ok) {
         window.location.reload(); // Refresh halaman setelah sukses
-      } else {
+      } if (res.status === 401) {
+        localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
+        Cookies.remove("token");
+        window.location.reload()
+      }
+      else {
         const data = await res.json();
         setResErr(data.message); // Set error jika ada
       }

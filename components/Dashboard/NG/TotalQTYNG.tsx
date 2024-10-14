@@ -16,7 +16,6 @@ import Cookies from "js-cookie";
 
 const token = Cookies.get('token')
 
-
 interface TypeNG {
   part_name: string;
   months: {
@@ -62,6 +61,13 @@ export default function NGReport() {
           { headers: token ? { authorization: token } : {} }
         );
         if (!res.ok) return 'Network response was not ok';
+        if (res.status === 401) {
+          localStorage.removeItem("isAuthenticated");
+          localStorage.removeItem("username");
+          localStorage.removeItem("role");
+          Cookies.remove("token");
+          window.location.reload()
+        }
         const result = await res.json();
         setData(result.data);
       } catch (error) {

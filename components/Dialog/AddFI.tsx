@@ -42,6 +42,12 @@ export default function AddReportDialog() {
       if (!res.ok) {
         const data = await res.json()
         setResErr(data.message)
+      } if (res.status === 401) {
+        localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
+        Cookies.remove("token");
+        window.location.reload()
       } else {
         window.location.reload()
         return "Success Add Data"

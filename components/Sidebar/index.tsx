@@ -124,6 +124,34 @@ export default function Sidebar() {
     }
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/validation`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: Cookies.get("token") }),
+        });
+
+        if (!res.ok || res.status === 401) {
+          localStorage.removeItem("isAuthenticated");
+          localStorage.removeItem("username");
+          localStorage.removeItem("role");
+          Cookies.remove("token");
+          router.push("/login");
+        }
+
+        
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleLogout = async () => {
     try {
       const token = Cookies.get("token");
@@ -190,7 +218,7 @@ export default function Sidebar() {
               </div>
             );
           })}
-      </div>
+        </div>
       </div>
       <div className="flex flex-col xl:flex-row items-center justify-between w-full gap-2">
         <Link href={'/profile'} className="flex flex-row gap-2 hover:bg-white/10 px-4 py-2 rounded-xl w-full">

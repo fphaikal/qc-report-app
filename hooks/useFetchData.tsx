@@ -1,9 +1,12 @@
 "use client"
 
 import * as React from "react";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation"
 
 export default function useFetchData(urls: string[]) {
+  const router = useRouter();
+
   const [data, setData] = React.useState<Report[][]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string | null>(null);
@@ -22,8 +25,12 @@ export default function useFetchData(urls: string[]) {
             headers: token ? { authorization: token } : {}
           });
           if (!res.ok) {
-            throw new Error(`Failed to fetch from ${url}`);
-          } 
+            localStorage.removeItem("isAuthenticated");
+            localStorage.removeItem("username");
+            localStorage.removeItem("role");
+            Cookies.remove("token");
+            router.push("/login");
+          }
 
           const result: ApiResponse = await res.json();
           const allReport: Report[] = Object.values(result.data);

@@ -25,6 +25,13 @@ export default function MyReport() {
           body: JSON.stringify({ "name": username }),
         });
         if (!res.ok) return 'Network response was not ok';
+        if (res.status === 401) {
+          localStorage.removeItem("isAuthenticated");
+          localStorage.removeItem("username");
+          localStorage.removeItem("role");
+          Cookies.remove("token");
+          window.location.reload()
+        }
         const result = await res.json();
         setData(result.data);
       } catch (error) {
