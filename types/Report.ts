@@ -42,4 +42,5 @@ interface Report {
     status: 'repair' | 'reject'; // Restricted to these two values
     month: number;
     year: number;
+    data: [];
 }
