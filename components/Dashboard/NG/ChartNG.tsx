@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import useFetchData from "@/hooks/useFetchData"
 import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis, Pie, PieChart } from "recharts"
 import {
   Card,
   CardContent,
@@ -20,9 +20,7 @@ import {
 } from "@/components/ui/chart"
 import Loading from "@/components/Loading"
 import Error from "@/components/Error"
-
-export const description = "A multiple bar chart"
-
+import PieChartData from "@/components/Chart/PieChart"
 
 const chartConfig = {
   Jan: {
@@ -82,7 +80,8 @@ export default function Component() {
   useEffect(() => {
     const newUrls = [
       `${process.env.NEXT_PUBLIC_API_URL}/report/ngData/chartData?type=pcs`,
-      `${process.env.NEXT_PUBLIC_API_URL}/report/ngData/chartData?type=persen`
+      `${process.env.NEXT_PUBLIC_API_URL}/report/ngData/chartData?type=persen`,
+      `${process.env.NEXT_PUBLIC_API_URL}/report/ngData/chartData?type=monthly`
     ];
 
     setUrls(newUrls); // Update URLs berdasarkan date yang dipilih
@@ -92,6 +91,8 @@ export default function Component() {
 
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
+
+  
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
       <h1 className="text-3xl font-bold">Chart NG</h1>
@@ -99,7 +100,7 @@ export default function Component() {
         <Card>
           <CardHeader>
             <CardTitle>NG (pcs)</CardTitle>
-            <CardDescription>January - June 2024</CardDescription>
+            <CardDescription></CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
@@ -132,10 +133,10 @@ export default function Component() {
           </CardContent>
         </Card>
       </div>
-      <div className="w-full h-fit">
+      {/* <div className="w-full h-fit">
         <Card>
           <CardHeader>
-            <CardTitle>NG (persen)</CardTitle>
+            <CardTitle>NG (pcs)</CardTitle>
             <CardDescription>January - June 2024</CardDescription>
           </CardHeader>
           <CardContent>
@@ -166,8 +167,29 @@ export default function Component() {
                 <Bar dataKey="Dec" fill="var(--color-Dec)" radius={4} />
               </BarChart>
             </ChartContainer>
-          </CardContent> 
+          </CardContent>
         </Card>
+      </div> */}
+      
+      <div className="grid grid-cols-3 gap-3">
+        {data[2].map(data => (
+          <Card className="flex flex-col w-full">
+            <CardHeader className="items-center pb-0">
+              <CardTitle>Persentase Internal Report NG {data.month}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex-1 pb-0 w-full">
+              <ChartContainer
+                config={chartConfig}
+                className="mx-auto aspect-square pb-0 [&_.recharts-pie-label-text]:fill-foreground"
+              > 
+                <PieChart>
+                  <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                  <Pie data={data.data} dataKey="percent" label nameKey="customer" />
+                </PieChart>
+              </ChartContainer>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   )

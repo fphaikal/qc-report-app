@@ -121,6 +121,8 @@ export default function AddDataNGDialog() {
                     <SelectItem value="IN PROCESS">Machining</SelectItem>
                     <SelectItem value="Stamping">Stamping</SelectItem>
                     <SelectItem value="Subcon">Subcon</SelectItem>
+                    <SelectItem value="Molding Roof">Molding Roof</SelectItem>
+                    <SelectItem value="Slitting">Slitting</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

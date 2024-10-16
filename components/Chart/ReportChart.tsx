@@ -24,7 +24,7 @@ export default function ReportChart({ chartData, chartConfig }: ReportChartProps
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart
+          <BarChart 
             accessibilityLayer
             data={chartData}
             margin={{

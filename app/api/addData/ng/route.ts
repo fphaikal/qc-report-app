@@ -10,7 +10,7 @@ export async function POST(request: Request) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(token && { authorization: token })
+          ...(token && { authorization: token })   
         },
         body: JSON.stringify({ ncr_date, section, product_name, last_process, customer, value, ng_type, ng_quantity, operator, detection, status, month, year }),
       });
