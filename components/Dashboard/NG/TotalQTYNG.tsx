@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/table"
 import React from "react";
 import Cookies from "js-cookie";
+import { Button } from "@/components/ui/button";
 
 const token = Cookies.get('token')
 
@@ -28,26 +29,6 @@ interface TypeNG {
 
 const months = Array.from({ length: 12 }, (_, i) => i + 1); // Array [1, 2, ..., 12]
 const headers = ["Prod", "NG", "%"];
-
-const datas = [
-  {
-    part_name: "Part 1",
-    customer: "Customer 1",
-    months: [
-      {
-        month: "1", value: [
-          { prod: 100, ng: 10, percent: 10 },
-        ]
-      },
-      {
-        month: "2", value: [
-          { prod: 100, ng: 10, percent: 10 },
-        ]
-      },
-
-    ],
-  }
-]
 
 export default function NGReport() {
   const [data, setData] = useState<TypeNG[]>([]);
@@ -80,12 +61,50 @@ export default function NGReport() {
     fetchData();
   }, []);
 
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/exportExcel?type=totalQtyNg`, {
+        method: "GET",
+        headers: token ? {
+          authorization: token, "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        } : {
+          "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        }
+      });
+
+      if (!response.ok) {
+        return ("Failed to download file");
+      }
+
+      const blob = await response.blob(); // Mengubah response menjadi Blob (binary data)
+      const url = window.URL.createObjectURL(blob); // Membuat URL dari Blob
+
+      // Membuat elemen <a> untuk mendownload file
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "total-qty-ng.xlsx"; // Nama file yang akan didownload
+      document.body.appendChild(a);
+      a.click(); // Memicu klik agar file terdownload
+      a.remove(); // Menghapus elemen <a> setelah selesai
+
+      // Membebaskan URL dari memory
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading the file:", error);
+    }
+  };
+
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
-      <h1 className="text-3xl font-bold">Resume Total QTY NG</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Total QTY NG</h1>
+        <Button onClick={handleDownload} className="bg-green-400 hover:bg-green-900 text-white rounded">
+          Download Excel
+        </Button>
+      </div>
       <div className="rounded-md border overflow-x-visible ">
         <Table className="min-w-[2500px]"> {/* Setting min width untuk memastikan tabel tidak berdempetan */}
           <TableHeader>

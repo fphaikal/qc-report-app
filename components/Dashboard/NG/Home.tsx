@@ -6,6 +6,10 @@ import { format } from "date-fns"
 import DatePicker from "@/components/Popover/DatePicker"
 import { ChartConfig } from "@/components/ui/chart"
 import NGTable from "@/components/Table/NG"
+import Cookies from "js-cookie";
+import { Button } from "@/components/ui/button"
+
+const token = Cookies.get('token')
 
 export default function NGDashboard() {
   const [date, setDate] = React.useState<Date>(); // Pastikan initial state sesuai
@@ -26,21 +30,39 @@ export default function NGDashboard() {
     setDate(undefined)
   }
 
-  const chartData = data[1] && data[1].map((report) => ({
-    customer: report.customer,
-    value: report.value,
-  }))
 
-  const chartConfig = {
-    report: {
-      label: "Report",
-      color: "hsl(133.78, 52.86%, 72.55%)",
-    },
-    target: {
-      label: "Target",
-      color: "hsl(211.78, 52.86%, 72.55%)",
-    },
-  } satisfies ChartConfig;
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/exportExcel?type=all`, {
+        method: "GET",
+        headers: token ? {
+          authorization: token, "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        } : {
+          "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        }
+      });
+
+      if (!response.ok) {
+        return ("Failed to download file");
+      }
+
+      const blob = await response.blob(); // Mengubah response menjadi Blob (binary data)
+      const url = window.URL.createObjectURL(blob); // Membuat URL dari Blob
+
+      // Membuat elemen <a> untuk mendownload file
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "total-qty-ng.xlsx"; // Nama file yang akan didownload
+      document.body.appendChild(a);
+      a.click(); // Memicu klik agar file terdownload
+      a.remove(); // Menghapus elemen <a> setelah selesai
+
+      // Membebaskan URL dari memory
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading the file:", error);
+    }
+  };
 
 
   if (loading) return (
@@ -53,8 +75,13 @@ export default function NGDashboard() {
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10">
       <div className="flex justify-between items-center ">
-        <h1 className="text-3xl font-bold">Resume</h1>
-        <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset} />
+        <h1 className="text-3xl font-bold">Resume Data NG</h1>
+        <div className="flex items-center gap-2">
+          <Button onClick={handleDownload} className=" bg-green-400 hover:bg-green-900 text-white rounded">
+            Download Excel
+          </Button>
+          <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset} />
+        </div>
       </div>
       {/* Chart */}
       {/* <div className="w-full md:w-2/6">
