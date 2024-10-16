@@ -12,8 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import React from "react";
-import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button";
+import Cookies from "js-cookie";
 
 const token = Cookies.get('token')
 

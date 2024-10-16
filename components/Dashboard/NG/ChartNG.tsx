@@ -20,6 +20,10 @@ import {
 } from "@/components/ui/chart"
 import Loading from "@/components/Loading"
 import Error from "@/components/Error"
+import { Button } from "@/components/ui/button"
+import Cookies from "js-cookie";
+
+const token = Cookies.get('token')
 
 const chartConfig = {
   Jan: {
@@ -72,6 +76,38 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+const handleDownload = async () => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/exportExcel?type=pcs`, {
+      method: "GET",
+      headers: token ? {
+        authorization: token, "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      } : {
+        "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      }
+    });
+
+    if (!response.ok) {
+      return ("Failed to download file");
+    }
+
+    const blob = await response.blob(); // Mengubah response menjadi Blob (binary data)
+    const url = window.URL.createObjectURL(blob); // Membuat URL dari Blob
+
+    // Membuat elemen <a> untuk mendownload file
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "data-ng.xlsx"; // Nama file yang akan didownload
+    document.body.appendChild(a);
+    a.click(); // Memicu klik agar file terdownload
+    a.remove(); // Menghapus elemen <a> setelah selesai
+
+    // Membebaskan URL dari memory
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error downloading the file:", error);
+  }
+};
 
 export default function Component() {
   const [urls, setUrls] = useState<string[]>([]); // Inisialisasi urls sebagai state
@@ -91,15 +127,17 @@ export default function Component() {
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
-  
+
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
       <h1 className="text-3xl font-bold">Chart NG</h1>
       <div className="w-full h-fit">
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>NG (pcs)</CardTitle>
-            <CardDescription></CardDescription>
+            <Button onClick={handleDownload} className="bg-green-400 hover:bg-green-900 text-white rounded">
+              Download Excel
+            </Button>
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
@@ -169,7 +207,7 @@ export default function Component() {
           </CardContent>
         </Card>
       </div> */}
-      
+
       <div className="grid grid-cols-3 gap-3">
         {data[2].map(data => (
           <Card className="flex flex-col w-full" key={data.month}>
@@ -180,7 +218,7 @@ export default function Component() {
               <ChartContainer
                 config={chartConfig}
                 className="mx-auto aspect-square pb-0 [&_.recharts-pie-label-text]:fill-foreground"
-              > 
+              >
                 <PieChart>
                   <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                   <Pie data={data.data} dataKey="percent" label nameKey="customer" />
