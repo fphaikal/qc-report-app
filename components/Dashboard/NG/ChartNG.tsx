@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/chart"
 import Loading from "@/components/Loading"
 import Error from "@/components/Error"
-import PieChartData from "@/components/Chart/PieChart"
 
 const chartConfig = {
   Jan: {
@@ -173,7 +172,7 @@ export default function Component() {
       
       <div className="grid grid-cols-3 gap-3">
         {data[2].map(data => (
-          <Card className="flex flex-col w-full">
+          <Card className="flex flex-col w-full" key={data.month}>
             <CardHeader className="items-center pb-0">
               <CardTitle>Persentase Internal Report NG {data.month}</CardTitle>
             </CardHeader>
