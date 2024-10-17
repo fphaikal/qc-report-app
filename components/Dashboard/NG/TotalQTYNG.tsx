@@ -82,7 +82,7 @@ export default function NGReport() {
       // Membuat elemen <a> untuk mendownload file
       const a = document.createElement("a");
       a.href = url;
-      a.download = "total-qty-ng.xlsx"; // Nama file yang akan didownload
+      a.download = "Total Qty NG.xlsx"; // Nama file yang akan didownload
       document.body.appendChild(a);
       a.click(); // Memicu klik agar file terdownload
       a.remove(); // Menghapus elemen <a> setelah selesai

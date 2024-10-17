@@ -67,7 +67,7 @@ export default function NGReport() {
       // Membuat elemen <a> untuk mendownload file
       const a = document.createElement("a");
       a.href = url;
-      a.download = "data-ng.xlsx"; // Nama file yang akan didownload
+      a.download = "Data Jenis NG.xlsx"; // Nama file yang akan didownload
       document.body.appendChild(a);
       a.click(); // Memicu klik agar file terdownload
       a.remove(); // Menghapus elemen <a> setelah selesai

@@ -76,15 +76,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const handleDownload = async () => {
+const handleDownloadNgMonthly = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/exportExcel?type=pcs`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/exportExcel?type=monthly`, {
       method: "GET",
       headers: token ? {
         authorization: token, "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      } : {
-        "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      }
+      } : {}
     });
 
     if (!response.ok) {
@@ -97,7 +95,37 @@ const handleDownload = async () => {
     // Membuat elemen <a> untuk mendownload file
     const a = document.createElement("a");
     a.href = url;
-    a.download = "data-ng.xlsx"; // Nama file yang akan didownload
+    a.download = "Grafik NG Bulanan.xlsx"; // Nama file yang akan didownload
+    document.body.appendChild(a);
+    a.click(); // Memicu klik agar file terdownload
+    a.remove(); // Menghapus elemen <a> setelah selesai
+
+    // Membebaskan URL dari memory
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error downloading the file:", error);
+  }
+};
+const handleDownloadNgPerPcs = async () => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/exportExcel?type=pcs`, {
+      method: "GET",
+      headers: token ? {
+        authorization: token, "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      } : {}
+    });
+
+    if (!response.ok) {
+      return ("Failed to download file");
+    }
+
+    const blob = await response.blob(); // Mengubah response menjadi Blob (binary data)
+    const url = window.URL.createObjectURL(blob); // Membuat URL dari Blob
+
+    // Membuat elemen <a> untuk mendownload file
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Grafik Data NG Per Pcs.xlsx"; // Nama file yang akan didownload
     document.body.appendChild(a);
     a.click(); // Memicu klik agar file terdownload
     a.remove(); // Menghapus elemen <a> setelah selesai
@@ -129,15 +157,18 @@ export default function Component() {
 
 
   return (
-    <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
-      <h1 className="text-3xl font-bold">Chart NG</h1>
+    <div className="flex flex-col gap-10 w-full p-5 md:p-10 min-h-screen">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Chart NG</h1>
+        <Button onClick={handleDownloadNgPerPcs} className="bg-green-400 hover:bg-green-900 text-white rounded">
+          Download Excel
+        </Button>
+      </div>
       <div className="w-full h-fit">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>NG (pcs)</CardTitle>
-            <Button onClick={handleDownload} className="bg-green-400 hover:bg-green-900 text-white rounded">
-              Download Excel
-            </Button>
+
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
@@ -207,7 +238,12 @@ export default function Component() {
           </CardContent>
         </Card>
       </div> */}
-
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Persentase Internal Report NG Per Bulan</h1>
+        <Button onClick={handleDownloadNgMonthly} className="bg-green-400 hover:bg-green-900 text-white rounded">
+          Download Excel
+        </Button>
+      </div>
       <div className="grid grid-cols-3 gap-3">
         {data[2].map(data => (
           <Card className="flex flex-col w-full" key={data.month}>
