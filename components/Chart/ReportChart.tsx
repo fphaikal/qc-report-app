@@ -19,7 +19,7 @@ export default function ReportChart({ chartData, chartConfig }: ReportChartProps
     <Card>
       <CardHeader>
         <CardTitle>Total Inspections Per Day</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>Showing Total Inspection Per Day</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
