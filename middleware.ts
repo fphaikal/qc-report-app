@@ -33,5 +33,5 @@ export function middleware(req: NextRequest) {
 
 // Tentukan path mana saja yang ingin menggunakan middleware ini
 export const config = {
-  matcher: ['/dashboard', '/login', '/dashboard/ncr/:path*', '/dashboard/ipr/:path*'],
+  matcher: ['/dashboard', '/login', '/dashboard/ncr/:path*', '/dashboard/ipr/:path*', '/dashboard/ngData/:path*'],
 };
