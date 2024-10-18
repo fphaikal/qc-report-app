@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
 import {
   Card,
   CardContent,
@@ -28,34 +28,32 @@ export default function AverageChart({ chartData, chartConfig }: ReportChartProp
             accessibilityLayer
             data={chartData}
             margin={{
-              left: 12,
-              right: 12,
+              top: 20,
             }}
           >
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="name"
               tickLine={false}
+              tickMargin={10}
               axisLine={false}
-              tickMargin={8}
-              
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="dot" hideLabel />}
+              content={<ChartTooltipContent hideLabel />}
             />
-            <Bar
-              dataKey="value"
-              type="linear"
-              fill="var(--color-value)"
-              fillOpacity={0.4}
-              stroke="var(--color-value)"
-            />
+            <Bar dataKey="value" fill="var(--color-value)" radius={8}>
+              <LabelList
+                position="top"
+                offset={12}
+                className="fill-foreground"
+                fontSize={12}
+              />
+            </Bar>
           </BarChart>
         </ChartContainer>
+        <p className="text-center">Date</p>
       </CardContent>
-      <CardFooter>
-      </CardFooter>
     </Card>
   )
 }
