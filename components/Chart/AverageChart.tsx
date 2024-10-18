@@ -52,7 +52,7 @@ export default function AverageChart({ chartData, chartConfig }: ReportChartProp
             </Bar>
           </BarChart>
         </ChartContainer>
-        <p className="text-center">Date</p>
+        <p className="text-center">Operator</p>
       </CardContent>
     </Card>
   )
