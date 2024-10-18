@@ -17,6 +17,8 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent
 } from "@/components/ui/chart"
 import Loading from "@/components/Loading"
 import Error from "@/components/Error"
@@ -259,7 +261,7 @@ export default function Component() {
                   <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                   <Pie data={data.data} dataKey="percent" label nameKey="customer" />
                 </PieChart>
-              </ChartContainer>
+              </ChartContainer> 
             </CardContent>
           </Card>
         ))}

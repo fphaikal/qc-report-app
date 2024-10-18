@@ -39,7 +39,6 @@ const TableHeadName = [
 export default function NCRTable({ data,  handleDelete }: NCRTableProps) {
   const pathname = usePathname()
 
-  
   return (
     <Table>
       <TableHeader>

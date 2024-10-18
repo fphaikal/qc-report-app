@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -53,6 +54,8 @@ export default function AverageChart({ chartData, chartConfig }: ReportChartProp
           </BarChart>
         </ChartContainer>
       </CardContent>
+      <CardFooter>
+      </CardFooter>
     </Card>
   )
 }
