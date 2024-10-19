@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@nextui-org/react";
@@ -18,6 +18,13 @@ import {
 import Cookies from "js-cookie";
 
 export default function AddDataNGDialog() {
+  interface Part {
+    id: number;
+    part: string;
+    customer: string;
+  }
+
+  const [parts, setParts] = useState<Part[]>([]) // Tambahkan state parts
   const [ncrDate, setNcrDate] = useState<string>('');  // Mengganti infoDate dengan ncrDate
   const [section, setSection] = useState('');          // Mengganti deptSection dengan section
   const [productName, setProductName] = useState('');  // Mengganti problem dengan productName
@@ -32,6 +39,26 @@ export default function AddDataNGDialog() {
   const [year, setYear] = useState<string>('');        // Tambahkan year
   const [, setError] = useState<string>('');
   const [resErr, setResErr] = useState('')
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = Cookies.get('token')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/parts`, {
+        method: "GET",
+        headers: token ? { authorization: token } : {},
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        setResErr(data.message)
+      }
+      const result = await res.json();
+      setParts(result.data)
+
+      console.log(result)
+    }
+    fetchData()
+  }, [])
 
   const handleSubmitDataNG = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,9 +97,20 @@ export default function AddDataNGDialog() {
       }
 
     } catch (err) {
-      setError('Error: ' + err)
+    const selectedPart = parts.find((part) => part.part === value);
     }
   }
+
+  const handleProductChange = (value: string) => {
+    // Cari part berdasarkan product name yang dipilih
+    const selectedPart = parts.find((part: any) => part.part === value);
+
+    // Set productName dan customer secara otomatis
+    setProductName(value);
+    if (selectedPart) {
+      setCustomer(selectedPart.customer);  // Set customer berdasarkan data dari part
+    }
+  };
 
   return (
     <Dialog>
@@ -105,7 +143,7 @@ export default function AddDataNGDialog() {
             </RadioGroup>
             <div className="flex flex-col gap-4">
               <DateInput
-                label={"NCR Date"}
+                label={"Date"}
                 labelPlacement="outside"
                 onChange={(date) => setNcrDate(date?.toString())}  // Mengganti setInfoDate dengan setNcrDate
               />
@@ -127,47 +165,42 @@ export default function AddDataNGDialog() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex flex-col gap-4">
-              <Input
-                label="Product Name"
-                labelPlacement="outside"
-                isRequired
-                placeholder="Masukkan Nama Produk"
-                value={productName}           // Mengganti problem dengan productName
-                onChange={(e) => setProductName(e.target.value)}
-              />
+            <div className="flex flex-col gap-2">
+              <Label>Name Part</Label>
+              <Select onValueChange={handleProductChange}> {/* Menggunakan handleProductChange */}
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a name part" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {parts.map((part: any) => (
+                      <SelectItem key={part.id} value={part.part}>{part.part} - {part.customer} </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
-            <div className="flex flex-col gap-4">
-              <Input
-                label="Last Process"
-                labelPlacement="outside"
-                isRequired
-                placeholder="Masukkan Last Process"
-                value={lastProcess}           // Mengganti source dengan lastProcess
-                onChange={(e) => setLastProcess(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col gap-4">
-              <Input
-                label="Value"
-                labelPlacement="outside"
-                placeholder="Masukkan Nilai"
-                type="number"
-                value={value}                 // Mengganti item dengan value
-                onChange={(e) => setValue(e.target.value)}
-                isRequired
-              />
-            </div>
-            <div className="flex flex-col gap-4">
-              <Input
-                label="Customer"
-                labelPlacement="outside"
-                isRequired
-                placeholder="Masukkan nama customer"
-                value={customer}
-                onChange={(e) => setCustomer(e.target.value)}
-              />
-            </div>
+          </div>
+          <div className="flex flex-col gap-4">
+            <Input
+            isDisabled
+              label="Customer"
+              labelPlacement="outside"
+              isRequired
+              placeholder="Masukkan nama customer"
+              value={customer} // Customer otomatis terisi
+              onChange={(e) => setCustomer(e.target.value)}
+            />
+            <Input
+              label="Last Process"
+              labelPlacement="outside"
+              isRequired
+              placeholder="Masukkan Last Process"
+              value={lastProcess}           // Mengganti source dengan lastProcess
+              onChange={(e) => setLastProcess(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col gap-4 mt-4">
             <div className="flex flex-col gap-4">
               <Input
                 label="NG Type"
@@ -189,7 +222,7 @@ export default function AddDataNGDialog() {
                 onChange={(e) => setNgQuantity(e.target.value)}
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 mb-4">
               <Label>Detection</Label>
               <Select onValueChange={(value) => setDetection(value)}>
                 <SelectTrigger>
@@ -205,31 +238,7 @@ export default function AddDataNGDialog() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex flex-col gap-4">
-              <Input
-                label="Month"
-                labelPlacement="outside"
-                isRequired
-                placeholder="Masukkan Bulan"
-                type="number"
-                value={month}                 // Tambah month
-                onChange={(e) => setMonth(e.target.value)}
-                min={1}
-                max={12}
-              />
-            </div>
-            <div className="flex flex-col gap-4">
-              <Input
-                label="Year"
-                labelPlacement="outside"
-                isRequired
-                placeholder="Masukkan Tahun"
-                type="number"
-                value={year}                  // Tambah year
-                onChange={(e) => setYear(e.target.value)}
-                min={2024}
-              />
-            </div>
+            
           </div>
           <Button type="submit" className="bg-primary">Simpan</Button>
         </form>

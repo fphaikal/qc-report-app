@@ -43,4 +43,6 @@ interface Report {
     month: number;
     year: number;
     data: [];
+
+    actual: number;
 }

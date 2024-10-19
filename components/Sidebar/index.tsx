@@ -125,6 +125,7 @@ export default function Sidebar() {
   }, []);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/validation`, {
@@ -150,7 +151,7 @@ export default function Sidebar() {
     };
 
     fetchData();
-  }, []);
+  }, [router]);
 
   const handleLogout = async () => {
     try {

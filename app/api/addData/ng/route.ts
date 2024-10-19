@@ -12,7 +12,7 @@ export async function POST(request: Request) {
           "Content-Type": "application/json",
           ...(token && { authorization: token })   
         },
-        body: JSON.stringify({ ncr_date, section, product_name, last_process, customer, value, ng_type, ng_quantity, operator, detection, status, month, year }),
+        body: JSON.stringify({ ncr_date, section, product_name, last_process, customer, value, ng_type, ng_quantity, operator, detection, status, }),
       });
 
       const data = await apiRes.json();

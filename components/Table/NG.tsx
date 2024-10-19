@@ -19,7 +19,7 @@ import { NG } from "@/types/NG"
 import UpdateNG from "../Dialog/UpdateNG"
 
 const TableHeadName = [
-  { accessorKey: "ncrdate", header: "NCR Date" },
+  { accessorKey: "date", header: "Date" },
   { accessorKey: "section", header: "Section" },
   { accessorKey: "productname", header: "Product Name" },
   { accessorKey: "customer", header: "Customer" },

@@ -10,6 +10,7 @@ import ReportTable from "@/components/Table/FI"
 import ReportChart from "@/components/Chart/ReportChart"
 import DatePicker from "@/components/Popover/DatePicker"
 import AverageChart from "@/components/Chart/AverageChart"
+import NamePartChart from "@/components/Chart/NamePartChart"
 
 export default function FinalInspectionDashboard() {
   const [date, setDate] = React.useState<Date>(); // Pastikan initial state sesuai
@@ -22,6 +23,7 @@ export default function FinalInspectionDashboard() {
       `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection?date=${formatDate}`,
       `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/chartData?type=daily`,
       `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/chartData?type=operator`,
+      `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/chartData?type=namePart`,
     ];
     setUrls(newUrls); // Update URLs berdasarkan date yang dipilih
   }, [date]);
@@ -60,6 +62,23 @@ export default function FinalInspectionDashboard() {
     },
   } satisfies ChartConfig;
 
+  const namePartChart = data[3] && data[3].map((report) => ({
+    name: report.name_part,
+    target: report.target,
+    actual: report.actual,
+  }))
+
+  const namePartChartConfig = {
+    target: {
+      label: "Target",
+      color: "hsl(0, 100%, 50%)",
+    },
+    actual: {
+      label: "Actual",
+      color: "hsl(133.78, 52.86%, 72.55%)",
+    },
+  } satisfies ChartConfig;
+
 
   if (loading) return (
     <div className="p-10">Loading...</div>
@@ -79,6 +98,9 @@ export default function FinalInspectionDashboard() {
       </Alert>
       <div className="flex flex-col md:flex-row gap-4">
         {/* Chart */}
+        <div className="w-full md:w-1/3">
+          <NamePartChart chartData={namePartChart} chartConfig={namePartChartConfig} />
+        </div>
         <div className="w-full md:w-1/3">
           <ReportChart chartData={reportChart} chartConfig={reportChartConfig} />
         </div>
