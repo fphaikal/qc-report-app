@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button"
 import { format } from 'date-fns'
 import { Trash2, Pencil } from "lucide-react"
 import { usePathname } from "next/navigation"
-import UpdateNCR from "../Dialog/UpdateNCR"
 import { NGTableProps } from "@/types/Table"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import { NG } from "@/types/NG"

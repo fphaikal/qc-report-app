@@ -13,5 +13,8 @@ export interface NG{
     status: 'repair' | 'reject'; // Restricted to these two values
     month: number;
     year: number;
+
+    part_name: string;
+    newProd: Number;
   }
   

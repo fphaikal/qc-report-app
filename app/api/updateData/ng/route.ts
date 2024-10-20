@@ -6,7 +6,7 @@ export async function PUT(request: Request) {
       const { id, ncr_date, section, product_name, last_process, customer, value, ng_type, ng_quantity, operator, detection, status, month, year } = await request.json(); // Mengambil data dari request body
       const token = Cookies.get("token");
 
-      const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData`, {
+      const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData?type=all`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

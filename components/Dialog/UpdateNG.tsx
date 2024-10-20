@@ -30,7 +30,7 @@ export default function UpdateNG({ data }: UpdateNgDataProps) {
   const [resErr, setResErr] = useState(''); // State untuk menampilkan error
   const [, setError] = useState('')
 
-  
+
 
   const handleEdit = (data: NG) => {
     setSelectedReport(data); // Simpan data yang ingin diedit ke state

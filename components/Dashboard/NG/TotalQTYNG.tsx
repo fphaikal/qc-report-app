@@ -14,17 +14,19 @@ import {
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
+import UpdateProd from "@/components/Dialog/UpdateProd";
 
 const token = Cookies.get('token')
 
 interface TypeNG {
   part_name: string;
+  customer: string;
   months: {
     month: string; value: [
       { prod: number, ng: number, percent: number }
     ]
   }[];
-  customer: string;
+  // Add other properties as needed
 }
 
 const months = Array.from({ length: 12 }, (_, i) => i + 1); // Array [1, 2, ..., 12]
@@ -109,6 +111,7 @@ export default function NGReport() {
         <Table className="min-w-[2500px]"> {/* Setting min width untuk memastikan tabel tidak berdempetan */}
           <TableHeader>
             <TableRow>
+              <TableHead rowSpan={2} className="w-fit"></TableHead>
               <TableHead rowSpan={2} className="w-[200px]">Part Name</TableHead>
               <TableHead rowSpan={2} className="w-[200px]">Customer</TableHead>
               {months.map((month) => (
@@ -127,7 +130,10 @@ export default function NGReport() {
           </TableHeader>
           <TableBody>
             {data.map((result) => (
-              <TableRow key={result.part_name}>
+              <TableRow key={result.id}>
+                <TableCell className="font-medium">
+                  <UpdateProd data={result} />
+                </TableCell>
                 <TableCell className="font-medium">{result.part_name}</TableCell>
                 <TableCell>{result.customer}</TableCell>
                 {result.months.map((month) => (
