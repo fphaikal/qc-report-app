@@ -12,7 +12,7 @@ interface UpdateNgDataProps {
   data: NG;
 }
 
-export default function UpdateProd({ data }: UpdateNgDataProps) {
+export default function UpdateProd({ data }: any) {
   const [selectedReport, setSelectedReport] = useState<NG | null>(null); // State untuk menyimpan data yang ingin diedit
   const [editMode, setEditMode] = useState(false); // State untuk mengontrol dialog edit
   const [resErr, setResErr] = useState(''); // State untuk menampilkan error
