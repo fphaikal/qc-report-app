@@ -19,6 +19,7 @@ import UpdateProd from "@/components/Dialog/UpdateProd";
 const token = Cookies.get('token')
 
 interface TypeNG {
+  id: number;
   part_name: string;
   customer: string;
   months: {
