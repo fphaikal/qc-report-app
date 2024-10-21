@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@nextui-org/react";
 import { Label } from "@/components/ui/label"
 import { DateInput } from "@nextui-org/react";
-import { now, getLocalTimeZone } from "@internationalized/date";
+import { now, getLocalTimeZone, CalendarDateTime } from "@internationalized/date";
 import { AlertCircle } from "lucide-react"
 import Cookies from "js-cookie";
 
@@ -15,7 +15,7 @@ export default function AddReportDialog() {
   const [start, setStart] = useState<string>('');
   const [end, setEnd] = useState<string>('');
   const [total, setTotal] = useState('');
-  const [ok, ] = useState('');
+  const [ok,] = useState('');
   const [ng, setNg] = useState('');
   const [typeNg, setTypeNg] = useState('');
   const [keterangan, setKeterangan] = useState('');
@@ -26,7 +26,7 @@ export default function AddReportDialog() {
     e.preventDefault();
     const operator = localStorage.getItem('username')
     const name_part = namePart
-    const type_ng = typeNg 
+    const type_ng = typeNg
 
     try {
       const token = Cookies.get('token')
@@ -46,17 +46,24 @@ export default function AddReportDialog() {
         window.location.reload()
         return "Success Add Data"
       }
-       if (res.status === 401) {
+      if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("username");
         localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
-      } 
+      }
     } catch (err) {
       setError('Error: ' + err)
     }
   }
+
+  const formatDateToLocalISOString = (date: CalendarDateTime) => {
+    const jsDate = new Date(date.year, date.month - 1, date.day, date.hour, date.minute);
+    const offset = jsDate.getTimezoneOffset();
+    jsDate.setMinutes(jsDate.getMinutes() - offset);
+    return jsDate.toISOString().slice(0, 19).replace('T', ' ');
+  };
 
   return (
     <Dialog>
@@ -114,7 +121,7 @@ export default function AddReportDialog() {
                   hideTimeZone
                   hourCycle={24}
                   defaultValue={now(getLocalTimeZone())}
-                  onChange={(date) => setStart(date.toDate().toISOString())} // Mengonversi tanggal ke format ISO
+                  onChange={(date) => setStart(formatDateToLocalISOString(date))} // Mengonversi tanggal ke format ISO
                   isRequired
                 />
                 <DateInput
@@ -122,7 +129,7 @@ export default function AddReportDialog() {
                   hideTimeZone
                   hourCycle={24}
                   defaultValue={now(getLocalTimeZone())}
-                  onChange={(date) => setEnd(date.toDate().toISOString())} // Mengonversi tanggal ke format ISO
+                  onChange={(date) => setEnd(formatDateToLocalISOString(date))} // Mengonversi tanggal ke format ISO
                   isRequired
                 />
               </div>
