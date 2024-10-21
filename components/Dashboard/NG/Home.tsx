@@ -8,6 +8,7 @@ import { ChartConfig } from "@/components/ui/chart"
 import NGTable from "@/components/Table/NG"
 import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button"
+import { NG } from "@/types/NG"
 
 const token = Cookies.get('token')
 

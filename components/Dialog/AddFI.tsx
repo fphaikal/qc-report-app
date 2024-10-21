@@ -5,7 +5,7 @@ import { Input } from "@nextui-org/react";
 import { Label } from "@/components/ui/label"
 import { DateInput } from "@nextui-org/react";
 import { now, getLocalTimeZone, CalendarDateTime } from "@internationalized/date";
-import { AlertCircle } from "lucide-react"
+import { AlertCircle, Loader2 } from "lucide-react"
 import Cookies from "js-cookie";
 
 export default function AddReportDialog() {
@@ -21,6 +21,7 @@ export default function AddReportDialog() {
   const [keterangan, setKeterangan] = useState('');
   const [, setError] = useState<string>('');
   const [resErr, setResErr] = useState('')
+  const [loading, setLoading] = useState(false);
 
   const handleSubmitData = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,6 +44,7 @@ export default function AddReportDialog() {
         const data = await res.json()
         setResErr(data.message)
       } else {
+        setLoading(true);
         window.location.reload()
         return "Success Add Data"
       }
@@ -172,7 +174,18 @@ export default function AddReportDialog() {
               />
             </div>
           </div>
-          <Button type="submit" className="bg-primary">Simpan</Button>
+          <div className={loading ? 'hidden' : 'mb-5'}>
+            <button
+              type="submit"
+              className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+            >Submit</button>
+          </div>
+          <div className={loading ? 'mb-5' : 'hidden'}>
+            <button disabled className="flex justify-center items-center w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

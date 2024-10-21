@@ -45,4 +45,6 @@ interface Report {
     data: [];
 
     actual: number;
+    part_name: string;
+    newProd: Number;
 }
