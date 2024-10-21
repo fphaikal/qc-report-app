@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@nextui-org/react";
 import { Label } from "@/components/ui/label"
 import { DateInput } from "@nextui-org/react";
-import { now, getLocalTimeZone, CalendarDateTime } from "@internationalized/date";
+import { now, getLocalTimeZone, CalendarDateTime, ZonedDateTime } from "@internationalized/date";
 import { AlertCircle, Loader2 } from "lucide-react"
 import Cookies from "js-cookie";
 
@@ -60,7 +60,7 @@ export default function AddReportDialog() {
     }
   }
 
-  const formatDateToLocalISOString = (date: CalendarDateTime) => {
+  const formatDateToLocalISOString = (date: ZonedDateTime) => {
     const jsDate = new Date(date.year, date.month - 1, date.day, date.hour, date.minute);
     const offset = jsDate.getTimezoneOffset();
     jsDate.setMinutes(jsDate.getMinutes() - offset);
@@ -123,15 +123,16 @@ export default function AddReportDialog() {
                   hideTimeZone
                   hourCycle={24}
                   defaultValue={now(getLocalTimeZone())}
-                  onChange={(date) => setStart(formatDateToLocalISOString(date))} // Mengonversi tanggal ke format ISO
+                  onChange={(date) => setStart(formatDateToLocalISOString(date))}
                   isRequired
                 />
+
                 <DateInput
                   label={"End"}
                   hideTimeZone
                   hourCycle={24}
                   defaultValue={now(getLocalTimeZone())}
-                  onChange={(date) => setEnd(formatDateToLocalISOString(date))} // Mengonversi tanggal ke format ISO
+                  onChange={(date) => setEnd(formatDateToLocalISOString(date))}
                   isRequired
                 />
               </div>
