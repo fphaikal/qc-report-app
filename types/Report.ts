@@ -4,8 +4,8 @@ interface Report {
     operator: string;
     process: string;
     target: number;
-    start: string;
-    end: string;
+    start: string | null;
+    end: string | null;
     total: number;
     persen: number;
     ok: number;

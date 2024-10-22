@@ -91,8 +91,8 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
                 <TableCell className="w-fit">{report.name_part}</TableCell>
                 <TableCell className="w-fit">{report.process}</TableCell>
                 <TableCell className="w-fit">{report.target}</TableCell>
-                <TableCell className="w-44">{format(report.start, "y-MM-dd kk:mm")}</TableCell>
-                <TableCell className="w-44">{format(report.end, "y-MM-dd kk:mm")}</TableCell>
+                <TableCell className="w-44">{report.start ? format(report.start, "y-MM-dd kk:mm") : ""}</TableCell>
+                <TableCell className="w-44">{report.end ? format(report.end, "y-MM-dd kk:mm") : ""}</TableCell>
                 <TableCell>{report.total}</TableCell>
                 <TableCell>{report.persen}%</TableCell>
                 <TableCell>{report.ng}</TableCell>
