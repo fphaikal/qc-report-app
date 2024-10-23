@@ -27,7 +27,7 @@ export default function FinalInspectionDashboard() {
     ];
     setUrls(newUrls); // Update URLs berdasarkan date yang dipilih
   }, [date]);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+
   const { data, loading, error } = useFetchData(urls);
 
   const handleReset = () => {
@@ -83,7 +83,7 @@ export default function FinalInspectionDashboard() {
   if (loading) return (
     <div className="p-10">Loading...</div>
   )
- 0.
+  0.
   if (error) return (
     <div className="p-10">Error: {error}</div>
   )
@@ -96,16 +96,18 @@ export default function FinalInspectionDashboard() {
           Permintaan terbaru dari PT. TTEC
         </AlertDescription>
       </Alert>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col gap-4">
         {/* Chart */}
-        <div className="w-full md:w-1/3">
+        <div className="w-full">
           <NamePartChart chartData={namePartChart} chartConfig={namePartChartConfig} />
         </div>
-        <div className="w-full md:w-1/3">
-          <ReportChart chartData={reportChart} chartConfig={reportChartConfig} />
-        </div>
-        <div className="w-full md:w-1/3">
-          <AverageChart chartData={averageChart} chartConfig={averageChartConfig} />
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="w-full md:w-1/2">
+            <ReportChart chartData={reportChart} chartConfig={reportChartConfig} />
+          </div>
+          <div className="w-full md:w-1/2">
+            <AverageChart chartData={averageChart} chartConfig={averageChartConfig} />
+          </div>
         </div>
       </div>
       <div className="flex gap-2">

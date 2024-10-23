@@ -1,8 +1,6 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-
 import {
   Card,
   CardContent,
@@ -14,41 +12,21 @@ import {
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-
-export const description = "A multiple bar chart"
-
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig
 
 export default function NamePartChart({ chartData, chartConfig }: ReportChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart - Multiple</CardTitle>
+        <CardTitle>Bar Chart - Stacked + Legend</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -56,16 +34,55 @@ export default function NamePartChart({ chartData, chartConfig }: ReportChartPro
               tickLine={false}
               tickMargin={10}
               axisLine={false}
+              tickFormatter={(value) => value.slice(0, 10)}
             />
             <ChartTooltip
+              content={<ChartTooltipContent />}
               cursor={false}
-              content={<ChartTooltipContent indicator="dashed" />}
+              defaultIndex={1}
+            />            
+            <ChartLegend content={<ChartLegendContent />} />
+            <Bar
+              dataKey="target"
+              stackId="a"
+              fill="var(--color-target)"
+              radius={[0, 0, 4, 4]}
             />
-            <Bar dataKey="target" fill="var(--color-target)" radius={4} />
-            <Bar dataKey="actual" fill="var(--color-actual)" radius={4} />
+            <Bar
+              dataKey="actual"
+              stackId="a"
+              fill="var(--color-actual)"
+              radius={[4, 4, 0, 0]}
+            />
           </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>
+    // <Card>
+    //   <CardHeader>
+    //     <CardTitle>Target vs Actual Per Part</CardTitle>
+    //     <CardDescription>Showing target vs actual per part</CardDescription>
+    //   </CardHeader>
+    //   <CardContent>
+    //     <ChartContainer config={chartConfig}>
+    //       <BarChart accessibilityLayer data={chartData}>
+    //         <CartesianGrid vertical={false} />
+    //         <XAxis
+    //           dataKey="name"
+    //           tickLine={false}
+    //           tickMargin={10}
+    //           axisLine={false}
+    //         />
+    //         <ChartTooltip
+    //           cursor={false}
+    //           content={<ChartTooltipContent indicator="dashed" />}
+    //         />
+    //         <Bar dataKey="target" fill="var(--color-target)" radius={4} />
+    //         <Bar dataKey="actual" fill="var(--color-actual)" radius={4} />
+    //       </BarChart>
+    //     </ChartContainer>
+    //     <p className="text-center">Name Part</p>
+    //   </CardContent>
+    // </Card>
   )
 }

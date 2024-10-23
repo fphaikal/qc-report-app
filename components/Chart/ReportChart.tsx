@@ -22,7 +22,7 @@ export default function ReportChart({ chartData, chartConfig }: ReportChartProps
         <CardDescription>Showing Total Inspection Per Day</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
           <BarChart
             accessibilityLayer
             data={chartData}
