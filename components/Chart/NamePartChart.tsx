@@ -22,8 +22,8 @@ export default function NamePartChart({ chartData, chartConfig }: ReportChartPro
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart - Stacked + Legend</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Target vs Actual Per Part (Yesterday)</CardTitle>
+        <CardDescription>Showing target vs actual per part</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
