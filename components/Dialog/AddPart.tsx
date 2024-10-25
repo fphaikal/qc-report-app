@@ -53,7 +53,7 @@ export default function AddPartDialog() {
         <DialogTrigger asChild>
           <Button variant="outline" className="w-fit">+ Tambah Data</Button>
         </DialogTrigger>
-        <DialogContent className="min-w-fit overflow-y-scroll h-fit">
+        <DialogContent className="min-w-fit h-fit">
           <DialogHeader>
             <DialogTitle>Tambah Part</DialogTitle>
             <DialogDescription>Tambah data part, dan tekan simpan jika sudah selesai</DialogDescription>

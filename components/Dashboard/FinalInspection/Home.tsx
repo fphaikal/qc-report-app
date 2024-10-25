@@ -114,9 +114,7 @@ export default function FinalInspectionDashboard() {
         <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset} />
       </div>
       <div className="rounded-md border">
-        <ReportTable data={data[0]} handleEdit={function (id: number): void {
-          throw new Error("Function not implemented.")
-        }} handleDelete={function (id: number): void {
+        <ReportTable data={data[0]} handleDelete={function (id: number): void {
           throw new Error("Function not implemented.")
         }} />
       </div>

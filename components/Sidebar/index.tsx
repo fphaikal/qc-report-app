@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
-import { House, File, FileSpreadsheet, CircleUserRound, LogOut, LayoutDashboard, FileMinus, Grid2x2Plus, ChartNoAxesCombined } from "lucide-react"
+import { House, File, FileSpreadsheet, CircleUserRound, LogOut, LayoutDashboard, FileMinus, Grid2x2Plus, ChartNoAxesCombined, Component } from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
@@ -94,6 +94,17 @@ const menuGroups = [
       }
     ]
   },
+  {
+    name: "Admin Menu",
+    shortName: "ADM",
+    menuItems: [
+      {
+        label: "Parts Data",
+        icon: Component,
+        route: "/dashboard/admin/parts-data"
+      }
+    ]
+  }
 ]
 
 export default function Sidebar() {
@@ -125,7 +136,7 @@ export default function Sidebar() {
   }, []);
 
   useEffect(() => {
-    
+
     const fetchData = async () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/validation`, {
@@ -144,7 +155,7 @@ export default function Sidebar() {
           router.push("/login");
         }
 
-        
+
       } catch (error) {
         console.error("Error:", error);
       }
@@ -180,23 +191,23 @@ export default function Sidebar() {
 
 
   return (
-    <div className="sticky md:flex flex-none flex-col justify-between h-screen hidden gap-2 p-5 w-fit 2xl:w-[300px] bg-primary top-0 shrink-0 overflow-y-auto">
+    <div className="sticky md:flex flex-none flex-col justify-between h-screen hidden gap-2 p-5 w-fit 2xl:w-[300px] bg-primary top-0 shrink-0">
       <div className="flex flex-col">
         <Link href={'/'} className="flex flex-col items-center gap-2">
           <Image className="w-12 xl:w-28" src='/logo.png' alt="" width={100} height={100} priority />
           <h1 className="text-white text-center text-xl font-semibold hidden xl:block">Quality Pintar</h1>
         </Link>
 
-        <div className="mt-5">
+        <div className="mt-5 h-[500px] overflow-y-auto">
           {menuGroups.map((group, index) => {
             // Show NCR and IPR menus only if the role is admin
-            if ((group.shortName === "NCR" || group.shortName === "IPR") && role !== "admin") {
+            if ((group.shortName === "NCR" || group.shortName === "IPR" || group.shortName === "ADM") && role !== "admin") {
               return null;
             }
 
             return (
               <div key={index} className="flex flex-col gap-2">
-                <h2 className="text-white/40 text-sm font-semibold text-center xl:text-left mt-5">
+                <h2 className="text-white/40 text-sm font-semibold text-center xl:text-left mt-3">
                   {isXlOrAbove ? group.name : group.shortName}
                 </h2>
                 {group.menuItems.map((item, index) => (
@@ -221,11 +232,11 @@ export default function Sidebar() {
           })}
         </div>
       </div>
-      <div className="flex flex-col xl:flex-row items-center justify-between w-full gap-2">
-        <Link href={'/profile'} className="flex flex-row gap-2 hover:bg-white/10 px-4 py-2 rounded-xl w-full">
+      <div className="flex  flex-col xl:flex-row items-center justify-between w-full gap-2">
+        <div className="flex flex-row gap-2 hover:bg-white/10 px-4 py-2 rounded-xl w-full">
           <CircleUserRound size={20} color="white" />
           <p className="text-white text-sm font-semibold hidden xl:block">{username} </p>
-        </Link>
+        </div>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

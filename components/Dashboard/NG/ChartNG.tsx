@@ -163,7 +163,7 @@ export default function Component() {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Chart NG</h1>
         <Button onClick={handleDownloadNgPerPcs} className="bg-green-400 hover:bg-green-900 text-white rounded">
-          Download Excel
+          Download Excel  
         </Button>
       </div>
       <div className="w-full h-fit">

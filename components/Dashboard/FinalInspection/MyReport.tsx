@@ -46,12 +46,6 @@ export default function MyReport() {
 
   if (loading) return <Loading/>;
   if (error) return <Error error={error}/>;
-  
-  
-
-  const handleEdit = async () => {
-
-  }
 
   const handleDelete = async (id: number) => {
     try {
@@ -73,7 +67,7 @@ export default function MyReport() {
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
       <AddReportDialog />
       <div className="rounded-md border">
-        <ReportTable data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
+        <ReportTable data={data} handleDelete={handleDelete}/>
       </div>
     </div>
   );
