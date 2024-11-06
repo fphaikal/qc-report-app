@@ -12,7 +12,7 @@ interface Report {
     ng: number;
     type_ng: string;
     keterangan: string;
-    inspection_date: string;
+    created_at: string;
     username: string;
     value: number;
 

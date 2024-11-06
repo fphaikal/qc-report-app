@@ -35,7 +35,7 @@ export default function FinalInspectionDashboard() {
   }
 
   const reportChart = data[1] && data[1].map((report) => ({
-    date: report.inspection_date,
+    date: report.created_at,
     total: report.total,
   }))
 

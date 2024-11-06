@@ -37,7 +37,7 @@ export default function UpdateFI({ data }: UpdateFIProps) {
     e.preventDefault();
 
     const operator = localStorage.getItem('username');
-    const { id, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, inspection_date } = selectedReport!;
+    const { id, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, created_at } = selectedReport!;
 
     try {
       const token = Cookies.get('token')
@@ -47,7 +47,7 @@ export default function UpdateFI({ data }: UpdateFIProps) {
           "Content-Type": "application/json",
           ...(token && { authorization: token })
         },
-        body: JSON.stringify({ id, operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, inspection_date }),
+        body: JSON.stringify({ id, operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, created_at }),
       });
 
       if (res.ok) {
