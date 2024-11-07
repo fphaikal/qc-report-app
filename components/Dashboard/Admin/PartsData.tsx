@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input"
 
 interface Part {
   id: number;
-  part: string;
+  part_name: string;
   customer: string;
 }
 
@@ -71,7 +71,7 @@ export default function NGReport() {
 
   const filteredData = data.filter((part) => 
   
-    part.part.toLowerCase().includes(searchPart.toLowerCase())
+    part.part_name?.toLowerCase().includes(searchPart.toLowerCase())
   )
 
   if (loading) return <Loading />;
@@ -103,7 +103,7 @@ export default function NGReport() {
           <TableBody>
             {filteredData.map((result) => (
               <TableRow key={result.id}>
-                <TableCell className="font-medium">{result.part}</TableCell>
+                <TableCell className="font-medium">{result.part_name}</TableCell>
                 <TableCell className="font-medium">{result.customer}</TableCell>
                 <TableCell>
                   <Dialog>
