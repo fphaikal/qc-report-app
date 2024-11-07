@@ -98,9 +98,6 @@ export default function FinalInspectionDashboard() {
       </Alert>
       <div className="flex flex-col gap-4">
         {/* Chart */}
-        <div className="w-full">
-          <NamePartChart chartData={namePartChart} chartConfig={namePartChartConfig} />
-        </div>
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-1/2">
             <ReportChart chartData={reportChart} chartConfig={reportChartConfig} />

@@ -30,7 +30,7 @@ export default function NamePartChart({ chartData, chartConfig }: ReportChartPro
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="name"
+              dataKey="name_part"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
