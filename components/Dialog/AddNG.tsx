@@ -19,7 +19,7 @@ import Cookies from "js-cookie";
 
 export default function AddDataNGDialog() {
   interface Part {
-    id: number;
+    _id: number;
     part: string;
     customer: string;
   }
@@ -174,7 +174,7 @@ export default function AddDataNGDialog() {
                 <SelectContent>
                   <SelectGroup>
                     {parts.map((part: any) => (
-                      <SelectItem key={part.id} value={part.part}>{part.part} - {part.customer} </SelectItem>
+                      <SelectItem key={part._id} value={part.part}>{part.part} - {part.customer} </SelectItem>
                     ))}
                   </SelectGroup>
                 </SelectContent>

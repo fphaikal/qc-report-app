@@ -1,5 +1,5 @@
 export interface NG{
-    id?: number; // Optional since it's auto-incremented
+    _id?: number; // Optional since it's auto-incremented
     ncr_date: string; // Should be in 'YYYY-MM-DD' format
     section: string;
     product_name: string;

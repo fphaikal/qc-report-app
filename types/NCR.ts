@@ -1,5 +1,5 @@
 export interface NCR {
-    id: number;
+    _id: number;
     info_date: string; 
     department_section: string;
     problem: string;

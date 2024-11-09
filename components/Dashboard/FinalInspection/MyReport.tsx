@@ -47,9 +47,9 @@ export default function MyReport() {
   if (loading) return <Loading/>;
   if (error) return <Error error={error}/>;
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (_id: number) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/${_id}`, {
         method: "DELETE"
       })
 

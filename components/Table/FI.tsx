@@ -47,7 +47,7 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
     e.preventDefault();
 
     const operator = localStorage.getItem('username');
-    const { id, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan } = selectedReport!;
+    const { _id, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan } = selectedReport!;
 
     try {
       const res = await fetch(`/api/updateData/final-inspection`, {
@@ -55,7 +55,7 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id, operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan }),
+        body: JSON.stringify({ _id, operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan }),
       });
 
       if (res.ok) {
@@ -86,7 +86,7 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
         <TableBody>
           {data.length > 0 ? (
             data.map((report: Report) => (
-              <TableRow key={report.id}>
+              <TableRow key={report._id}>
                 <TableCell className="w-fit">{report.operator}</TableCell>
                 <TableCell className="w-fit">{report.name_part}</TableCell>
                 <TableCell className="w-fit">{report.process}</TableCell>
@@ -116,7 +116,7 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
                             </DialogDescription>
                           </DialogHeader>
                           <DialogFooter className="sm:justify-start" >
-                            <Button onClick={() => handleDelete(report.id)} className="bg-red-500 text-white rounded-md w-fit p-2">
+                            <Button onClick={() => handleDelete(report._id)} className="bg-red-500 text-white rounded-md w-fit p-2">
                               <p>Iya, Hapus</p>
                             </Button>
                             <DialogClose asChild>

@@ -19,7 +19,7 @@ import UpdateProd from "@/components/Dialog/UpdateProd";
 const token = Cookies.get('token')
 
 interface TypeNG {
-  id: number;
+  _id: number;
   part_name: string;
   customer: string;
   months: {
@@ -131,7 +131,7 @@ export default function NGReport() {
           </TableHeader>
           <TableBody>
             {data.map((result) => (
-              <TableRow key={result.id}>
+              <TableRow key={result._id}>
                 <TableCell className="font-medium">
                   <UpdateProd data={result} />
                 </TableCell>

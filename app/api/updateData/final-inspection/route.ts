@@ -4,7 +4,7 @@ export async function PUT(request: Request) {
   if (request.method === "PUT") {
     try {
       const {
-        id,
+        _id,
         operator,
         name_part,
         process: processName,
@@ -28,7 +28,7 @@ export async function PUT(request: Request) {
             ...(token && { authorization: token })
           },
           body: JSON.stringify({
-            id,
+            _id,
             operator,
             name_part,
             process: processName,

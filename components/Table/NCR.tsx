@@ -54,7 +54,7 @@ export default function NCRTable({ data,  handleDelete }: NCRTableProps) {
       <TableBody>
         {data.length > 0 ? (
           data.map((report: NCR) => (
-            <TableRow key={report.id} >
+            <TableRow key={report._id} >
               <TableCell className="w-24">{format(report.info_date, "y-MM-dd")}</TableCell>
               <TableCell>{report.department_section}</TableCell>
               <TableCell>{report.problem}</TableCell>
@@ -88,7 +88,7 @@ export default function NCRTable({ data,  handleDelete }: NCRTableProps) {
                             </DialogDescription>
                           </DialogHeader>
                           <DialogFooter className="sm:justify-start" >
-                            <Button onClick={() => handleDelete(report.id)} className="bg-red-500 text-white rounded-md w-fit p-2">
+                            <Button onClick={() => handleDelete(report._id)} className="bg-red-500 text-white rounded-md w-fit p-2">
                               <p>Iya, Hapus</p>
                             </Button>
                             <DialogClose asChild>

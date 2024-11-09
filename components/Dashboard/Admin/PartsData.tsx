@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input"
 
 
 interface Part {
-  id: number;
+  _id: number;
   part_name: string;
   customer: string;
 }
@@ -53,9 +53,9 @@ export default function NGReport() {
     fetchData()
   }, [])
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (_id: number) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/parts/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/parts/${_id}`, {
         method: "DELETE"
       })
 
@@ -102,7 +102,7 @@ export default function NGReport() {
           </TableHeader>
           <TableBody>
             {filteredData.map((result) => (
-              <TableRow key={result.id}>
+              <TableRow key={result._id}>
                 <TableCell className="font-medium">{result.part_name}</TableCell>
                 <TableCell className="font-medium">{result.customer}</TableCell>
                 <TableCell>
@@ -120,7 +120,7 @@ export default function NGReport() {
                         </DialogDescription>
                       </DialogHeader>
                       <DialogFooter className="sm:justify-start" >
-                        <Button onClick={() => handleDelete(result.id)} className="bg-red-500 text-white rounded-md w-fit p-2">
+                        <Button onClick={() => handleDelete(result._id)} className="bg-red-500 text-white rounded-md w-fit p-2">
                           <p>Iya, Hapus</p>
                         </Button>
                         <DialogClose asChild>

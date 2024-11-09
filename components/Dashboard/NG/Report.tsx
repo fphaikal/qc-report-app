@@ -50,9 +50,9 @@ export default function NGReport() {
   if (error) return <Error error={error}/>;
   
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (_id: number) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/${_id}`, {
         method: "DELETE",
         headers: token ? { authorization: token } : {}
       })

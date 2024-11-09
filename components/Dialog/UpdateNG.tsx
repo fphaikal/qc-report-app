@@ -40,7 +40,7 @@ export default function UpdateNG({ data }: UpdateNgDataProps) {
   const handleUpdateData = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year } = selectedReport!;
+    const { _id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year } = selectedReport!;
 
     try {
       const token = Cookies.get('token')
@@ -50,7 +50,7 @@ export default function UpdateNG({ data }: UpdateNgDataProps) {
           "Content-Type": "application/json",
           ...(token && { authorization: token })
         },
-        body: JSON.stringify({ id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year }),
+        body: JSON.stringify({ _id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year }),
       });
 
       if (res.ok) {

@@ -27,7 +27,7 @@ export default function UpdateIPR({ data }: UpdateFIProps) {
   const handleUpdateData = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { id, info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish } = selectedReport!;
+    const { _id, info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish } = selectedReport!;
 
     try {
       const token = Cookies.get('token')
@@ -37,7 +37,7 @@ export default function UpdateIPR({ data }: UpdateFIProps) {
           "Content-Type": "application/json",
           ...(token && { authorization: token })
         },
-        body: JSON.stringify({ id, info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish }),
+        body: JSON.stringify({ _id, info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish }),
       });
 
       if (res.ok) {

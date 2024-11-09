@@ -1,5 +1,5 @@
 interface Report {
-    id: number;
+    _id: number;
     name_part: string;
     operator: string;
     process: string;

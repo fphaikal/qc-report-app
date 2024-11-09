@@ -30,7 +30,7 @@ export default function UpdateProd({ data }: any) {
   const handleUpdateData = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { id, newProd } = selectedReport!;
+    const { _id, newProd } = selectedReport!;
     console.log(selectedReport)
     try {
       const token = Cookies.get('token')
@@ -40,7 +40,7 @@ export default function UpdateProd({ data }: any) {
           "Content-Type": "application/json",
           ...(token && { authorization: token })
         },
-        body: JSON.stringify({ id, newProd, month, year }),
+        body: JSON.stringify({ _id, newProd, month, year }),
       });
 
       if (res.ok) {

@@ -54,7 +54,7 @@ export default function NGTable({ data, handleDelete }: NGTableProps) {
       <TableBody>
         {data.length > 0 ? (
           data.map((report: NG) => (
-            <TableRow key={report.id}>
+            <TableRow key={report._id}>
               <TableCell className="w-24">
                 {format(new Date(report.ncr_date), "y-MM-dd")}
               </TableCell>
@@ -92,7 +92,7 @@ export default function NGTable({ data, handleDelete }: NGTableProps) {
                         </DialogHeader>
                         <DialogFooter className="sm:justify-start">
                           <Button
-                            onClick={() => handleDelete(report.id!)}
+                            onClick={() => handleDelete(report._id!)}
                             className="bg-red-500 text-white rounded-md w-fit p-2"
                           >
                             <p>Iya, Hapus</p>

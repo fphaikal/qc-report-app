@@ -89,7 +89,7 @@ export default function NGDashboard() {
         <CustomerReport chartData={chartData} chartConfig={chartConfig} />
       </div> */}
       <div className="rounded-md border">
-        <NGTable data={data[0]} handleDelete={function (id: number): void {
+        <NGTable data={data[0]} handleDelete={function (_id: number): void {
           throw new Error("Function not implemented.")
         }} />
       </div>

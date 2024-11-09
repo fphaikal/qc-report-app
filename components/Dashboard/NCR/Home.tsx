@@ -63,7 +63,7 @@ export default function NCRDashboard() {
         <CustomerReport chartData={chartData} chartConfig={chartConfig} />
       </div>
       <div className="rounded-md border">
-        <NCRTable data={data[0]} handleDelete={function (id: number): void {
+        <NCRTable data={data[0]} handleDelete={function (_id: number): void {
           throw new Error("Function not implemented.")
         }} />
       </div>

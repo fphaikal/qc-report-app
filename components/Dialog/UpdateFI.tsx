@@ -37,7 +37,7 @@ export default function UpdateFI({ data }: UpdateFIProps) {
     e.preventDefault();
 
     const operator = localStorage.getItem('username');
-    const { id, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, created_at } = selectedReport!;
+    const { _id, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, created_at } = selectedReport!;
 
     try {
       const token = Cookies.get('token')
@@ -47,11 +47,11 @@ export default function UpdateFI({ data }: UpdateFIProps) {
           "Content-Type": "application/json",
           ...(token && { authorization: token })
         },
-        body: JSON.stringify({ id, operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, created_at }),
+        body: JSON.stringify({ _id, operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, created_at }),
       });
 
       if (res.ok) {
-        window.location.reload(); // Refresh halaman setelah sukses
+        // window.location.reload(); // Refresh halaman setelah sukses
         setEditMode(false); // Tutup dialog edit
       } else {
         const data = await res.json();
@@ -124,13 +124,6 @@ export default function UpdateFI({ data }: UpdateFIProps) {
                 placeholder="Masukkan total"
                 value={selectedReport?.total?.toString() || ''}
                 onChange={(e) => setSelectedReport({ ...selectedReport!, total: Number(e.target.value) })}
-              />
-              <Input
-                label="Ok"
-                labelPlacement="outside"
-                placeholder="Masukkan Ok"
-                value={selectedReport?.ok?.toString() || ''}
-                onChange={(e) => setSelectedReport({ ...selectedReport!, ok: Number(e.target.value) })}
               />
               <Input
                 label="NG"

@@ -60,7 +60,7 @@ export default function IPRDashboard() {
         <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset} />
       </div>
       <div className="rounded-md border">
-        <IPRTable data={data[0]} handleDelete={function (id: number): void {
+        <IPRTable data={data[0]} handleDelete={function (_id: number): void {
           throw new Error("Function not implemented.")
         }} />
       </div>
