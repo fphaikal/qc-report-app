@@ -51,7 +51,7 @@ export default function UpdateFI({ data }: UpdateFIProps) {
       });
 
       if (res.ok) {
-        // window.location.reload(); // Refresh halaman setelah sukses
+        window.location.reload(); // Refresh halaman setelah sukses
         setEditMode(false); // Tutup dialog edit
       } else {
         const data = await res.json();

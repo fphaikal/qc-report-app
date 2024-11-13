@@ -115,10 +115,12 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
                               Apakah anda yakin ingin menghapus data ini?
                             </DialogDescription>
                           </DialogHeader>
-                          <DialogFooter className="sm:justify-start" >
-                            <Button onClick={() => handleDelete(report._id)} className="bg-red-500 text-white rounded-md w-fit p-2">
+                          <DialogDescription>
+                            <Button onClick={() => handleDelete(report._id)} className="bg-red-500 text-white rounded-md w-full 2xl:w-fit p-2">
                               <p>Iya, Hapus</p>
                             </Button>
+                          </DialogDescription>
+                          <DialogFooter >
                             <DialogClose asChild>
                               <Button type="button" variant="secondary">
                                 Tidak, Tetap Simpan
