@@ -24,7 +24,7 @@ interface TypeNG {
   customer: string;
   months: {
     month: string; value: [
-      { prod: number, ng: number, percent: number }
+      { prod: number, ng_quantity: number, percent: number }
     ]
   }[];
   // Add other properties as needed
@@ -141,7 +141,7 @@ export default function NGReport() {
                   month.value.map((value) => (
                     <>
                       <TableCell className="text-center">{value.prod}</TableCell>
-                      <TableCell className="text-center">{value.ng}</TableCell>
+                      <TableCell className="text-center">{value.ng_quantity}</TableCell>
                       <TableCell className="text-center">{value.percent}</TableCell>
                     </>
 

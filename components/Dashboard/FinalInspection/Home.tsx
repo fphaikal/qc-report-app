@@ -63,16 +63,20 @@ export default function FinalInspectionDashboard() {
   } satisfies ChartConfig;
 
   const namePartChart = data[3] && data[3].map((report) => ({
-    name: report.name_part,
+    name: report.name_part,   
     target: report.target,
     actual: report.actual,
   }))
 
   const namePartChartConfig = {
+    name_part: {
+      label: "Name Part",
+      color: "hsl(211.78, 52.86%, 72.55%)",
+    },
     target: {
       label: "Target",
       color: "hsl(0, 100%, 50%)",
-    },
+    },  
     actual: {
       label: "Actual",
       color: "hsl(133.78, 52.86%, 72.55%)",
@@ -98,6 +102,9 @@ export default function FinalInspectionDashboard() {
       </Alert>
       <div className="flex flex-col gap-4">
         {/* Chart */}
+          <div className="w-full">
+            <NamePartChart chartData={namePartChart} chartConfig={namePartChartConfig} />
+          </div>
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-1/2">
             <ReportChart chartData={reportChart} chartConfig={reportChartConfig} />

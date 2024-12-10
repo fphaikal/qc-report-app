@@ -40,7 +40,7 @@ export default function AverageChart({ chartData, chartConfig }: ReportChartProp
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent  />}
             />
             <Bar dataKey="value" fill="var(--color-value)" radius={8}>
               <LabelList

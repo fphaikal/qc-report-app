@@ -112,6 +112,13 @@ export default function AddDataNGDialog() {
     }
   };
 
+  const handleDateChange = (date: string) => {
+    setNcrDate(date);
+    const parsedDate = new Date(date);
+    setMonth((parsedDate.getMonth() + 1).toString());  // Get month (1-indexed)
+    setYear(parsedDate.getFullYear().toString());     // Get year
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -145,7 +152,7 @@ export default function AddDataNGDialog() {
               <DateInput
                 label={"Date"}
                 labelPlacement="outside"
-                onChange={(date) => setNcrDate(date?.toString())}  // Mengganti setInfoDate dengan setNcrDate
+                onChange={(date) => handleDateChange(date?.toString() || '')}  // Mengganti setInfoDate dengan handleDateChange
               />
             </div>
             <div className="flex flex-col gap-2">
