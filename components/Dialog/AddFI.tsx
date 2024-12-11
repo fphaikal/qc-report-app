@@ -72,7 +72,7 @@ export default function AddReportDialog() {
       <DialogTrigger asChild>
         <Button variant="outline" className="w-fit">+ Tambah Data</Button>
       </DialogTrigger>
-      <DialogContent className="min-w-fit h-[500px] overflow-auto">
+      <DialogContent className="h-[500px] overflow-auto">
         <DialogHeader>
           <DialogTitle>Tambah Data</DialogTitle>
           <DialogDescription>

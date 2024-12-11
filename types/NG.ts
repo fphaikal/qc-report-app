@@ -1,5 +1,6 @@
 export interface NG{
     _id?: number; // Optional since it's auto-incremented
+    production_id: number;
     ncr_date: string; // Should be in 'YYYY-MM-DD' format
     section: string;
     product_name: string;
@@ -15,6 +16,6 @@ export interface NG{
     year: number;
 
     part_name: string;
-    newProd: Number;
+    prod: Number;
   }
   

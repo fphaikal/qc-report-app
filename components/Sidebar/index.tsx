@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
-import { House, File, FileSpreadsheet, CircleUserRound, LogOut, LayoutDashboard, FileMinus, Grid2x2Plus, ChartNoAxesCombined, Component } from "lucide-react"
+import { CircleUserRound, LogOut } from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
@@ -13,99 +13,9 @@ import {
 } from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
+import { siteConfig } from "@/config/site"
 
-const menuGroups = [
-  {
-    name: "Final Inspection & Outgoing",
-    shortName: "FI",
-    menuItems: [
-      {
-        label: "Home",
-        icon: House,
-        route: "/dashboard"
-      },
-      {
-        label: "My Report",
-        icon: File,
-        route: "/dashboard/myreport"
-      }
-    ]
-  },
-  {
-    name: "Data NG",
-    shortName: "NG",
-    menuItems: [
-      {
-        label: "Dashboard",
-        icon: LayoutDashboard,
-        route: "/dashboard/ngData"
-      },
-      {
-        label: "Input NG",
-        icon: FileSpreadsheet,
-        route: "/dashboard/ngData/report"
-      },
-      {
-        label: "Data Jenis NG",
-        icon: FileMinus,
-        route: "/dashboard/ngData/report/type-ng"
-      },
-      {
-        label: "Total QTY NG",
-        icon: Grid2x2Plus,
-        route: "/dashboard/ngData/report/total-qty-ng"
-      },
-      {
-        label: "Chart NG",
-        icon: ChartNoAxesCombined,
-        route: "/dashboard/ngData/report/chart"
-      },
-    ]
-  },
-  {
-    name: "Non Conformity Report",
-    shortName: "NCR",
-    menuItems: [
-      {
-        label: "Dashboard",
-        icon: LayoutDashboard,
-        route: "/dashboard/ncr"
-      },
-      {
-        label: "Report",
-        icon: FileSpreadsheet,
-        route: "/dashboard/ncr/report"
-      }
-    ]
-  },
-  {
-    name: "Internal Problem Report",
-    shortName: "IPR",
-    menuItems: [
-      {
-        label: "Dashboard",
-        icon: LayoutDashboard,
-        route: "/dashboard/ipr"
-      },
-      {
-        label: "Report",
-        icon: FileSpreadsheet,
-        route: "/dashboard/ipr/report"
-      }
-    ]
-  },
-  {
-    name: "Admin Menu",
-    shortName: "ADM",
-    menuItems: [
-      {
-        label: "Parts Data",
-        icon: Component,
-        route: "/dashboard/admin/parts-data"
-      }
-    ]
-  }
-]
+
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -199,7 +109,7 @@ export default function Sidebar() {
         </Link>
 
         <div className="mt-5 h-[500px] overflow-y-auto">
-          {menuGroups.map((group, index) => {
+          {siteConfig.navItems.map((group, index) => {
             // Show NCR and IPR menus only if the role is admin
             if ((group.shortName === "NCR" || group.shortName === "IPR" || group.shortName === "ADM") && role !== "admin") {
               return null;

@@ -62,7 +62,7 @@ export default function UpdateNCR({ data }: UpdateFIProps) {
   return (
     <div>
       <Dialog open={editMode} onOpenChange={setEditMode}>
-        <DialogContent className="min-w-fit overflow-scroll h-[500px]">
+        <DialogContent className="overflow-scroll h-[500px]">
           <DialogHeader>
             <DialogTitle>Edit Data</DialogTitle>
             <DialogDescription>Edit datab NCR yang ingin diubah, dan tekan simpan jika sudah selesai</DialogDescription>

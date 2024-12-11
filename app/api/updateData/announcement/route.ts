@@ -3,21 +3,22 @@ import Cookies from "js-cookie";
 export async function PUT(request: Request) {
   if (request.method === "PUT") {
     try {
-      const { _id, production_id, ncr_date, section, product_name, last_process, customer, value, ng_type, ng_quantity, operator, detection, status, month, year } = await request.json(); // Mengambil data dari request body
+      const { _id, title, content } = await request.json(); // Mengambil data dari request body
       const token = Cookies.get("token");
 
-      const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData?type=all`, {
+      const apiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           ...(token && { authorization: token })
         },
-        body: JSON.stringify({ _id, production_id, ncr_date, section, product_name, last_process, customer, value, ng_type, ng_quantity, operator, detection, status, month, year }),
+        body: JSON.stringify({ _id, title, content }),
       });
 
       const data = await apiRes.json();
 
       if (data.code === 200) {
+        console.log(data.code)
         return new Response(JSON.stringify(data), { status: 200 });
       } else {
         return new Response(

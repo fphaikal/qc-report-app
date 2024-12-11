@@ -46,5 +46,6 @@ interface Report {
 
     actual: number;
     part_name: string;
-    newProd: Number;
+    prod: Number;
+    production_id: number;
 }

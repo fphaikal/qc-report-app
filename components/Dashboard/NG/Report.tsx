@@ -21,9 +21,10 @@ export default function NGReport() {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/operator`, {
           method: "POST",
-          headers: { 'Content-Type': 'application/json',
+          headers: {
+            'Content-Type': 'application/json',
             ...(token && { authorization: token })
-           },
+          },
           body: JSON.stringify({ "name": username }),
         });
         if (!res.ok) return 'Network response was not ok';
@@ -46,15 +47,19 @@ export default function NGReport() {
     fetchData();
   }, []);
 
-  if (loading) return <Loading/>;
-  if (error) return <Error error={error}/>;
-  
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
 
-  const handleDelete = async (_id: number) => {
+
+  const handleDelete = async (_id: number, production_id: number) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/${_id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData`, {
         method: "DELETE",
-        headers: token ? { authorization: token } : {}
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { authorization: token } : {}),
+        },
+        body: JSON.stringify({ _id, production_id }),
       })
 
       if (!res.ok) {
@@ -69,9 +74,9 @@ export default function NGReport() {
 
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
-      <AddDataNGDialog/>
+      <AddDataNGDialog />
       <div className="rounded-md border">
-        <NGTable data={data} handleDelete={handleDelete}/>
+        <NGTable data={data} handleDelete={handleDelete} />
       </div>
     </div>
   );

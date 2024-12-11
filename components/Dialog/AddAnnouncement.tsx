@@ -7,25 +7,27 @@ import { Input } from "@nextui-org/react";
 import { Pencil, AlertCircle } from "lucide-react"
 import Cookies from "js-cookie";
 
-export default function AddPartDialog() {
+export default function AddAnnouncementDialog() {
   const [resErr, setResErr] = useState(''); // State untuk menampilkan error
   const [, setError] = useState('')
 
-  const [part, setPart] = useState<string>('');      // Tambahkan month
-  const [customer, setCustomer] = useState<string>('');        // Tambah
+  const [title, setTitle] = useState<string>('');  
+  const [content, setContent] = useState<string>('');  
+  const [date, setDate] = useState<string>('');
 
   const handleAddData = async (e: React.FormEvent) => {
     e.preventDefault();
+    const author = localStorage.getItem('username')
 
     try {
       const token = Cookies.get('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/parts`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           ...(token && { authorization: token })
         },
-        body: JSON.stringify({ part, customer }),
+        body: JSON.stringify({ title, content, author }),
       });
 
       if (res.ok) {
@@ -55,8 +57,8 @@ export default function AddPartDialog() {
         </DialogTrigger>
         <DialogContent className="h-fit">
           <DialogHeader>
-            <DialogTitle>Tambah Part</DialogTitle>
-            <DialogDescription>Tambah data part, dan tekan simpan jika sudah selesai</DialogDescription>
+            <DialogTitle>Tambah Announcement</DialogTitle>
+            <DialogDescription>Tambah Announcement, dan tekan simpan jika sudah selesai</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleAddData}>
             {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-red-500 border border-red-500 mb-4">
@@ -65,16 +67,16 @@ export default function AddPartDialog() {
             </div>}
             <div className="flex flex-col gap-4">
               <Input
-                label="Nama Part"
+                label="Judul"
                 labelPlacement="outside"
-                placeholder="Masukkan nama part"
-                onChange={(e) => setPart(e.target.value)}
+                placeholder="Masukkan judul"
+                onChange={(e) => setTitle(e.target.value)}
               />
               <Input
-                label="Customer"
+                label="Content"
                 labelPlacement="outside"
-                placeholder="Masukkan nama customer"
-                onChange={(e) => setCustomer(e.target.value)}
+                placeholder="Masukkan content"
+                onChange={(e) => setContent(e.target.value)}
               />
 
               <Button type="submit">Simpan</Button>

@@ -40,7 +40,7 @@ export default function UpdateNG({ data }: UpdateNgDataProps) {
   const handleUpdateData = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { _id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year } = selectedReport!;
+    const { _id, production_id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year } = selectedReport!;
 
     try {
       const token = Cookies.get('token')
@@ -50,7 +50,7 @@ export default function UpdateNG({ data }: UpdateNgDataProps) {
           "Content-Type": "application/json",
           ...(token && { authorization: token })
         },
-        body: JSON.stringify({ _id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year }),
+        body: JSON.stringify({ _id, production_id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year }),
       });
 
       if (res.ok) {
@@ -75,7 +75,7 @@ export default function UpdateNG({ data }: UpdateNgDataProps) {
   return (
     <div>
       <Dialog open={editMode} onOpenChange={setEditMode}>
-        <DialogContent className="min-w-fit overflow-y-scroll h-[500px]">
+        <DialogContent className="overflow-y-scroll h-[500px]">
           <DialogHeader>
             <DialogTitle>Edit Data</DialogTitle>
             <DialogDescription>Edit data NG yang ingin diubah, dan tekan simpan jika sudah selesai</DialogDescription>

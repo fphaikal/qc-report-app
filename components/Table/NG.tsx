@@ -92,7 +92,7 @@ export default function NGTable({ data, handleDelete }: NGTableProps) {
                         </DialogHeader>
                         <DialogFooter className="sm:justify-start">
                           <Button
-                            onClick={() => handleDelete(report._id!)}
+                            onClick={() => handleDelete(report._id!, report.production_id!)}
                             className="bg-red-500 text-white rounded-md w-fit p-2"
                           >
                             <p>Iya, Hapus</p>

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { siteConfig } from "@/config/site";
 
 export default function MenuBar() {
   const [username, setUsername] = useState<string>('');
@@ -32,32 +33,27 @@ export default function MenuBar() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <DropdownMenuLabel>Final Inspection</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem><Link href={'/dashboard'}>Home</Link></DropdownMenuItem>
-          <DropdownMenuItem><Link href={'/dashboard/myreport'}>My Report</Link></DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuLabel>Data NG</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem><Link href={'/dashboard/ngData'}>Dashboard</Link></DropdownMenuItem>
-          <DropdownMenuItem><Link href={'/dashboard/ngData/report'}>Input NG</Link></DropdownMenuItem>
-          <DropdownMenuItem><Link href={'/dashboard/ngData/report/type-ng'}>Data Jenis NG</Link></DropdownMenuItem>
-          <DropdownMenuItem><Link href={'/dashboard/ngData/report/total-qty-ng'}>Total QTY NG</Link></DropdownMenuItem>
-          <DropdownMenuItem><Link href={'/dashboard/ngData/report/chart'}>Chart NG</Link></DropdownMenuItem>
-          {role === 'admin' && (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>Non Conformity Report</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem><Link href={'/dashboard/ncr'}>Dashboard</Link></DropdownMenuItem>
-              <DropdownMenuItem><Link href={'/dashboard/ncr/report'}>Report</Link></DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>Internal Problem Report</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem><Link href={'/dashboard/ipr'}>Dashboard</Link></DropdownMenuItem>
-              <DropdownMenuItem><Link href={'/dashboard/ipr/report'}>Report</Link></DropdownMenuItem>
-            </>
-          )}
+          {siteConfig.navItems.map((group, index) => {
+            if ((group.shortName === "NCR" || group.shortName === "IPR" || group.shortName === "ADM") && role !== "admin") {
+              return null;
+            }
+
+            return (
+              <div key={index}>
+                <DropdownMenuLabel>
+                  {group.name}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {group.menuItems.map((item, index) => (
+                  <DropdownMenuItem key={index}>
+                    <Link href={item.route} className="w-full">
+                      {item.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </div>
+            )
+          })}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

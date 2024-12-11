@@ -13,5 +13,5 @@ export interface NCRTableProps {
 
 export interface NGTableProps {
     data: NG[];
-    handleDelete: (_id: number) => void;
+    handleDelete: (_id: number, production_id: number) => void;
 }

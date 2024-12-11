@@ -48,7 +48,7 @@ export default function FinalInspectionLogin() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen p-20 bg-primary">
+    <div className="flex justify-center items-center h-screen p-5 2xl;p-20 bg-primary">
       <div className="rounded-xl border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-5">
         <div className="w-full xl:w-[450px]">
           <div className="w-full p-4 sm:p-12.5 xl:p-17.5">

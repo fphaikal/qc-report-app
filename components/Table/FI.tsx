@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { format } from 'date-fns'
-import { Trash2 } from "lucide-react"
+import { ChevronLeft, ChevronRight, Trash2 } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import UpdateFI from "../Dialog/UpdateFI"
@@ -37,6 +37,25 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
   const [editMode, setEditMode] = useState(false); // State untuk mengontrol dialog edit
   const [resErr, setResErr] = useState(''); // State untuk menampilkan error
   const [, setError] = useState('')
+  const [startIndex, setStartIndex] = useState(0);
+  const itemsPerPage = 10;
+
+  // Menentukan data yang ditampilkan berdasarkan index
+  const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+
+  // Fungsi untuk pindah ke halaman berikutnya
+  const handleNext = () => {
+    if (startIndex + itemsPerPage < data.length) {
+      setStartIndex(startIndex + itemsPerPage);
+    }
+  };
+
+  // Fungsi untuk pindah ke halaman sebelumnya
+  const handlePrev = () => {
+    if (startIndex > 0) {
+      setStartIndex(startIndex - itemsPerPage);
+    }
+  };
 
   const handleEdit = (report: Report) => {
     setSelectedReport(report); // Simpan data yang ingin diedit ke state
@@ -85,7 +104,7 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
         </TableHeader>
         <TableBody>
           {data.length > 0 ? (
-            data.map((report: Report) => (
+            paginatedData.map((report: Report) => (
               <TableRow key={report._id}>
                 <TableCell className="w-fit">{report.operator}</TableCell>
                 <TableCell className="w-fit">{report.name_part}</TableCell>
@@ -143,6 +162,26 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
           )}
         </TableBody>
       </Table>
+      <div className="flex gap-2 items-center">
+        <button
+          className="p-2 bg-gray-50/40 rounded-lg"
+          onClick={handlePrev}
+          disabled={startIndex === 0}
+        >
+          <ChevronLeft size={24} />
+        </button>
+        <button
+          className="p-2 bg-gray-50/40 rounded-lg"
+          onClick={handleNext}
+          disabled={startIndex + itemsPerPage >= data.length}
+        >
+          <ChevronRight size={24} />
+        </button>
+        <p className="text-sm">Page {startIndex / itemsPerPage + 1}</p>
+        |
+        <p className="text-sm">Total Data: {data.length}</p>
+      </div>
+
     </div>
   )
 }

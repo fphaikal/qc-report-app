@@ -1,19 +1,24 @@
 'use client'
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@nextui-org/react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@nextui-org/react";
 import { Pencil, AlertCircle } from "lucide-react"
 import { NG } from "@/types/NG"
 import Cookies from "js-cookie";
 
-interface UpdateNgDataProps {
-  data: NG;
+interface Announcement {
+  _id: string;
+  title: string;
+  content: string;
+  created_at: string;
+  author: string;
 }
 
-export default function UpdateProd({ data }: any) {
-  const [selectedReport, setSelectedReport] = useState<NG | null>(null); // State untuk menyimpan data yang ingin diedit
+
+export default function UpdateAnnouncement({ data }: any) {
+  const [selectedReport, setSelectedReport] = useState<Announcement | null>(null); // State untuk menyimpan data yang ingin diedit
   const [editMode, setEditMode] = useState(false); // State untuk mengontrol dialog edit
   const [resErr, setResErr] = useState(''); // State untuk menampilkan error
   const [, setError] = useState('')
@@ -22,7 +27,7 @@ export default function UpdateProd({ data }: any) {
   const [year, setYear] = useState<string>('');        // Tambah
 
 
-  const handleEdit = (data: NG) => {
+  const handleEdit = (data: Announcement) => {
     setSelectedReport(data); // Simpan data yang ingin diedit ke state
     setEditMode(true); // Tampilkan dialog edit
   };
@@ -30,20 +35,20 @@ export default function UpdateProd({ data }: any) {
   const handleUpdateData = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { _id, prod } = selectedReport!;
+    const { _id, title, content } = selectedReport!;
     console.log(selectedReport)
-    try { 
+    try {
       const token = Cookies.get('token')
-      const res = await fetch(`/api/updateData/ng/total-prod`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           ...(token && { authorization: token })
         },
-        body: JSON.stringify({ _id, prod, month, year }),
+        body: JSON.stringify({ _id, title, content }),
       });
 
-      if (res.ok) {
+      if (res.status === 200) {
         window.location.reload(); // Refresh halaman setelah sukses
       } else {
         const data = await res.json();
@@ -65,10 +70,10 @@ export default function UpdateProd({ data }: any) {
   return (
     <div>
       <Dialog open={editMode} onOpenChange={setEditMode}>
-        <DialogContent className="overflow-y-scroll h-fit">
+        <DialogContent className="overflow-y-auto h-fit">
           <DialogHeader>
-            <DialogTitle>{selectedReport?.part_name || ''} - {selectedReport?.customer || ''}</DialogTitle>
-            <DialogDescription>Edit data produksi, dan tekan simpan jika sudah selesai</DialogDescription>
+            <DialogTitle>{selectedReport?.title || ''}</DialogTitle>
+            <DialogDescription>Edit data announcement, dan tekan simpan jika sudah selesai</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleUpdateData}>
             {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-red-500 border border-red-500 mb-4">
@@ -77,36 +82,26 @@ export default function UpdateProd({ data }: any) {
             </div>}
             <div className="flex flex-col gap-4">
               <Input
-                label="Produksi"
+                label="Judul"
                 labelPlacement="outside"
-                placeholder="Masukkan jumlah produksi"
-                onChange={(e) => setSelectedReport({ ...selectedReport!, prod: +e.target.value })}
+                placeholder="Masukkan judul"
+                value={selectedReport?.title || ''}
+                onChange={(e) => setSelectedReport({ ...selectedReport!, title: e.target.value })}
               />
-              <div className="flex gap-4">
-                <Input
-                  isRequired
-                  label="Month"
-                  labelPlacement="outside"
-                  type="number"
-
-                  placeholder="Masukkan data month"
-                  onChange={(e) => setMonth(e.target.value)}
-                />
-                <Input
-                  isRequired
-                  label="Year"
-                  labelPlacement="outside"
-                  placeholder="Masukkan data year"
-                  onChange={(e) => setYear(e.target.value)}
-                />
-              </div>
-              <Button type="submit">Simpan</Button>
+              <Input
+                label="Content"
+                labelPlacement="outside"
+                placeholder="Masukkan content"
+                value={selectedReport?.content || ''}
+                onChange={(e) => setSelectedReport({ ...selectedReport!, content: e.target.value })}
+              />
+              <Button className="bg-zinc-950 text-white" type="submit">Simpan</Button>
             </div>
           </form>
         </DialogContent>
       </Dialog>
-      <Button onClick={() => handleEdit(data)} className="bg-green-500 text-white rounded-md w-fit p-2">
-        <Pencil className="" size={18} />
+      <Button onClick={() => handleEdit(data)} className="bg-slate-50">
+        Edit
       </Button>
     </div>
   )
