@@ -7,6 +7,7 @@ import DatePicker from "@/components/Popover/DatePicker"
 import NCRTable from "@/components/Table/NCR"
 import CustomerReport from "@/components/Chart/CustomerReport"
 import { ChartConfig } from "@/components/ui/chart"
+import Loading from "@/components/Loading"
 
 export default function NCRDashboard() {
   const [date, setDate] = React.useState<Date>(); // Pastikan initial state sesuai
@@ -46,7 +47,7 @@ export default function NCRDashboard() {
 
 
   if (loading) return (
-    <div className="p-10">Loading...</div>
+    <Loading />
   )
 
   if (error) return (

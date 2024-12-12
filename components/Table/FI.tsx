@@ -16,6 +16,7 @@ import { usePathname } from "next/navigation"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import UpdateFI from "../Dialog/UpdateFI"
 import { ReportTableProps } from "@/types/Table"
+import DeleteDialog from "../Dialog/DeleteData"
 
 const TableHeadName = [
   { accessorKey: "operator", header: "Operator" },
@@ -33,10 +34,6 @@ const TableHeadName = [
 
 export default function ReportTable({ data, handleDelete }: ReportTableProps) {
   const pathname = usePathname()
-  const [selectedReport, setSelectedReport] = useState<Report | null>(null); // State untuk menyimpan data yang ingin diedit
-  const [editMode, setEditMode] = useState(false); // State untuk mengontrol dialog edit
-  const [resErr, setResErr] = useState(''); // State untuk menampilkan error
-  const [, setError] = useState('')
   const [startIndex, setStartIndex] = useState(0);
   const itemsPerPage = 10;
 
@@ -54,38 +51,6 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
   const handlePrev = () => {
     if (startIndex > 0) {
       setStartIndex(startIndex - itemsPerPage);
-    }
-  };
-
-  const handleEdit = (report: Report) => {
-    setSelectedReport(report); // Simpan data yang ingin diedit ke state
-    setEditMode(true); // Tampilkan dialog edit
-  };
-
-  const handleUpdateData = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const operator = localStorage.getItem('username');
-    const { _id, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan } = selectedReport!;
-
-    try {
-      const res = await fetch(`/api/updateData/final-inspection`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ _id, operator, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan }),
-      });
-
-      if (res.ok) {
-        window.location.reload(); // Refresh halaman setelah sukses
-        setEditMode(false); // Tutup dialog edit
-      } else {
-        const data = await res.json();
-        setResErr(data.message); // Set error jika ada
-      }
-    } catch (err) {
-      setError((err as Error).message);
     }
   };
 
@@ -121,33 +86,39 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
                   <TableCell>
                     <div className="flex gap-2">
                       <UpdateFI data={report} />
-                      <Dialog>
+                      <DeleteDialog id={report._id} handleDelete={handleDelete} />
+                      {/* <Dialog>
                         <DialogTrigger asChild>
                           <Button variant="outline" className="bg-red-500 text-white rounded-md w-fit p-2">
                             <Trash2 className="" size={18} />
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-md">
-                          <DialogHeader>
-                            <DialogTitle>Hapus Data</DialogTitle>
-                            <DialogDescription>
-                              Apakah anda yakin ingin menghapus data ini?
+                        <DialogContent className="sm:max-w-md w-72">
+                          <DialogHeader className="flex flex-col gap-1">
+                            <div className="flex justify-center ">
+                              <div className="flex aspect-auto size-14 items-center justify-center rounded-full bg-danger/10 text-sidebar-primary-foreground ">
+                                <Trash2 className="text-danger" size={24} />
+                              </div>
+                            </div>
+                            <DialogTitle className="text-center">Hapus Data</DialogTitle>
+                            <DialogDescription className="text-center">
+                              Apakah anda yakin ingin <br />menghapus data ini?
                             </DialogDescription>
                           </DialogHeader>
                           <DialogDescription>
-                            <Button onClick={() => handleDelete(report._id)} className="bg-red-500 text-white rounded-md w-full 2xl:w-fit p-2">
-                              <p>Iya, Hapus</p>
-                            </Button>
-                          </DialogDescription>
-                          <DialogFooter >
-                            <DialogClose asChild>
-                              <Button type="button" variant="secondary">
-                                Tidak, Tetap Simpan
+                            <div className="flex flex-col gap-2 items-center w-full">
+                              <Button onClick={() => handleDelete(report._id)} className="bg-danger text-white rounded-md w-2/3  p-2">
+                                <p>Iya, Hapus</p>
                               </Button>
-                            </DialogClose>
-                          </DialogFooter>
+                              <DialogClose asChild>
+                                <Button type="button" variant="secondary" className="w-2/3">
+                                  Tidak, Tetap Simpan
+                                </Button>
+                              </DialogClose>
+                            </div>
+                          </DialogDescription>
                         </DialogContent>
-                      </Dialog>
+                      </Dialog> */}
                     </div>
                   </TableCell>
                 }

@@ -17,15 +17,6 @@ export default function RootLayout({
 }>) {
   
   return (
-    <div className="flex flex-col md:flex-row">
-      <Sidebar />
-      <div className="flex justify-between px-5 py-3 items-center">
-        <MenuBar />
-        <LogoutButton />
-      </div>
-      <Suspense fallback={<Loading />} >
-        <main className="min-w-0 flex flex-1 mb-5 justify-center">{children}</main>
-      </Suspense>
-    </div>
+      <Sidebar content={children} />
   );
 }

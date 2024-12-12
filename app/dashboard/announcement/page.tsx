@@ -7,9 +7,6 @@ import { Card } from "@nextui-org/react";
 import React from "react";
 import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input"
-import AddAnnouncementDialog from "@/components/Dialog/AddAnnouncement";
-import { Trash2 } from "lucide-react";
-import UpdateAnnouncement from "@/components/Dialog/UpdateAnnouncement";
 import { CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 
@@ -48,22 +45,6 @@ export default function Announcement() {
   }, [])
 
 
-  const handleDelete = async (_id: string) => {  // pastikan tipe _id adalah string, sesuai dengan tipe yang ada di API
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement/${_id}`, {
-        method: "DELETE"
-      })
-
-      if (!res.ok) {
-        return res;
-      } else {
-        window.location.reload()
-      }
-    } catch (error) {
-      return error
-    }
-  }
-
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
 
@@ -78,26 +59,19 @@ export default function Announcement() {
             value={searchPart}
             onChange={(e) => setSearchPart(e.target.value)}
           />
-          <AddAnnouncementDialog />
         </div>
       </div>
       <div className="space-y-6">
         {data.map((announcement) => (
-          <Card key={announcement._id} className="flex flex-row items-center w-full">
+          <Card key={announcement._id} className="flex flex-row items-center">
             <div className="w-24 flex-shrink-0 border-r border-gray-200 p-4 flex flex-col items-center justify-center">
               <div className="text-4xl font-bold">{format(new Date(announcement.created_at), 'd')}</div>
               <div className="text-sm uppercase">{format(new Date(announcement.created_at), 'MMM yyyy')}</div>
             </div>
-            <div className="flex flex-col gap-1 justify-center px-3 w-full">
+            <div className="flex flex-col gap-1 justify-center px-3">
               <CardTitle>{announcement.title}</CardTitle>
               <p className="text-sm text-gray-600 ">{announcement.content}</p>
               <p className="text-xs text-gray-400">Author: {announcement.author}</p>
-            </div>
-            <div className="flex justify-end gap-2 w-full px-5">
-              <UpdateAnnouncement data={announcement} />
-              <button onClick={() => handleDelete(announcement._id)} className="flex aspect-auto size-10 items-center justify-center rounded-xl bg-danger text-sidebar-primary-foreground">
-                <Trash2 size={20} />
-              </button> 
             </div>
           </Card>
         ))}

@@ -100,9 +100,9 @@ export default function UpdateAnnouncement({ data }: any) {
           </form>
         </DialogContent>
       </Dialog>
-      <Button onClick={() => handleEdit(data)} className="bg-slate-50">
-        Edit
-      </Button>
+      <button onClick={() => handleEdit(data)} className="flex aspect-auto size-10 items-center justify-center rounded-xl bg-green-500 text-white">
+        <Pencil className="" size={18} />
+      </button>
     </div>
   )
 }

@@ -4,12 +4,13 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@nextui-org/react";
-import { Pencil, AlertCircle } from "lucide-react"
+import { Pencil, AlertCircle, Loader2 } from "lucide-react"
 import Cookies from "js-cookie";
 
 export default function AddPartDialog() {
   const [resErr, setResErr] = useState(''); // State untuk menampilkan error
   const [, setError] = useState('')
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [part, setPart] = useState<string>('');      // Tambahkan month
   const [customer, setCustomer] = useState<string>('');        // Tambah
@@ -29,6 +30,7 @@ export default function AddPartDialog() {
       });
 
       if (res.ok) {
+        setLoading(true)
         window.location.reload(); // Refresh halaman setelah sukses
       } else {
         const data = await res.json();
@@ -77,7 +79,18 @@ export default function AddPartDialog() {
                 onChange={(e) => setCustomer(e.target.value)}
               />
 
-              <Button type="submit">Simpan</Button>
+              <div className={loading ? 'hidden' : 'mb-5'}>
+                <button
+                  type="submit"
+                  className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+                >Submit</button>
+              </div>
+              <div className={loading ? 'mb-5' : 'hidden'}>
+                <button disabled className="flex justify-center items-center w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </button>
+              </div>
             </div>
           </form>
         </DialogContent>

@@ -5,6 +5,7 @@ import * as React from "react"
 import { format } from "date-fns"
 import DatePicker from "@/components/Popover/DatePicker"
 import IPRTable from "@/components/Table/IPR"
+import Loading from "@/components/Loading"
 
 export default function IPRDashboard() {
   const [date, setDate] = React.useState<Date>(); // Pastikan initial state sesuai
@@ -43,7 +44,7 @@ export default function IPRDashboard() {
 
 
   if (loading) return (
-    <div className="p-10">Loading...</div>
+    <Loading />
   )
 
   if (error) return (

@@ -9,6 +9,7 @@ import NGTable from "@/components/Table/NG"
 import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button"
 import { NG } from "@/types/NG"
+import Loading from "@/components/Loading"
 
 const token = Cookies.get('token')
 
@@ -67,7 +68,7 @@ export default function NGDashboard() {
 
 
   if (loading) return (
-    <div className="p-10">Loading...</div>
+    <Loading />
   )
 
   if (error) return (

@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "@/components/ui/button"
 import { Input } from "@nextui-org/react";
 import { DateInput } from "@nextui-org/react";
-import { AlertCircle } from "lucide-react"
+import { AlertCircle, Loader2 } from "lucide-react"
 import {
   Select,
   SelectContent,
@@ -29,7 +29,8 @@ export default function AddDataIPRDialog() {
   const [targetDue, setTargetDue] = useState<string>('');
   const [actualFinish, setActualFinish] = useState<string>('');
   const [, setError] = useState<string>('');
-  const [resErr, setResErr] = useState('')
+  const [resErr, setResErr] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmitDataIPR = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,10 +59,11 @@ export default function AddDataIPRDialog() {
         const data = await res.json()
         setResErr(data.message)
       } else {
+        setLoading(true);
         window.location.reload()
         return "Success Add Data"
-      } 
-      
+      }
+
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("username");
@@ -69,7 +71,7 @@ export default function AddDataIPRDialog() {
         Cookies.remove("token");
         window.location.reload()
       }
-      
+
     } catch (err) {
       setError('Error: ' + err)
     }
@@ -225,7 +227,18 @@ export default function AddDataIPRDialog() {
               />
             </div>
           </div>
-          <Button type="submit" className="bg-primary">Simpan</Button>
+          <div className={loading ? 'hidden' : 'mb-5'}>
+            <button
+              type="submit"
+              className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+            >Submit</button>
+          </div>
+          <div className={loading ? 'mb-5' : 'hidden'}>
+            <button disabled className="flex justify-center items-center w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

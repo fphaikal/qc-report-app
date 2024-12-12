@@ -1,4 +1,4 @@
-export type SiteConfig = typeof siteConfig;
+  export type SiteConfig = typeof siteConfig;
 import { House, File, FileSpreadsheet, CircleUserRound, LogOut, LayoutDashboard, FileMinus, Grid2x2Plus, ChartNoAxesCombined, Component } from "lucide-react"
 
 export const siteConfig = {

@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "@/components/ui/button"
 import { Input } from "@nextui-org/react";
 import { DateInput } from "@nextui-org/react";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
@@ -38,7 +38,8 @@ export default function AddDataNGDialog() {
   const [month, setMonth] = useState<string>('');      // Tambahkan month
   const [year, setYear] = useState<string>('');        // Tambahkan year
   const [, setError] = useState<string>('');
-  const [resErr, setResErr] = useState('')
+  const [resErr, setResErr] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,6 +53,7 @@ export default function AddDataNGDialog() {
         const data = await res.json()
         setResErr(data.message)
       }
+
       const result = await res.json();
       setParts(result.data)
 
@@ -85,6 +87,7 @@ export default function AddDataNGDialog() {
         const data = await res.json()
         setResErr(data.message)
       } else {
+        setLoading(true);
         window.location.reload()
         return "Success Add Data"
       }
@@ -97,7 +100,7 @@ export default function AddDataNGDialog() {
       }
 
     } catch (err) {
-    const selectedPart = parts.find((part) => part.part === value);
+      const selectedPart = parts.find((part) => part.part === value);
     }
   }
 
@@ -190,7 +193,7 @@ export default function AddDataNGDialog() {
           </div>
           <div className="flex flex-col gap-4">
             <Input
-            isDisabled
+              isDisabled
               label="Customer"
               labelPlacement="outside"
               isRequired
@@ -245,9 +248,20 @@ export default function AddDataNGDialog() {
                 </SelectContent>
               </Select>
             </div>
-            
+
           </div>
-          <Button type="submit" className="bg-primary">Simpan</Button>
+          <div className={loading ? 'hidden' : 'mb-5'}>
+            <button
+              type="submit"
+              className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+            >Submit</button>
+          </div>
+          <div className={loading ? 'mb-5' : 'hidden'}>
+            <button disabled className="flex justify-center items-center w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

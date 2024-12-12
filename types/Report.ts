@@ -48,4 +48,8 @@ interface Report {
     part_name: string;
     prod: Number;
     production_id: number;
+
+    title: string;
+    content: string;
+    author: string;
 }

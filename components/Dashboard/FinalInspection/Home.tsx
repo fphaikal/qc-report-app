@@ -11,6 +11,7 @@ import ReportChart from "@/components/Chart/ReportChart"
 import DatePicker from "@/components/Popover/DatePicker"
 import AverageChart from "@/components/Chart/AverageChart"
 import NamePartChart from "@/components/Chart/NamePartChart"
+import Loading from "@/components/Loading"
 
 export default function FinalInspectionDashboard() {
   const [date, setDate] = React.useState<Date>(); // Pastikan initial state sesuai
@@ -24,6 +25,7 @@ export default function FinalInspectionDashboard() {
       `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/chartData?type=daily`,
       `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/chartData?type=operator`,
       `${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/chartData?type=namePart`,
+      `${process.env.NEXT_PUBLIC_API_URL}/data/announcement?date=latest`,
     ];
     setUrls(newUrls); // Update URLs berdasarkan date yang dipilih
   }, [date]);
@@ -63,7 +65,7 @@ export default function FinalInspectionDashboard() {
   } satisfies ChartConfig;
 
   const namePartChart = data[3] && data[3].map((report) => ({
-    name: report.name_part,   
+    name: report.name_part,
     target: report.target,
     actual: report.actual,
   }))
@@ -76,7 +78,7 @@ export default function FinalInspectionDashboard() {
     target: {
       label: "Target",
       color: "hsl(0, 100%, 50%)",
-    },  
+    },
     actual: {
       label: "Actual",
       color: "hsl(133.78, 52.86%, 72.55%)",
@@ -85,26 +87,31 @@ export default function FinalInspectionDashboard() {
 
 
   if (loading) return (
-    <div className="p-10">Loading...</div>
+    <Loading />
   )
   0.
   if (error) return (
     <div className="p-10">Error: {error}</div>
   )
   return (
-    <div className="flex flex-col gap-5 w-full p-5 md:p-10">
+    <div className="flex flex-col gap-5 p-5 md:p-10">
       <Alert className="bg-red-500 text-white">
         <CircleAlert className="w-4 h-4" color="white" />
-        <AlertTitle>PENGUMUMAN</AlertTitle>
+        <AlertTitle>
+          {data[4] && data[4].map((announcement) => (
+            <p key={announcement._id}>{announcement.title}</p>
+          ))}</AlertTitle>
         <AlertDescription>
-          Permintaan terbaru dari PT. TTEC
+          {data[4] && data[4].map((announcement) => (
+            <p key={announcement._id}>{announcement.content}</p>
+          ))}
         </AlertDescription>
       </Alert>
       <div className="flex flex-col gap-4">
         {/* Chart */}
-          <div className="w-full">
-            <NamePartChart chartData={namePartChart} chartConfig={namePartChartConfig} />
-          </div>
+        <div className="w-full">
+          <NamePartChart chartData={namePartChart} chartConfig={namePartChartConfig} />
+        </div>
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-1/2">
             <ReportChart chartData={reportChart} chartConfig={reportChartConfig} />

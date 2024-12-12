@@ -4,25 +4,32 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
-import { CircleUserRound, LogOut } from "lucide-react"
+import { Bell, CircleUserRound, LogOut } from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
+import { Button, Card } from "@nextui-org/react"
+import { Suspense, useEffect, useState } from "react"
 import { siteConfig } from "@/config/site"
+import { AppSidebar } from "../app-sidebar"
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "../ui/sidebar"
+import Loading from "../Loading"
+import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react"
+import { format } from "date-fns"
+import { CardTitle } from "../ui/card"
 
-
-
-export default function Sidebar() {
+export default function Sidebar({ content }: Readonly<{ content: React.ReactNode }>) {
   const pathname = usePathname();
   const router = useRouter();
   const [isXlOrAbove, setIsXlOrAbove] = useState(false);
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
+  const [data, setData] = useState<Report[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Check screen size to determine if it's xl or larger
   useEffect(() => {
@@ -44,6 +51,26 @@ export default function Sidebar() {
       setRole(localStorage.getItem("role") || "");
     }
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = Cookies.get('token')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement?date=all`, {
+        method: "GET",
+        headers: token ? { authorization: token } : {},
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        setError(data.message)
+      } else {
+        const result = await res.json();
+        setData(result.data)  // pastikan result.data adalah array
+      }
+      setLoading(false)
+    }
+    fetchData()
+  }, [])
 
   useEffect(() => {
 
@@ -99,65 +126,66 @@ export default function Sidebar() {
     }
   }
 
-
   return (
-    <div className="sticky md:flex flex-none flex-col justify-between h-screen hidden gap-2 p-5 w-fit 2xl:w-[300px] bg-primary top-0 shrink-0">
-      <div className="flex flex-col">
-        <Link href={'/'} className="flex flex-col items-center gap-2">
-          <Image className="w-12 xl:w-28" src='/logo.png' alt="" width={100} height={100} priority />
-          <h1 className="text-white text-center text-xl font-semibold hidden xl:block">Quality Pintar</h1>
-        </Link>
-
-        <div className="mt-5 h-[500px] overflow-y-auto">
-          {siteConfig.navItems.map((group, index) => {
-            // Show NCR and IPR menus only if the role is admin
-            if ((group.shortName === "NCR" || group.shortName === "IPR" || group.shortName === "ADM") && role !== "admin") {
-              return null;
-            }
-
-            return (
-              <div key={index} className="flex flex-col gap-2">
-                <h2 className="text-white/40 text-sm font-semibold text-center xl:text-left mt-3">
-                  {isXlOrAbove ? group.name : group.shortName}
-                </h2>
-                {group.menuItems.map((item, index) => (
-                  <TooltipProvider key={index}>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Link href={item.route} key={index} className={item.route === pathname ? "flex flex-row gap-2 bg-white/10 px-4 py-2 rounded-xl" : "flex flex-row gap-2 hover:bg-white/10 duration-200 px-4 py-2 rounded-xl"}>
-                          <item.icon size={20} color="white" />
-                          <p className="text-white text-sm font-semibold hidden xl:block">
-                            {isXlOrAbove ? item.label : group.shortName}
-                          </p>
-                        </Link>
-                      </TooltipTrigger>
-                      <TooltipContent align="start" key={item.label}>
-                        <p>{item.label} </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                ))}
-              </div>
-            );
-          })}
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset className="flex-1 overflow-y-auto">
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b w-full">
+          <div className="flex justify-between items-center gap-2 px-10 w-full">
+            <SidebarTrigger />
+            <div className="flex gap-4">
+              <Popover backdrop="blur" placement="bottom-end" >
+                <PopoverTrigger>
+                  <button className="aspect-square">
+                    <Bell size={20} color="gray" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="flex flex-col px-1 py-2 gap-4 w-80">
+                    <div className="flex justify-between">
+                      <h1>Notification</h1>
+                      <Link href={'/dashboard/announcement'} className="hover:underline underline-offset-2">See More</Link>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      {data.map((announcement) => (
+                        <Card key={announcement._id} className="flex flex-row items-center">
+                          <div className="w-24 flex-shrink-0 border-r border-gray-200 p-4 flex flex-col items-center justify-center">
+                            <div className="text-lg font-bold">{format(new Date(announcement.created_at), 'd')}</div>
+                            <div className="text-xs uppercase">{format(new Date(announcement.created_at), 'MMM yyyy')}</div>
+                          </div>
+                          <div className="flex flex-col gap-1 justify-center px-3 py-4">
+                            <CardTitle>{announcement.title}</CardTitle>
+                            <p className="text-xs text-gray-600 ">{announcement.content}</p>
+                            <p className="text-xs text-gray-400">Author: {announcement.author}</p>
+                          </div>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <Popover backdrop="blur" placement="bottom-end" >
+                <PopoverTrigger>
+                  <button className="aspect-square">
+                    <CircleUserRound color="black" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="flex flex-col px-1 py-2 gap-1">
+                    <Button variant="light">{username}</Button>
+                    <Button color="danger" onClick={handleLogout}>Logout</Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+        </header>
+        <div>
+          <Suspense fallback={<Loading />}>
+            <main className="container mx-auto">{content}</main>
+          </Suspense>
         </div>
-      </div>
-      <div className="flex  flex-col xl:flex-row items-center justify-between w-full gap-2">
-        <div className="flex flex-row gap-2 hover:bg-white/10 px-4 py-2 rounded-xl w-full">
-          <CircleUserRound size={20} color="white" />
-          <p className="text-white text-sm font-semibold hidden xl:block">{username} </p>
-        </div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button className="bg-transparent shadow-none rounded-xl hover:bg-white/10" onClick={handleLogout}><LogOut size={20} color="white" className="hover" /></Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Logout</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-    </div >
+      </SidebarInset>
+    </SidebarProvider>
   )
 }

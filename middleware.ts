@@ -11,7 +11,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  const loginPages = ['/login'];
+  const loginPages = ['/login', '/'];
 
   if (!token && loginPages.includes(req.nextUrl.pathname)) {
     // Jika tidak ada token dan mencoba mengakses halaman login, izinkan akses
