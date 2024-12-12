@@ -44,7 +44,7 @@ export default function FinalInspectionDashboard() {
   const reportChartConfig = {
     total: {
       label: "Total",
-      color: "hsl(133.78, 52.86%, 72.55%)",
+      color: "hsl(145.96,79.46%,43.92%)",
     },
     target: {
       label: "Target",
@@ -60,7 +60,7 @@ export default function FinalInspectionDashboard() {
   const averageChartConfig = {
     value: {
       label: "Value",
-      color: "hsl(133.78, 52.86%, 72.55%)",
+      color: "hsl(145.96,79.46%,43.92%)",
     },
   } satisfies ChartConfig;
 
@@ -71,17 +71,13 @@ export default function FinalInspectionDashboard() {
   }))
 
   const namePartChartConfig = {
-    name_part: {
-      label: "Name Part",
-      color: "hsl(211.78, 52.86%, 72.55%)",
-    },
     target: {
       label: "Target",
-      color: "hsl(0, 100%, 50%)",
+      color: "hsl(339.2,90.36%,51.18%)",
     },
     actual: {
       label: "Actual",
-      color: "hsl(133.78, 52.86%, 72.55%)",
+      color: "hsl(145.96,79.46%,43.92%)",
     },
   } satisfies ChartConfig;
 
@@ -95,7 +91,7 @@ export default function FinalInspectionDashboard() {
   )
   return (
     <div className="flex flex-col gap-5 p-5 md:p-10">
-      <Alert className="bg-red-500 text-white">
+      <Alert className="bg-danger text-white">
         <CircleAlert className="w-4 h-4" color="white" />
         <AlertTitle>
           {data[4] && data[4].map((announcement) => (

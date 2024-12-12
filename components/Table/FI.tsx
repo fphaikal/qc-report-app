@@ -89,7 +89,7 @@ export default function ReportTable({ data, handleDelete }: ReportTableProps) {
                       <DeleteDialog id={report._id} handleDelete={handleDelete} />
                       {/* <Dialog>
                         <DialogTrigger asChild>
-                          <Button variant="outline" className="bg-red-500 text-white rounded-md w-fit p-2">
+                          <Button variant="outline" className="bg-danger text-white rounded-md w-fit p-2">
                             <Trash2 className="" size={18} />
                           </Button>
                         </DialogTrigger>

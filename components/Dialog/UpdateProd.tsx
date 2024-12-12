@@ -71,7 +71,7 @@ export default function UpdateProd({ data }: any) {
             <DialogDescription>Edit data produksi, dan tekan simpan jika sudah selesai</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleUpdateData}>
-            {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-red-500 border border-red-500 mb-4">
+            {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-danger border border-red-500 mb-4">
               <AlertCircle />
               <p>{resErr}</p>
             </div>}
@@ -105,7 +105,7 @@ export default function UpdateProd({ data }: any) {
           </form>
         </DialogContent>
       </Dialog>
-      <Button onClick={() => handleEdit(data)} className="bg-green-500 text-white rounded-md w-fit p-2">
+      <Button onClick={() => handleEdit(data)} className="bg-success text-white rounded-md w-fit p-2">
         <Pencil className="" size={18} />
       </Button>
     </div>

@@ -8,7 +8,7 @@ export default function DeleteDialog({ id, handleDelete }: { id: number, handleD
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="bg-red-500 text-white rounded-md w-fit p-2">
+        <Button variant="outline" className="bg-danger text-white rounded-md w-fit p-2">
           <Trash2 className="" size={18} />
         </Button>
       </DialogTrigger>

@@ -165,7 +165,7 @@ export default function UpdateNCR({ data }: UpdateFIProps) {
           </form>
         </DialogContent>
       </Dialog>
-      <Button onClick={() => handleEdit(data)} className="bg-green-500 text-white rounded-md w-fit p-2">
+      <Button onClick={() => handleEdit(data)} className="bg-success text-white rounded-md w-fit p-2">
         <Pencil className="" size={18} />
       </Button>
     </div>

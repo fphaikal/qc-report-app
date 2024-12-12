@@ -88,7 +88,7 @@ export default function AddDataIPRDialog() {
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmitDataIPR}>
-          {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-red-500 border border-red-500">
+          {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-danger border border-red-500">
             <AlertCircle />
             <p>{resErr}</p>
           </div>}

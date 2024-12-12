@@ -104,7 +104,7 @@ export default function NGReport() {
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Total QTY NG</h1>
-        <Button onClick={handleDownload} className="bg-green-400 hover:bg-green-900 text-white rounded">
+        <Button onClick={handleDownload} className="bg-success-400 hover:bg-success-900 text-white rounded">
           Download Excel
         </Button>
       </div>

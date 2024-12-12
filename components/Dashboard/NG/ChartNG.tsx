@@ -162,7 +162,7 @@ export default function Component() {
     <div className="flex flex-col gap-10 w-full p-5 md:p-10 min-h-screen">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Chart NG</h1>
-        <Button onClick={handleDownloadNgPerPcs} className="bg-green-400 hover:bg-green-900 text-white rounded">
+        <Button onClick={handleDownloadNgPerPcs} className="bg-success-400 hover:bg-success-900 text-white rounded">
           Download Excel  
         </Button>
       </div>
@@ -242,7 +242,7 @@ export default function Component() {
       </div> */}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Persentase Internal Report NG Per Bulan</h1>
-        <Button onClick={handleDownloadNgMonthly} className="bg-green-400 hover:bg-green-900 text-white rounded">
+        <Button onClick={handleDownloadNgMonthly} className="bg-success-400 hover:bg-success-900 text-white rounded">
           Download Excel
         </Button>
       </div>

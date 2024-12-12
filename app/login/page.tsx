@@ -55,7 +55,7 @@ export default function FinalInspectionLogin() {
             <h2 className="mb-4 text-2xl font-bold text-center text-black dark:text-white sm:text-title-xl2">
               Sign In to Quality Pintar Denapella
             </h2>
-            {error && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-red-500 border border-red-500">
+            {error && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-danger border border-red-500">
               <AlertCircle />
               <p>{error}</p>
             </div>}

@@ -68,7 +68,7 @@ export default function IPRTable({ data, handleDelete }: NCRTableProps) {
               <TableCell>{report.form_type}</TableCell>
               <TableCell>{report.pic}</TableCell>
               <TableCell>{format(new Date(report.start_date), "y-MM-dd")}</TableCell>
-              <TableCell className={report.progress >= '100' ? 'bg-green-400' : 'bg-red-400'}>{report.progress}</TableCell>
+              <TableCell className={report.progress >= '100' ? 'bg-success-400' : 'bg-danger'}>{report.progress}</TableCell>
               <TableCell>{format(new Date(report.target_due), "y-MM-dd")}</TableCell>
               <TableCell>{format(new Date(report.actual_finish), "y-MM-dd")}</TableCell>
               {pathname === '/dashboard/ipr/report' &&

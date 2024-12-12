@@ -35,7 +35,7 @@ export default function NGDashboard() {
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/exportExcel?type=all`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/exportExcel?type=typeNg`, {
         method: "GET",
         headers: token ? {
           authorization: token, "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -79,7 +79,7 @@ export default function NGDashboard() {
       <div className="flex justify-between items-center ">
         <h1 className="text-3xl font-bold">Resume Data NG</h1>
         <div className="flex items-center gap-2">
-          <Button onClick={handleDownload} className=" bg-green-400 hover:bg-green-900 text-white rounded">
+          <Button onClick={handleDownload} className=" bg-success-400 hover:bg-success-900 text-white rounded">
             Download Excel
           </Button>
           <DatePicker date={date} setDate={(date) => setDate(date)} handleReset={handleReset} />

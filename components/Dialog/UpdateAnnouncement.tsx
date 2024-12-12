@@ -76,7 +76,7 @@ export default function UpdateAnnouncement({ data }: any) {
             <DialogDescription>Edit data announcement, dan tekan simpan jika sudah selesai</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleUpdateData}>
-            {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-red-500 border border-red-500 mb-4">
+            {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-danger border border-red-500 mb-4">
               <AlertCircle />
               <p>{resErr}</p>
             </div>}
@@ -100,7 +100,7 @@ export default function UpdateAnnouncement({ data }: any) {
           </form>
         </DialogContent>
       </Dialog>
-      <button onClick={() => handleEdit(data)} className="flex aspect-auto size-10 items-center justify-center rounded-xl bg-green-500 text-white">
+      <button onClick={() => handleEdit(data)} className="flex aspect-auto size-10 items-center justify-center rounded-xl bg-success text-white">
         <Pencil className="" size={18} />
       </button>
     </div>

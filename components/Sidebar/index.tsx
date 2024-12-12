@@ -167,7 +167,7 @@ export default function Sidebar({ content }: Readonly<{ content: React.ReactNode
               <Popover backdrop="blur" placement="bottom-end" >
                 <PopoverTrigger>
                   <button className="aspect-square">
-                    <CircleUserRound color="black" />
+                    <CircleUserRound color="gray" />
                   </button>
                 </PopoverTrigger>
                 <PopoverContent>

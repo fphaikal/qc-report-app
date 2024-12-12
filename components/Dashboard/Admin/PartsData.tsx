@@ -18,6 +18,7 @@ import AddPartDialog from "@/components/Dialog/AddPart";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import { Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input"
+import DeleteDialog from "@/components/Dialog/DeleteData";
 
 
 interface Part {
@@ -106,31 +107,7 @@ export default function NGReport() {
                 <TableCell className="font-medium">{result.part}</TableCell>
                 <TableCell className="font-medium">{result.customer}</TableCell>
                 <TableCell>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" className="bg-red-500 text-white rounded-md w-fit p-2">
-                        <Trash2 className="" size={18} />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-md">
-                      <DialogHeader>
-                        <DialogTitle>Hapus Data</DialogTitle>
-                        <DialogDescription>
-                          Apakah anda yakin ingin menghapus data ini?
-                        </DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter className="sm:justify-start" >
-                        <Button onClick={() => handleDelete(result._id)} className="bg-red-500 text-white rounded-md w-fit p-2">
-                          <p>Iya, Hapus</p>
-                        </Button>
-                        <DialogClose asChild>
-                          <Button type="button" variant="secondary">
-                            Tidak, Tetap Simpan
-                          </Button>
-                        </DialogClose>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
+                  <DeleteDialog id={result._id} handleDelete={handleDelete} />
                 </TableCell>
               </TableRow>
             ))}

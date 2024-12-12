@@ -61,7 +61,7 @@ export default function AddPartDialog() {
             <DialogDescription>Tambah data part, dan tekan simpan jika sudah selesai</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleAddData}>
-            {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-red-500 border border-red-500 mb-4">
+            {resErr && <div className="flex items-center gap-4 p-3 rounded-lg text-white bg-danger border border-red-500 mb-4">
               <AlertCircle />
               <p>{resErr}</p>
             </div>}

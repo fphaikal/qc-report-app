@@ -67,7 +67,7 @@ export default function NGTable({ data, handleDelete }: NGTableProps) {
               <TableCell>{report.ng_quantity}</TableCell>
               <TableCell>{report.operator}</TableCell>
               <TableCell>{report.detection}</TableCell>
-              <TableCell className={report.status === 'reject' ? 'bg-red-400' : 'bg-orange-400'}>{report.status}</TableCell>
+              <TableCell className={report.status === 'reject' ? 'bg-danger' : 'bg-orange-400'}>{report.status}</TableCell>
               <TableCell>{report.month}</TableCell>
               <TableCell>{report.year}</TableCell>
               {pathname === '/dashboard/ngData/report' && (
@@ -76,7 +76,7 @@ export default function NGTable({ data, handleDelete }: NGTableProps) {
                     <UpdateNG data={report} />
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="outline" className="bg-red-500 text-white rounded-md w-fit p-2">
+                        <Button variant="outline" className="bg-danger text-white rounded-md w-fit p-2">
                           <Trash2 className="" size={18} />
                         </Button>
                       </DialogTrigger>
