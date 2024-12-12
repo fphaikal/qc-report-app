@@ -28,10 +28,10 @@ export default function FinalInspectionLogin() {
 
       if (res.ok) {
         Cookies.set("token", data.token, {
-          expires: 60 * 60 * 24 * 7, // 1 week
+          expires: 60 * 60 * 24, // 1 week
         });
         Cookies.set("auth", data.data.role, {
-          expires: 60 * 60 * 24 * 7, // 1 week
+          expires: 60 * 60 * 24, // 1 week
         });
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("username", data.data.username)
