@@ -35,7 +35,7 @@ export default function NGDashboard() {
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/exportExcel?type=typeNg`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/ngData/exportExcel?type=totalQtyNg`, {
         method: "GET",
         headers: token ? {
           authorization: token, "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

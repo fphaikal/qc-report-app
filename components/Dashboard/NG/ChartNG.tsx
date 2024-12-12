@@ -259,7 +259,7 @@ export default function Component() {
               >
                 <PieChart>
                   <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-                  <Pie data={data.data} dataKey="percent" label nameKey="customer" />
+                  <Pie data={data.data} dataKey="ng_quantity" label nameKey="customer" />
                 </PieChart>
               </ChartContainer> 
             </CardContent>
