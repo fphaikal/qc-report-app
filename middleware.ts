@@ -6,7 +6,7 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
 
   // Jika role bukan admin dan mencoba mengakses NCR atau IPR
-  if (role !== 'admin' && (url.pathname.startsWith('/dashboard/ncr') || url.pathname.startsWith('/dashboard/ipr'))) {
+  if (role !== 'admin' && (url.pathname.startsWith('/dashboard/ncr') || url.pathname.startsWith('/dashboard/ipr') || url.pathname.startsWith('/dashboard/ngData'))) {
     url.pathname = '/dashboard'; // Redirect ke halaman home untuk user biasa
     return NextResponse.redirect(url);
   }
@@ -33,5 +33,5 @@ export function middleware(req: NextRequest) {
 
 // Tentukan path mana saja yang ingin menggunakan middleware ini
 export const config = {
-  matcher: ['/dashboard', '/login', '/dashboard/ncr/:path*', '/dashboard/ipr/:path*', '/dashboard/ngData/:path*', '/dashboard/admin/:path*'],
+  matcher: ['/dashboard', '/login', '/dashboard/ncr/:path*', '/dashboard/ipr/:path*', '/dashboard/ngData/:path*', '/dashboard/admin/:path*', '/announcement'],
 };

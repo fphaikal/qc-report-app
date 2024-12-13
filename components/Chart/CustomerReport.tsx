@@ -46,9 +46,9 @@ export default function CustomerReport({ chartData, chartConfig }: ReportChartPr
             <Bar
               dataKey="value"
               type="linear"
-              fill="var(--color-report)"
+              fill="var(--color-value)"
               fillOpacity={0.4}
-              stroke="var(--color-report)"
+              stroke="var(--color-value)"
             />
           </BarChart>
         </ChartContainer>

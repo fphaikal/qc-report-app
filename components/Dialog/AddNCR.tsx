@@ -12,6 +12,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Cookies from "js-cookie";
+import { Label } from "../ui/label";
+import { deptConfig } from "@/config/dept";
 
 export default function AddDataIPRDialog() {
   const [infoDate, setInfoDate] = useState<string>('');
@@ -100,15 +102,16 @@ export default function AddDataIPRDialog() {
                 onChange={(date) => setInfoDate(date?.toString())}
               />
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <Label>Department/Section</Label>
               <Select onValueChange={(value) => setDeptSection(value)}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Department/Section" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Machining">Machining</SelectItem>
-                  <SelectItem value="Stamping">Stamping</SelectItem>
-                  <SelectItem value="Machining (Welding)">Machining (Welding)</SelectItem>
+                  {deptConfig.map((dept) => dept.isNcr && (
+                    <SelectItem key={dept.name} value={dept.name}>{dept.name}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

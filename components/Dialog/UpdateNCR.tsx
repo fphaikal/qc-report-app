@@ -8,6 +8,15 @@ import { DateInput } from "@nextui-org/react";
 import { Pencil } from "lucide-react"
 import { NCR } from "@/types/NCR";
 import Cookies from "js-cookie";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Label } from "../ui/label";
+import { deptConfig } from "@/config/dept";
 
 interface UpdateFIProps {
   data: NCR;
@@ -46,14 +55,14 @@ export default function UpdateNCR({ data }: UpdateFIProps) {
         const data = await res.json();
         setResErr(data.message); // Set error jika ada
       }
-       if (res.status === 401) {
+      if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("username");
         localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }
-      
+
     } catch (err) {
       setError((err as Error).message);
     }
@@ -75,13 +84,19 @@ export default function UpdateNCR({ data }: UpdateFIProps) {
                 labelPlacement="outside"
                 onChange={(date) => setSelectedReport({ ...selectedReport!, info_date: date.toString() })} // Mengonversi tanggal ke format ISO
               />
-              <Input
-                label="Department Section"
-                labelPlacement="outside"
-                placeholder="Masukkan department section"
-                value={selectedReport?.department_section || ''}
-                onChange={(e) => setSelectedReport({ ...selectedReport!, department_section: e.target.value })}
-              />
+              <div className="flex flex-col gap-2">
+                <Label>Department/Section</Label>
+                <Select value={selectedReport?.department_section} onValueChange={(value) => setSelectedReport({ ...selectedReport!, department_section: value })}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Department/Section" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {deptConfig.map((dept) => dept.isNcr && (
+                      <SelectItem key={dept.name} value={dept.name}>{dept.name}</SelectItem>
+                    )) }
+                  </SelectContent>
+                </Select>
+              </div>
               <Input
                 label="Problem"
                 labelPlacement="outside"

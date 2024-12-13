@@ -17,8 +17,7 @@ import {
 import { usePathname, useRouter } from "next/navigation"
 import Image from "next/image"
 import { siteConfig } from "@/config/site"
-// This is sample data.
-
+import Link from "next/link"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
@@ -48,9 +47,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {siteConfig.navItems.map((item) => (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton asChild>
-                  <div className="font-medium">
+                  <Link href={item.route ?? ""} className="font-medium">
                     {item.name}
-                  </div>
+                  </Link>
                 </SidebarMenuButton>
                 {item.menuItems?.length ? (
                   <SidebarMenuSub>

@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/table"
 import React from "react";
 import { Button } from "@/components/ui/button";
-import Cookies from "js-cookie";
 import UpdateProd from "@/components/Dialog/UpdateProd";
+import Cookies from "js-cookie";
 
 const token = Cookies.get('token')
 

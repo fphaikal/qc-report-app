@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Cookies from "js-cookie";
+import { deptConfig } from "@/config/dept";
 
 export default function AddDataNGDialog() {
   interface Part {
@@ -166,11 +167,9 @@ export default function AddDataNGDialog() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="IN PROCESS">Machining</SelectItem>
-                    <SelectItem value="Stamping">Stamping</SelectItem>
-                    <SelectItem value="Subcon">Subcon</SelectItem>
-                    <SelectItem value="Molding Roof">Molding Roof</SelectItem>
-                    <SelectItem value="Slitting">Slitting</SelectItem>
+                    {deptConfig.map((dept) => dept.isNg && (
+                      <SelectItem key={dept.name} value={dept.name}>{dept.name}</SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>

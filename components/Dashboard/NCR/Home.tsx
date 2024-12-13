@@ -35,14 +35,14 @@ export default function NCRDashboard() {
   }))
 
   const chartConfig = {
-    report: {
-      label: "Report",
+    customer: {
+      label: "Customer",
       color: "hsl(133.78, 52.86%, 72.55%)",
     },
-    target: {
-      label: "Target",
-      color: "hsl(211.78, 52.86%, 72.55%)",
-    },
+    value: {
+      label: "Value",
+      color: "hsl(145.96,79.46%,43.92%)",
+    },  
   } satisfies ChartConfig;
 
 
