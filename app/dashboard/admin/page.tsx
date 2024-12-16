@@ -8,6 +8,7 @@ import React from "react";
 import { CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import { siteConfig } from "@/config/site";
 
 const token = Cookies.get('token')
 
@@ -129,18 +130,20 @@ export default function HomeAdmin() {
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10">
       <h1 className="text-3xl font-bold">Admin Menu</h1>
-      <div className="flex gap-4 w-full">
-        {AdminMenu.map((menu, index) => (
-          <Link key={index} href={menu.route} className="w-full">
-            <Card isPressable shadow="sm" className="w-full">
-              <CardHeader className="py-4 px-4 flex-col items-start">
-                <CardTitle>{menu.title}</CardTitle>
-                <p className="text-sm text-gray-500">{menu.description}</p>
-              </CardHeader>
-            </Card>
-          </Link>
+        {siteConfig.navItems.map((site) => site.shortName === 'ADM' && (
+          <div className="flex gap-4 w-full">
+            {site.menuItems.map((menu, index) => (
+              <Link key={index} href={menu.route} className="w-full">
+                <Card isPressable shadow="sm" className="w-full">
+                  <CardHeader className="py-4 px-4 flex-col items-start">
+                    <CardTitle>{menu.label}</CardTitle>
+                    <p className="text-sm text-gray-500"></p>
+                  </CardHeader>
+                </Card>
+              </Link>
+            ))}
+          </div>
         ))}
-      </div>
       <div className="flex flex-col gap-2">
         <h1 className="text-xl font-bold">Export Excel</h1>
         <div className="flex flex-col gap-2">

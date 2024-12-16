@@ -102,7 +102,7 @@ export const siteConfig = {
         {
           label: "User Management",
           icon: Component,
-          route: "/dashboard/admin/user-management"
+          route: "/dashboard/admin/users"
         },
       ]
     }
