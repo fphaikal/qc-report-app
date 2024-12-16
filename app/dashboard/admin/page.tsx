@@ -145,8 +145,8 @@ export default function HomeAdmin() {
         <h1 className="text-xl font-bold">Export Excel</h1>
         <div className="flex flex-col gap-2">
           {exportExcel.map((menu, index) => (
-            <div className="flex flex-col gap-2">
-              <div key={index} className="flex gap-2 items-center">
+            <div  key={index} className="flex flex-col gap-2">
+              <div className="flex gap-2 items-center">
                 <div className="flex w-1/3">
                   <h1 className="text-md">{menu.title}</h1>
                 </div>
