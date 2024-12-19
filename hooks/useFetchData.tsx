@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { useRouter } from "next/navigation"
 
 export default function useFetchData(urls: string[]) {

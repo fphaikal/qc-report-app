@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { Button } from "@/components/ui/button"
 import { LogOut } from "lucide-react";
 import {
@@ -32,7 +33,6 @@ export default function LogoutButton() {
       }
 
       localStorage.removeItem("isAuthenticated");
-      localStorage.removeItem("username");
       router.push("/login");
     } catch (error) {
       return error;

@@ -7,6 +7,7 @@ import DatePicker from "@/components/Popover/DatePicker"
 import { ChartConfig } from "@/components/ui/chart"
 import NGTable from "@/components/Table/NG"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { Button } from "@/components/ui/button"
 import { NG } from "@/types/NG"
 import Loading from "@/components/Loading"

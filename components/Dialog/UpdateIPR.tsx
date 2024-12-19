@@ -8,6 +8,7 @@ import { DateInput } from "@nextui-org/react";
 import { Pencil } from "lucide-react"
 import { NCR } from "@/types/NCR";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import {
   Select,
   SelectContent,
@@ -39,8 +40,7 @@ export default function UpdateIPR({ data }: UpdateFIProps) {
     const { _id, info_date, department_section, problem, source, item, customer, description, cause, countermeasure, form_type, pic, start_date, progress, target_due, actual_finish } = selectedReport!;
 
     try {
-      const token = Cookies.get('token')
-      const res = await fetch(`/api/updateData/ipr`, {
+const token = getToken();      const res = await fetch(`/api/updateData/ipr`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -57,8 +57,6 @@ export default function UpdateIPR({ data }: UpdateFIProps) {
       }
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }

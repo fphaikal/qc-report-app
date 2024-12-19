@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from "@nextui-org/react";
 import { Pencil, AlertCircle, Loader2 } from "lucide-react"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 
 export default function AddPartDialog() {
   const [resErr, setResErr] = useState(''); // State untuk menampilkan error
@@ -19,8 +20,7 @@ export default function AddPartDialog() {
     e.preventDefault();
 
     try {
-      const token = Cookies.get('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/parts`, {
+const token = getToken();      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/parts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,8 +38,6 @@ export default function AddPartDialog() {
       }
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }

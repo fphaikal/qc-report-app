@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { Button } from "@/components/ui/button";
 
 const token = Cookies.get('token')

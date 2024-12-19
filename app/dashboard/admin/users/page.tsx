@@ -6,12 +6,14 @@ import Error from "@/components/Error";
 import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 import React from "react";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { Input } from "@/components/ui/input"
 import { Car, Trash2 } from "lucide-react";
 import { CardTitle } from "@/components/ui/card";
 import AddUserDialog from "@/components/Dialog/AddUser";
 import DeleteDialog from "@/components/Dialog/DeleteData";
 import UpdateUser from "@/components/Dialog/UpdateUser";
+import { useRouter } from "next/navigation"
 
 interface Users {
   _id: number;
@@ -25,18 +27,19 @@ export default function Users() {
   const [searchPart, setSearchPart] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter()
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = Cookies.get('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/users`, {
+const token = getToken();      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/users`, {
         method: "GET",
         headers: token ? { authorization: token } : {},
       })
 
       if (!res.ok) {
-        const data = await res.json()
-        setError(data.message)
+        localStorage.removeItem("isAuthenticated");
+        Cookies.remove("token");
+        router.push("/login");
       } else {
         const result = await res.json();
         setData(result.data)  // pastikan result.data adalah array

@@ -24,6 +24,7 @@ import Loading from "@/components/Loading"
 import Error from "@/components/Error"
 import { Button } from "@/components/ui/button"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 
 const token = Cookies.get('token')
 

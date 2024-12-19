@@ -1,12 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { decodeToken } from './utils/auth';
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value;
-  const role = req.cookies.get('auth')?.value; // Ambil role dari cookie, default 'user'
   const url = req.nextUrl.clone();
 
+  let user = null;
+  if (token) {
+    try {
+      user = decodeToken(token); // Dekode token untuk mendapatkan data user
+    } catch (error: any) { // Remove the type annotation from the catch clause variable
+      console.error('Invalid token:', error.message);
+      // Token tidak valid, redirect ke login
+      url.pathname = '/login';
+      return NextResponse.redirect(url);
+    }
+  }
+
+  const role = (user as { role?: string })?.role || 'user'; // Ambil role dari token, default ke 'user'
   // Jika role bukan admin dan mencoba mengakses NCR atau IPR
-  if (role !== 'admin' && (url.pathname.startsWith('/dashboard/ncr') || url.pathname.startsWith('/dashboard/ipr') || url.pathname.startsWith('/dashboard/ngData'))) {
+  if (role !== 'admin' && (url.pathname.startsWith('/dashboard/ncr') || url.pathname.startsWith('/dashboard/ipr')|| url.pathname.startsWith('/dashboard/admin')) ) {
     url.pathname = '/dashboard'; // Redirect ke halaman home untuk user biasa
     return NextResponse.redirect(url);
   }

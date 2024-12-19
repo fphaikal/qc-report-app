@@ -9,6 +9,7 @@ import { parseDateTime, ZonedDateTime, toZoned, now } from "@internationalized/d
 import { Pencil } from "lucide-react"
 import {Textarea} from "@nextui-org/input";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 
 interface UpdateFIProps {
   data: Report;
@@ -40,7 +41,7 @@ export default function UpdateFI({ data }: UpdateFIProps) {
     const { _id, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, created_at } = selectedReport!;
 
     try {
-      const token = Cookies.get('token')
+      const token = getToken();
       const res = await fetch(`/api/updateData/final-inspection`, {
         method: "PUT",
         headers: {
@@ -59,8 +60,6 @@ export default function UpdateFI({ data }: UpdateFIProps) {
       }
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload();
       }

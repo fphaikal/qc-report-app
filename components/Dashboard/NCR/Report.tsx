@@ -6,6 +6,7 @@ import Error from "@/components/Error";
 import NCRTable from "@/components/Table/NCR";
 import AddDataNCRDialog from "@/components/Dialog/AddNCR";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 
 const token = Cookies.get('token')
 
@@ -28,8 +29,6 @@ export default function Report() {
         if (!res.ok) return 'Network response was not ok';
         if (res.status === 401) {
           localStorage.removeItem("isAuthenticated");
-          localStorage.removeItem("username");
-          localStorage.removeItem("role");
           Cookies.remove("token");
           window.location.reload()
         }

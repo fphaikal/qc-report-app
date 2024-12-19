@@ -6,6 +6,7 @@ import Error from "@/components/Error";
 import { Card } from "@nextui-org/react";
 import React from "react";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { Input } from "@/components/ui/input"
 import AddAnnouncementDialog from "@/components/Dialog/AddAnnouncement";
 import { Trash2 } from "lucide-react";
@@ -29,7 +30,7 @@ export default function Announcement() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = Cookies.get('token')
+      const token = getToken(); 
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement?date=all`, {
         method: "GET",
         headers: token ? { authorization: token } : {},
@@ -97,7 +98,7 @@ export default function Announcement() {
               <UpdateAnnouncement data={announcement} />
               <button onClick={() => handleDelete(announcement._id)} className="flex aspect-auto size-10 items-center justify-center rounded-xl bg-danger text-sidebar-primary-foreground">
                 <Trash2 size={20} />
-              </button> 
+              </button>
             </div>
           </Card>
         ))}

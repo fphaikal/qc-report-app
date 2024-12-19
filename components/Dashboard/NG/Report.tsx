@@ -30,8 +30,6 @@ export default function NGReport() {
         if (!res.ok) return 'Network response was not ok';
         if (res.status === 401) {
           localStorage.removeItem("isAuthenticated");
-          localStorage.removeItem("username");
-          localStorage.removeItem("role");
           Cookies.remove("token");
           window.location.reload()
         }

@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 
 interface UpdateNgDataProps {
   data: NG;
@@ -43,8 +44,7 @@ export default function UpdateNG({ data }: UpdateNgDataProps) {
     const { _id, production_id, ncr_date, section, product_name, customer, last_process, value, ng_type, ng_quantity, operator, detection, status, month, year } = selectedReport!;
 
     try {
-      const token = Cookies.get('token')
-      const res = await fetch(`/api/updateData/ng`, {
+const token = getToken();      const res = await fetch(`/api/updateData/ng`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -61,8 +61,6 @@ export default function UpdateNG({ data }: UpdateNgDataProps) {
       }
        if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }

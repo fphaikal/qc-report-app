@@ -18,6 +18,7 @@ import { usePathname, useRouter } from "next/navigation"
 import Image from "next/image"
 import { siteConfig } from "@/config/site"
 import Link from "next/link"
+import { getRole } from "@/utils/auth"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
@@ -44,27 +45,33 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {siteConfig.navItems.map((item) => (
-              <SidebarMenuItem key={item.name}>
-                <SidebarMenuButton asChild>
-                  <Link href={item.route ?? ""} className="font-medium">
-                    {item.name}
-                  </Link>
-                </SidebarMenuButton>
-                {item.menuItems?.length ? (
-                  <SidebarMenuSub>
-                    {item.menuItems.map((item) => (
-                      <SidebarMenuSubItem key={item.label}>
-                        <SidebarMenuSubButton asChild isActive={item.route === pathname}>
-                          <a href={item.route}>{item.label}</a>
-                          
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                ) : null}
-              </SidebarMenuItem>
-            ))}
+            {siteConfig.navItems.map((item) => {
+              if ((item.shortName === "NCR" || item.shortName === "IPR" || item.shortName === "ADM") && getRole() !== "admin") {
+                return null;
+              }
+
+              return (
+                <SidebarMenuItem key={item.name}>
+                  <SidebarMenuButton asChild>
+                    <Link href={item.route ?? ""} className="font-medium">
+                      {item.name}
+                    </Link>
+                  </SidebarMenuButton>
+                  {item.menuItems?.length ? (
+                    <SidebarMenuSub>
+                      {item.menuItems.map((item) => (
+                        <SidebarMenuSubItem key={item.label}>
+                          <SidebarMenuSubButton asChild isActive={item.route === pathname}>
+                            <a href={item.route} aria-current={pathname === item.route ? 'page' : undefined}>{item.label}</a>
+
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  ) : null}
+                </SidebarMenuItem>
+              )
+            })}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

@@ -6,6 +6,7 @@ import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 import ReportTable from "@/components/Table/FI";
 import Cookies from "js-cookie"
+import { getToken } from "@/utils/auth";
 
 export default function MyReport() {
   const [data, setData] = useState<Report[]>([]);
@@ -15,20 +16,19 @@ export default function MyReport() {
   useEffect(() => {
     const fetchData = async () => {
       const username = localStorage.getItem('username')
-      const token = Cookies.get('token')
+      const token = getToken();
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/final-inspection/operator`, {
           method: "POST",
-          headers: { 'Content-Type': 'application/json',
+          headers: {
+            'Content-Type': 'application/json',
             ...(token && { authorization: token })
-           },
+          },
           body: JSON.stringify({ "name": username }),
         });
         if (!res.ok) return 'Network response was not ok';
         if (res.status === 401) {
           localStorage.removeItem("isAuthenticated");
-          localStorage.removeItem("username");
-          localStorage.removeItem("role");
           Cookies.remove("token");
           window.location.reload()
         }
@@ -44,8 +44,8 @@ export default function MyReport() {
     fetchData();
   }, []);
 
-  if (loading) return <Loading/>;
-  if (error) return <Error error={error}/>;
+  if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
 
   const handleDelete = async (_id: number) => {
     try {
@@ -67,7 +67,7 @@ export default function MyReport() {
     <div className="flex flex-col gap-5 w-full p-5 md:p-10 min-h-screen">
       <AddReportDialog />
       <div className="rounded-md border">
-        <ReportTable data={data} handleDelete={handleDelete}/>
+        <ReportTable data={data} handleDelete={handleDelete} />
       </div>
     </div>
   );

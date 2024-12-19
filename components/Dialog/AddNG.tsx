@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { deptConfig } from "@/config/dept";
 
 export default function AddDataNGDialog() {
@@ -44,8 +45,7 @@ export default function AddDataNGDialog() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = Cookies.get('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/parts`, {
+const token = getToken();      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/parts`, {
         method: "GET",
         headers: token ? { authorization: token } : {},
       })
@@ -74,8 +74,7 @@ export default function AddDataNGDialog() {
     const ng_quantity = ngQuantity
 
     try {
-      const token = Cookies.get('token')
-      const res = await fetch('/api/addData/ng', {
+const token = getToken();      const res = await fetch('/api/addData/ng', {
         method: "POST",
         headers: token ? { authorization: token } : {},
         body: JSON.stringify({
@@ -94,8 +93,6 @@ export default function AddDataNGDialog() {
       }
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }

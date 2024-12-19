@@ -8,6 +8,7 @@ import React from "react";
 import { CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { siteConfig } from "@/config/site";
 
 const token = Cookies.get('token')
@@ -130,8 +131,8 @@ export default function HomeAdmin() {
   return (
     <div className="flex flex-col gap-5 w-full p-5 md:p-10">
       <h1 className="text-3xl font-bold">Admin Menu</h1>
-        {siteConfig.navItems.map((site) => site.shortName === 'ADM' && (
-          <div className="flex gap-4 w-full">
+        {siteConfig.navItems.map((site, index) => site.shortName === 'ADM' && (
+          <div key={index} className="flex gap-4 w-full">
             {site.menuItems.map((menu, index) => (
               <Link key={index} href={menu.route} className="w-full">
                 <Card isPressable shadow="sm" className="w-full">

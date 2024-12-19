@@ -7,6 +7,7 @@ import { Input } from "@nextui-org/react";
 import { Pencil, AlertCircle } from "lucide-react"
 import { NG } from "@/types/NG"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
@@ -39,8 +40,7 @@ export default function UpdateUser({ data }: any) {
     const { _id, username, role, fullname, password } = selectedReport!;
     console.log(selectedReport)
     try {
-      const token = Cookies.get('token')
-      const res = await fetch(`/api/updateData/user`, {
+const token = getToken();      const res = await fetch(`/api/updateData/user`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -57,8 +57,6 @@ export default function UpdateUser({ data }: any) {
       }
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }

@@ -7,6 +7,7 @@ import { Input } from "@nextui-org/react";
 import { Pencil, AlertCircle } from "lucide-react"
 import { NG } from "@/types/NG"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 
 interface UpdateNgDataProps {
   data: NG;
@@ -33,8 +34,7 @@ export default function UpdateProd({ data }: any) {
     const { _id, prod } = selectedReport!;
     console.log(selectedReport)
     try { 
-      const token = Cookies.get('token')
-      const res = await fetch(`/api/updateData/ng/total-prod`, {
+const token = getToken();      const res = await fetch(`/api/updateData/ng/total-prod`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -51,8 +51,6 @@ export default function UpdateProd({ data }: any) {
       }
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }

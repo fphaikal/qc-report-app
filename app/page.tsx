@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 
 export default function Home() {
   const router = useRouter();
@@ -20,8 +21,6 @@ export default function Home() {
 
         if (!res.ok || res.status === 401) {
           localStorage.removeItem("isAuthenticated");
-          localStorage.removeItem("username");
-          localStorage.removeItem("role");
           Cookies.remove("token");
           router.push("/login");
         }

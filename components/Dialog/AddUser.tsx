@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from "@nextui-org/react";
 import { Pencil, AlertCircle, Loader2 } from "lucide-react"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Label } from "../ui/label";
 
@@ -23,8 +24,7 @@ export default function AddUserDialog() {
     const author = localStorage.getItem('username')
 
     try {
-      const token = Cookies.get('token')
-      const res = await fetch(`/api/addData/user`, {
+const token = getToken();      const res = await fetch(`/api/addData/user`, {
         method: "POST",
         headers: {
           "password-Type": "application/json",
@@ -42,8 +42,6 @@ export default function AddUserDialog() {
       }
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }

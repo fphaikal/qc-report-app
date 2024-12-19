@@ -14,6 +14,7 @@ import {
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import AddPartDialog from "@/components/Dialog/AddPart";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
 import { Trash2 } from "lucide-react";
@@ -35,8 +36,7 @@ export default function NGReport() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = Cookies.get('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/parts`, {
+const token = getToken();      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/parts`, {
         method: "GET",
         headers: token ? { authorization: token } : {},
       })

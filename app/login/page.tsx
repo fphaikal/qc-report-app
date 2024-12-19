@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AlertCircle, Loader2 } from "lucide-react"
 import Cookies from "js-cookie";
+import { getToken, setToken } from "@/utils/auth";
 
 export default function FinalInspectionLogin() {
   const [username, setUsername] = useState("");
@@ -27,15 +28,8 @@ export default function FinalInspectionLogin() {
       const data = await res.json();
 
       if (res.ok) {
-        Cookies.set("token", data.token, {
-          expires: 60 * 60 * 24, // 1 week
-        });
-        Cookies.set("auth", data.data.role, {
-          expires: 60 * 60 * 24, // 1 week
-        });
+        setToken(data.token);
         localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("username", data.data.username)
-        localStorage.setItem("role", data.data.role)
         router.push("/dashboard");
 
         window.location.reload()
@@ -100,7 +94,7 @@ export default function FinalInspectionLogin() {
                 <div className="relative">
                   <input
                     type="password"
-                    placeholder="6+ Characters, 1 Capital letter"
+                    placeholder="Enter Your Password"
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />

@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { Label } from "../ui/label";
 import { deptConfig } from "@/config/dept";
 
@@ -47,8 +48,7 @@ export default function AddDataIPRDialog() {
     const start_date = start
 
     try {
-      const token = Cookies.get('token')
-      const res = await fetch('/api/addData/ncr', {
+const token = getToken();      const res = await fetch('/api/addData/ncr', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,8 +67,6 @@ export default function AddDataIPRDialog() {
       }
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }

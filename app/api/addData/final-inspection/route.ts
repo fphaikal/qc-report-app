@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 
 export async function POST(request: Request) {
   if (request.method === "POST") {

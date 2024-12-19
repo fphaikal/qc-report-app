@@ -6,6 +6,7 @@ import Error from "@/components/Error";
 import { Card } from "@nextui-org/react";
 import React from "react";
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 import { Input } from "@/components/ui/input"
 import { CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
@@ -26,8 +27,7 @@ export default function Announcement() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = Cookies.get('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement?date=all`, {
+const token = getToken();      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement?date=all`, {
         method: "GET",
         headers: token ? { authorization: token } : {},
       })

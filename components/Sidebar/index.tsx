@@ -20,6 +20,7 @@ import Loading from "../Loading"
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react"
 import { format } from "date-fns"
 import { CardTitle } from "../ui/card"
+import { getToken, getUsername } from "@/utils/auth"
 
 export default function Sidebar({ content }: Readonly<{ content: React.ReactNode }>) {
   const pathname = usePathname();
@@ -45,16 +46,10 @@ export default function Sidebar({ content }: Readonly<{ content: React.ReactNode
     };
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setUsername(localStorage.getItem("username") || "");
-      setRole(localStorage.getItem("role") || "");
-    }
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = Cookies.get('token')
+      const token = getToken();
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement?date=all`, {
         method: "GET",
         headers: token ? { authorization: token } : {},
@@ -85,9 +80,6 @@ export default function Sidebar({ content }: Readonly<{ content: React.ReactNode
         });
 
         if (!res.ok || res.status === 401) {
-          localStorage.removeItem("isAuthenticated");
-          localStorage.removeItem("username");
-          localStorage.removeItem("role");
           Cookies.remove("token");
           router.push("/login");
         }
@@ -119,7 +111,7 @@ export default function Sidebar({ content }: Readonly<{ content: React.ReactNode
       }
 
       localStorage.removeItem("isAuthenticated");
-      localStorage.removeItem("username");
+      Cookies.remove("token");
       router.push("/login");
     } catch (error) {
       return error;
@@ -172,7 +164,7 @@ export default function Sidebar({ content }: Readonly<{ content: React.ReactNode
                 </PopoverTrigger>
                 <PopoverContent>
                   <div className="flex flex-col px-1 py-2 gap-1">
-                    <Button variant="light">{username}</Button>
+                    <Button variant="light">{getUsername()}</Button>
                     <Button color="danger" onClick={handleLogout}>Logout</Button>
                   </div>
                 </PopoverContent>

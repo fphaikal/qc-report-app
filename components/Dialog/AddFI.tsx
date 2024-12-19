@@ -7,6 +7,7 @@ import { DateInput } from "@nextui-org/react";
 import { now, getLocalTimeZone, CalendarDateTime, ZonedDateTime } from "@internationalized/date";
 import { AlertCircle, Loader2 } from "lucide-react"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 
 export default function AddReportDialog() {
   const [namePart, setNamePart] = useState('');
@@ -30,8 +31,7 @@ export default function AddReportDialog() {
     const type_ng = typeNg
 
     try {
-      const token = Cookies.get('token')
-      const res = await fetch('/api/addData/final-inspection', {
+const token = getToken();      const res = await fetch('/api/addData/final-inspection', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,8 +50,6 @@ export default function AddReportDialog() {
       }
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }

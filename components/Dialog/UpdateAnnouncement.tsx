@@ -7,6 +7,7 @@ import { Input } from "@nextui-org/react";
 import { Pencil, AlertCircle } from "lucide-react"
 import { NG } from "@/types/NG"
 import Cookies from "js-cookie";
+import { getToken } from "@/utils/auth";
 
 interface Announcement {
   _id: string;
@@ -38,8 +39,7 @@ export default function UpdateAnnouncement({ data }: any) {
     const { _id, title, content } = selectedReport!;
     console.log(selectedReport)
     try {
-      const token = Cookies.get('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement/`, {
+const token = getToken();      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/announcement/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -56,8 +56,6 @@ export default function UpdateAnnouncement({ data }: any) {
       }
       if (res.status === 401) {
         localStorage.removeItem("isAuthenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
         Cookies.remove("token");
         window.location.reload()
       }
