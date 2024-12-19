@@ -7,7 +7,7 @@ import { DateInput } from "@nextui-org/react";
 import { now, getLocalTimeZone, CalendarDateTime, ZonedDateTime } from "@internationalized/date";
 import { AlertCircle, Loader2 } from "lucide-react"
 import Cookies from "js-cookie";
-import { getToken } from "@/utils/auth";
+import { getToken, getUsername } from "@/utils/auth";
 
 export default function AddReportDialog() {
   const [namePart, setNamePart] = useState('');
@@ -26,7 +26,7 @@ export default function AddReportDialog() {
 
   const handleSubmitData = async (e: React.FormEvent) => {
     e.preventDefault();
-    const operator = localStorage.getItem('username')
+    const operator = getUsername()
     const name_part = namePart
     const type_ng = typeNg
 
