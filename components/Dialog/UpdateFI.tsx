@@ -9,7 +9,7 @@ import { parseDateTime, ZonedDateTime, toZoned, now } from "@internationalized/d
 import { Pencil } from "lucide-react"
 import {Textarea} from "@nextui-org/input";
 import Cookies from "js-cookie";
-import { getToken } from "@/utils/auth";
+import { getToken, getUsername } from "@/utils/auth";
 
 interface UpdateFIProps {
   data: Report;
@@ -37,7 +37,7 @@ export default function UpdateFI({ data }: UpdateFIProps) {
   const handleUpdateData = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const operator = localStorage.getItem('username');
+    const operator = getUsername();
     const { _id, name_part, process, target, start, end, total, ok, ng, type_ng, keterangan, created_at } = selectedReport!;
 
     try {
